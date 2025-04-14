@@ -1,0 +1,224 @@
+/* Dont forget common.css */
+
+/* setting */
+#setting {
+    position: fixed;
+    top: 0;
+    right: 0.25vw;
+    width: 3.75vw;
+    height: 3.75vw;
+    border-radius: 0.5vw;
+    background-color: rgba(86, 66, 50, 1);
+    color: rgb(248, 247, 240);
+    transition: all 0.2s 0s linear;
+    box-shadow: 2px 2px 8px 1px black;
+    font-size: 2.25vw;
+    line-height: 3.75vw;
+    text-align: center;
+}
+
+#setting:hover {
+    box-shadow: 1px 1px 5px 1px black;
+    transition: all 0.2s 0s linear;
+}
+
+/* aside part */
+#selectGamePart>*,
+#settingPart>* {
+    margin: 4vh auto 1vh;
+    text-align: center;
+    font-size: 3vh;
+    font-weight: 500;
+}
+
+#ulSelectGame>li,
+#ulSetting>li {
+    margin: 2vh auto;
+    width: 20vw;
+    height: 6vh;
+    line-height: 6vh;
+    border-radius: 10px;
+    background-color: rgba(240, 248, 255, 0.5);
+    transition: all 0.2s 0s linear;
+    box-shadow: 2px 2px 10px 1px rgba(86, 66, 50, 0.685);
+}
+
+#ulSelectGame>li:hover,
+#ulSetting>li:hover {
+    transition: all 0.2s 0s linear;
+    box-shadow: .5px .5px 3px 1px rgba(86, 66, 50, 0.877);
+}
+
+#choose,
+#settingTitle {
+    font-size: 3.75vh !important;
+}
+
+#submit {
+    color: rgb(248, 247, 240);
+    width: 20vw;
+    border-radius: 10px;
+    background-color: rgba(86, 66, 50, 0.685);
+    transition: all 0.2s 0s linear;
+    box-shadow: 2px 2px 10px 1px rgba(86, 66, 50, 0.685);
+    font-size: 3.75vh !important;
+    line-height: 6vh;
+    height: 6vh;
+}
+
+#submit:hover {
+    transition: all 0.2s 0s linear;
+    box-shadow: .5px .5px 3px 1px rgba(86, 66, 50, 0.877);
+}
+
+#selectGamePart {
+    display: block;
+}
+
+#settingPart {
+    display: none;
+}
+
+/* main part by default */
+#login {
+    width: 45vw;
+    height: calc(100vh - 7.5vw - 14vh);
+    margin: 0 auto;
+    padding-top: 14vh;
+    /* 14vh equal two paddingTops 10 plus 4*/
+}
+
+#login>h2 {
+    text-align: center;
+    color: rgba(86, 66, 50, .75);
+    margin: 0 auto 1.5vh;
+    font-size: 3.75vh;
+}
+
+#login>form {
+    width: 45vw;
+    height: 36vh;
+    margin-top: 5vh;
+}
+
+#login>form>div {
+    height: 10vh;
+    margin: 1vh auto;
+    padding: 0 5vw;
+    font-size: 0;
+}
+
+#login>form>div>* {
+    height: 6vh;
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+}
+
+#login>form>div>input {
+    border: 0px;
+    width: 21vw;
+    height: 6vh;
+    float: right;
+    font-size: 2.25vh;
+    line-height: 6vh;
+    border-radius: 10px;
+    background-color: rgba(240, 248, 255, 0.5);
+    transition: all 0.2s 0s linear;
+    box-shadow: 2px 2px 10px 1px rgba(86, 66, 50, 0.685);
+}
+
+#login>form>div>label {
+    color: rgba(86, 66, 50, 0.625);
+    text-shadow: 1px 1px 2px gray;
+    width: 14vw;
+    height: 6vh;
+    font-size: 3vh;
+    font-weight: 700;
+    line-height: 6vh;
+    display: inline-block;
+}
+
+#login>form>div>button {
+    border: 0px;
+    width: 6vw;
+    height: 6vh;
+    line-height: 6vh;
+    font-size: 3vh;
+    border-radius: 10px;
+    background-color: rgba(86, 66, 50, 0.685);
+    color: rgba(240, 248, 255, 0.825);
+    transition: all 0.2s 0s linear;
+    box-shadow: 2px 2px 10px 1px rgba(86, 66, 50, 0.685);
+    display: inline-block;
+}
+
+#login>form>div>button:nth-child(1) {
+    width: 27vw;
+    margin-right: 2vw;
+}
+
+#login>form>div>input:hover,
+#login>form>div>button:hover {
+    transition: all 0.2s 0s linear;
+    box-shadow: .5px .5px 3px 1px rgba(86, 66, 50, 0.877);
+}
+
+/* main part */
+#loginContent,
+#languageContent,
+#themeContent,
+#aboutContent,
+#helpContent {
+    display: none;
+    width: 45vw;
+    height: calc(100vh - 7.5vw);
+    margin: 0 auto;
+}
+
+#loginContent:hover,
+#languageContent:hover， #themeContent:hover,
+#aboutContent:hover,
+#helpContent:hover {
+    transition: all 0.2s 0s linear;
+    box-shadow: .5px .5px 3px 1px rgba(86, 66, 50, 0.877);
+}
+
+
+#loginContent>h1,
+#languageContent>h1,
+#themeContent>h1,
+#aboutContent>h1,
+#helpContent>h1 {
+    text-align: center;
+    color: rgba(86, 66, 50, 1);
+    margin: 7.5vh auto 1.5vh;
+}
+
+#aboutContent>p,
+#helpContent>p {
+    text-align: left;
+    text-indent: 2em;
+    color: rgba(86, 66, 50, .675);
+    white-space: pre-wrap;
+}
+
+#languageContent>div,
+#themeContent>div {
+    margin: 3.75vh auto;
+    width: 30vw;
+    height: 7.5vh;
+    border-radius: 1.5vw;
+    background-color: rgba(240, 248, 255, 0.5);
+    color: rgba(86, 66, 50, .675);
+    transition: all 0.2s 0s linear;
+    box-shadow: 2px 2px 10px 1px rgba(86, 66, 50, 0.685);
+    line-height: 7.5vh;
+    font-size: 3vh;
+    text-align: center;
+}
+
+#languageContent>div:hover,
+#themeContent>div:hover {
+    transition: all 0.2s 0s linear;
+    box-shadow: .5px .5px 3px 1px rgba(86, 66, 50, 0.877);
+}

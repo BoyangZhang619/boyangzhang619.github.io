@@ -1,0 +1,81 @@
+/* following code should be suitable and common for all HTML document with the same template */
+* {
+    user-select: none;
+    cursor: default;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+a {
+    text-decoration: none;
+    color: rgb(29, 100, 89);
+    cursor: pointer;
+}
+
+input {
+    cursor: text;
+}
+
+input:focus {
+    outline: none;
+}
+
+button {
+    cursor: pointer;
+}
+
+html {
+    height: 100vw;
+    width: 100vw;
+}
+
+#header {
+    width: 100vw;
+    height: 7.5vw;
+    background-color: rgba(86, 66, 50, 0.685);
+    color: rgb(248, 247, 240);
+    box-shadow: 2px 2px 10px 1px black;
+}
+
+#header>h2 {
+    text-align: center;
+    line-height: 7.5vw;
+    font-size: 5vh;
+}
+
+#main {
+    width: 100vw;
+    height: calc(100vh - 7.5vw);
+}
+
+#main>main {
+    float: left;
+    width: 70vw;
+    height: calc(100vh - 7.5vw);
+    background-color: rgba(66, 66, 66, 0.15);
+    overflow: scroll;
+}
+
+#main>aside {
+    padding-top: 10vh;
+    float: right;
+    width: 30vw;
+    height: calc(100vh - 7.5vw);
+    background-color: rgba(86, 66, 50, 0.125);
+    box-shadow: -1px 1px 10px 1px black;
+    color: rgba(86, 66, 50, 0.685);
+}
+
+/* scrollbar */
+::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+::-webkit-scrollbar-button {
+    display: none;
+}

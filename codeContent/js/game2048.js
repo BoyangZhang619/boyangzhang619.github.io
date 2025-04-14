@@ -1,0 +1,219 @@
+window.onload = function () {
+    for (let i = 0; i < 16; i++) document.querySelector("#box2048").innerHTML += "<li></li>";
+    liElements = document.querySelectorAll("#box2048>li");
+    mainTagElement = document.querySelector("#main");
+    minElement = document.querySelectorAll(".showDiv")[0].children[0];
+    secElement = document.querySelectorAll(".showDiv")[0].children[2];
+    stepElement = document.querySelectorAll(".showDiv")[1].children[0];
+    [Math.floor(Math.random() * 16), Math.floor(Math.random() * 16)].forEach(position => dataArray[Math.floor(position / 4)][position % 4] = Math.ceil(Math.random() * 10) * 2 % 4 + 2);
+    console.log("dataArray", dataArray);
+    assignFunc(liElements);
+    pageCSSFunc();
+    dyeingFunc(liElements);
+    // info = navigator.userAgent;
+    // isPhone = /mobile/i.test(info); // if it's a mobile device, isPhone = true
+}
+
+window.onkeyup = function (event) {
+    let key = event.code;
+    switch (key) {
+        case "KeyW": case "ArrowUp": dirFunc("up"); break;
+        case "KeyS": case "ArrowDown": dirFunc("down"); break;
+        case "KeyA": case "ArrowLeft": dirFunc("left"); break;
+        case "KeyD": case "ArrowRight": dirFunc("right"); break;
+    }
+    console.log(`${key} pressed|time: ${new Date().toLocaleTimeString()}`);
+}
+
+window.addEventListener("resize", pageCSSFunc);
+
+for (i = 0, dataArray = []; i < 4; dataArray[i] = ["", "", "", ""], i++);
+let liBGC = { "2": "198, 202, 185, .3", "4": "186, 188, 170, .3", "8": "173, 164, 155, .3", "16": "161, 150, 140, .3", "32": "148, 136, 125, .3", "64": "136, 122, 110, .3", "128": "123, 108, 95, .3", "256": "111, 94, 80, .3", "512": "98, 80, 65, .3", "1024": "86, 66, 50, .3", "": "86, 66, 50, .3" };
+isstart = false;
+
+function dirFunc(dir) {
+    // move the numbers in the array according to the direction
+    if (!isstart) isstart = true;
+    if (["up", "down", "left", "right"].includes(dir)) stepElement.textContent -= -1;
+    switch (dir) {
+        case "up": dirUp(); break;
+        case "down": dirDown(); break;
+        case "left": dirLeft(); break;
+        case "right": dirRight(); break;
+    }
+    function dirUp() {
+        for (let levelA = 0; levelA < 4; levelA++) {
+            for (let levelB = 0; levelB < 3; levelB++) {
+                for (let levelC = 0; levelC < 3 - levelB; levelC++) {
+                    if (dataArray[levelB][levelA] == dataArray[levelB + levelC + 1][levelA] && dataArray[levelB][levelA] != "") {
+                        dataArray[levelB][levelA] *= 2;
+                        dataArray[levelB + levelC + 1][levelA] = "";
+                        levelB++;
+                        break;
+                    }
+                    if (dataArray[levelB][levelA] != "" && dataArray[levelB + levelC + 1][levelA] != "") break;
+                }
+            }
+        }
+        for (let levelC = 0; levelC < 3; levelC++)
+            for (let levelA = 0; levelA < 4; levelA++)
+                for (let levelB = 0; levelB < 3; levelB++) {
+                    if (dataArray[levelB][levelA] != "") {
+                        dataArray[levelB][levelA] = dataArray[levelB][levelA]
+                    } else {
+                        dataArray[levelB][levelA] = dataArray[levelB + 1][levelA];
+                        dataArray[levelB + 1][levelA] = "";
+                    }
+                }
+    }
+
+    function dirDown() {
+        for (let levelA = 0; levelA < 4; levelA++) {
+            for (let levelB = 3; levelB > 0; levelB--) {
+                for (let levelC = 0; levelC < levelB; levelC++) {
+                    if (dataArray[levelB][levelA] == dataArray[levelB - levelC - 1][levelA] && dataArray[levelB][levelA] != "") {
+                        dataArray[levelB][levelA] *= 2;
+                        dataArray[levelB - levelC - 1][levelA] = "";
+                        levelB--;
+                        break;
+                    }
+                    if (dataArray[levelB][levelA] != "" && dataArray[levelB - levelC - 1][levelA] != "") break;
+                }
+            }
+        }
+        for (let levelC = 0; levelC < 3; levelC++)
+            for (let levelA = 0; levelA < 4; levelA++)
+                for (let levelB = 3; levelB > 0; levelB--) {
+                    if (dataArray[levelB][levelA] != "") {
+                        dataArray[levelB][levelA] = dataArray[levelB][levelA]
+                    } else {
+                        dataArray[levelB][levelA] = dataArray[levelB - 1][levelA];
+                        dataArray[levelB - 1][levelA] = "";
+                    }
+                }
+    }
+    function dirLeft() {
+        for (let levelA = 0; levelA < 4; levelA++) {
+            for (let levelB = 0; levelB < 3; levelB++) {
+                for (let levelC = 0; levelC < 3 - levelB; levelC++) {
+                    if (dataArray[levelA][levelB] == dataArray[levelA][levelB + levelC + 1] && dataArray[levelA][levelB] != "") {
+                        dataArray[levelA][levelB] *= 2;
+                        dataArray[levelA][levelB + levelC + 1] = "";
+                        levelB++;
+                        break;
+                    }
+                    if (dataArray[levelA][levelB] != "" && dataArray[levelA][levelB + levelC + 1] != "") break;
+                }
+            }
+        }
+        for (let levelC = 0; levelC < 3; levelC++)
+            for (let levelA = 0; levelA < 4; levelA++)
+                for (let levelB = 0; levelB < 3; levelB++) {
+                    if (dataArray[levelA][levelB] != "") {
+                        dataArray[levelA][levelB] = dataArray[levelA][levelB]
+                    } else {
+                        dataArray[levelA][levelB] = dataArray[levelA][levelB + 1];
+                        dataArray[levelA][levelB + 1] = "";
+                    }
+                }
+    }
+    function dirRight() {
+        for (let levelA = 0; levelA < 4; levelA++) {
+            for (let levelB = 3; levelB > 0; levelB--) {
+                for (let levelC = 0; levelC < levelB; levelC++) {
+                    if (dataArray[levelA][levelB] == dataArray[levelA][levelB - levelC - 1] && dataArray[levelA][levelB] != "") {
+                        dataArray[levelA][levelB] *= 2;
+                        dataArray[levelA][levelB - levelC - 1] = "";
+                        levelB--;
+                        break;
+                    }
+                    if (dataArray[levelA][levelB] != "" && dataArray[levelA][levelB - levelC - 1] != "") break;
+                }
+            }
+        }
+        for (let levelC = 0; levelC < 3; levelC++)
+            for (let levelA = 0; levelA < 4; levelA++)
+                for (let levelB = 3; levelB > 0; levelB--) {
+                    if (dataArray[levelA][levelB] != "") {
+                        dataArray[levelA][levelB] = dataArray[levelA][levelB]
+                    } else {
+                        dataArray[levelA][levelB] = dataArray[levelA][levelB - 1];
+                        dataArray[levelA][levelB - 1] = "";
+                    }
+                }
+    }
+    // plus the new numbers to the array
+    let emptyAmount = 0;
+    let emptyAmountClone = 0;
+    for (let i = 0; i < 16; i++)if (dataArray[Math.floor(i / 4)][i % 4] == "") emptyAmount++;
+    emptyAmountClone = emptyAmount ? emptyAmount : 0;
+    if (emptyAmount == 0) emptyAmountClone = 0;
+
+    emptyAmount -= Math.ceil(Math.random() * emptyAmount);
+    for (let i = 0; i < 16; i++) {
+        if (dataArray[Math.floor(i / 4)][i % 4] == "") {
+            if (emptyAmount == 0) {
+                dataArray[Math.floor(i / 4)][i % 4] = Math.ceil(Math.random() * 10) * 2 % 4 + 2;
+                break;
+            }
+            emptyAmount--;
+        }
+    }
+    // assign the numbers to the li elements
+    assignFunc(liElements);
+    // dye the li elements according to the numbers
+    dyeingFunc(liElements);
+    // check if the game is over
+    if (emptyAmountClone == 0) isover();
+}
+
+function dyeingFunc(liElements) {
+    liElements.forEach(elem => {
+        if (elem.textContent in liBGC) elem.style.backgroundColor = `rgba(${liBGC[elem.textContent]})`;
+    })
+}
+
+function assignFunc(liElements) {
+    for (let i = 0; i < 16; i++)  liElements[i].textContent = dataArray[Math.floor(i / 4)][i % 4];
+}
+
+function isover() {
+    for (let levelA = 0; levelA < 4; levelA++)for (let levelB = 0; levelB < 3; levelB++) {
+        if (dataArray[levelA][levelB] == dataArray[levelA][levelB + 1]) return;
+        if (dataArray[levelB][levelA] == dataArray[levelB + 1][levelA]) return;
+        if (levelA == 3 && levelB == 2) {
+            alert("Game over");
+            isstart = false;
+            clearInterval(timer);
+            break;
+        }
+    }
+}
+
+function pageCSSFunc() {
+    if (parseInt(window.getComputedStyle(mainTagElement.children[0]).width) < parseInt(window.getComputedStyle(mainTagElement.children[0]).height)) {
+        liElements.forEach(elem => elem.style.width = elem.style.lineHeight = "17.5vw");//70vw / 4
+        liElements.forEach(elem => elem.style.fontSize = "8.75vw");// half of 17.5vw
+    } else {
+        liElements.forEach(elem => elem.style.width = elem.style.lineHeight = "calc(25vh - 1.875vw)");//(100vh - 7.5vw) / 4
+        liElements.forEach(elem => elem.style.fontSize = "calc(12.5vh - .9375vw)");// half of 25vh - 1.875vw
+    }
+}
+
+function restart(){
+    
+}
+
+function pause() {
+    isstart = isstart ? false : true;
+}
+
+let timer = setInterval(() => {
+    if (isstart) {
+        secElement.textContent -= -1;
+        if (secElement.textContent == 60) {
+            secElement.textContent = 0;
+            minElement.textContent -= -1;
+        }
+    }
+}, 1000);
