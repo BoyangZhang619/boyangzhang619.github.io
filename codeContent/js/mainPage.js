@@ -5,25 +5,19 @@ window.onload = function () {
 }
 let selectGameType = "";
 let infoTransfer = {
-    language: "English",
-    theme: "light",
-    userName: "Boyang Zhang",
-    password: "",
-    gameInfo:  {
-        "game2048":{
-            "case1":{
-                "step": null,
-                "time": null,
-                "maxNumber": null,
-                "bestScore": null,
-                "isstart": null,
-                "isover": null,
-                "dataArray": [],
-            }
-        }
+    l: "English",//language
+    t: "light",//theme
+    uN: "",//user name
+    pw: "",//password
+    gI: {//game info
+        "game2048":{},
+        "klotski":{},
+        "labyrinth":{},
+        "mineClearance":{}
     }
 }
-
+for (let key in infoTransfer.gI)infoTransfer.gI[key].c0={ mN: 0,bS: 0}//mN=max number,bS=best score
+// for decrease the capacity of the code, I will replace some words with a single letter
 function langChanged(type) {
     infoTransfer.language = type;
     // there will be a language change function in the future
@@ -99,6 +93,9 @@ function selectGame(self, type = 1) {
     return console.log(`game type is ${selectGameType}`);
 }
 
+function login() {
+    
+}
 function register() {
     // there will be some thing about register
 }

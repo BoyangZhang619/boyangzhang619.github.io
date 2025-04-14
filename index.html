@@ -18,7 +18,7 @@
         <main>
             <div id="login">
                 <h2 class="interpElem">LOGIN</h2>
-                <form>
+                <!-- <form> because form tag will make form submit automatically,so i have to replace it into div temporary--><div>
                     <div>
                         <label for="username" class="interpElem">Username:</label>
                         <input type="text" id="username" name="username" required placeholder="Enter your username">
@@ -28,10 +28,10 @@
                         <input type="password" id="password" name="password" required placeholder="Enter your password">
                     </div>
                     <div>
-                        <button type="submit" class="interpElem">Login</button>
+                        <button type="submit" class="interpElem" onclick="login()">Login</button>
                         <button type="button" class="interpElem" onclick="register()">Reg</button>
                     </div>
-                </form>
+                </div><!-- </form> -->
             </div>
             <div id="recordContent"></div>
             <div id="languageContent"></div>
