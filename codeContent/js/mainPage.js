@@ -5,25 +5,27 @@ window.onload = function () {
 }
 let selectGameType = "";
 let infoTransfer = {
-    language: "English",
-    theme: "light",
-    userName: "Boyang Zhang",
-    password: "",
-    gameInfo:  {
+    l: "English",//language
+    t: "light",//theme
+    uN: "",//user name
+    pw: "",//password
+    gI:  {//game info
         "game2048":{
-            "case1":{
-                "step": null,
-                "time": null,
-                "maxNumber": null,
-                "bestScore": null,
-                "isstart": null,
-                "isover": null,
-                "dataArray": [],
+            "c0":{//case 0
+                "mN": 0,//max number
+                "bS": 0,//best score
             }
-        }
+        },
+        "klotski":{
+            "c0":{//case 0
+                "mN": 0,//max number
+                "bS": 0,//best score
+            }
+        },
+        
     }
 }
-
+// for decrease the capacity of the code, I will replace some words with a single letter
 function langChanged(type) {
     infoTransfer.language = type;
     // there will be a language change function in the future

@@ -29,6 +29,8 @@ window.addEventListener("resize", pageCSSFunc);
 
 for (i = 0, dataArray = []; i < 4; dataArray[i] = ["", "", "", ""], i++);
 let liBGC = { "2": "198, 202, 185, .3", "4": "186, 188, 170, .3", "8": "173, 164, 155, .3", "16": "161, 150, 140, .3", "32": "148, 136, 125, .3", "64": "136, 122, 110, .3", "128": "123, 108, 95, .3", "256": "111, 94, 80, .3", "512": "98, 80, 65, .3", "1024": "86, 66, 50, .3", "": "86, 66, 50, .3" };
+currentScore = 0;
+currentMaxNumber = 0;
 isstart = false;
 
 function dirFunc(dir) {
@@ -47,6 +49,8 @@ function dirFunc(dir) {
                 for (let levelC = 0; levelC < 3 - levelB; levelC++) {
                     if (dataArray[levelB][levelA] == dataArray[levelB + levelC + 1][levelA] && dataArray[levelB][levelA] != "") {
                         dataArray[levelB][levelA] *= 2;
+                        currentScore -= -dataArray[levelB][levelA];
+                        currentMaxNumber = Math.max(currentMaxNumber, dataArray[levelB][levelA]);
                         dataArray[levelB + levelC + 1][levelA] = "";
                         levelB++;
                         break;
@@ -73,6 +77,8 @@ function dirFunc(dir) {
                 for (let levelC = 0; levelC < levelB; levelC++) {
                     if (dataArray[levelB][levelA] == dataArray[levelB - levelC - 1][levelA] && dataArray[levelB][levelA] != "") {
                         dataArray[levelB][levelA] *= 2;
+                        currentScore -= -dataArray[levelB][levelA];
+                        currentMaxNumber = Math.max(currentMaxNumber, dataArray[levelB][levelA]);
                         dataArray[levelB - levelC - 1][levelA] = "";
                         levelB--;
                         break;
@@ -98,6 +104,8 @@ function dirFunc(dir) {
                 for (let levelC = 0; levelC < 3 - levelB; levelC++) {
                     if (dataArray[levelA][levelB] == dataArray[levelA][levelB + levelC + 1] && dataArray[levelA][levelB] != "") {
                         dataArray[levelA][levelB] *= 2;
+                        currentScore -= -dataArray[levelB][levelA];
+                        currentMaxNumber = Math.max(currentMaxNumber, dataArray[levelB][levelA]);
                         dataArray[levelA][levelB + levelC + 1] = "";
                         levelB++;
                         break;
@@ -123,6 +131,8 @@ function dirFunc(dir) {
                 for (let levelC = 0; levelC < levelB; levelC++) {
                     if (dataArray[levelA][levelB] == dataArray[levelA][levelB - levelC - 1] && dataArray[levelA][levelB] != "") {
                         dataArray[levelA][levelB] *= 2;
+                        currentScore -= -dataArray[levelB][levelA];
+                        currentMaxNumber = Math.max(currentMaxNumber, dataArray[levelB][levelA]);
                         dataArray[levelA][levelB - levelC - 1] = "";
                         levelB--;
                         break;
@@ -183,8 +193,9 @@ function isover() {
         if (dataArray[levelB][levelA] == dataArray[levelB + 1][levelA]) return;
         if (levelA == 3 && levelB == 2) {
             alert("Game over");
+            infoT();
+            console.log(infoTransfer);
             isstart = false;
-            clearInterval(timer);
             break;
         }
     }
@@ -201,7 +212,32 @@ function pageCSSFunc() {
 }
 
 function restart(){
-    
+    for (i = 0, dataArray = []; i < 4; dataArray[i] = ["", "", "", ""], i++);
+    [Math.floor(Math.random() * 16), Math.floor(Math.random() * 16)].forEach(position => dataArray[Math.floor(position / 4)][position % 4] = Math.ceil(Math.random() * 10) * 2 % 4 + 2);
+    console.log("restart:dataArray", dataArray);
+    assignFunc(liElements);
+    pageCSSFunc();
+    dyeingFunc(liElements);
+    isstart = false;
+    secElement.textContent = 0;
+    minElement.textContent = 0;
+    stepElement.textContent = 0;
+    currentMaxNumber = 0;
+    currentScore = 0;
+}
+
+function infoT (){
+    let times = Object.keys(infoTransfer.gI.game2048).length;
+    // [["s",stepElement.textContent],["t",],"mN","bS","iS","iO","dA"].forEach(elem => infoTransfer.gI.game2048[`c${elem[0]}`])
+    infoTransfer.gI.game2048[`c${times}`]={
+        "s": +stepElement.textContent,//step
+        "t": minElement.textContent * 60 + secElement.textContent,//time
+        "mN": currentMaxNumber,//max number
+        "bS": currentScore,//best score
+        "iS": 1,//is start
+        "iO": 1,//is over 
+        "dA": JSON.stringify(dataArray),//data array
+    }
 }
 
 function pause() {
