@@ -10,5 +10,5 @@ function gameIntro(type) {
     alert(gameIntroContent[type]);
 }
 function back() {
-    window.open(`../../mainPage.html?${JSON.stringify(infoTransfer)}`, "_self");   
+    window.open(`../../index.html?${JSON.stringify(infoTransfer)}`, "_self");   
 }
