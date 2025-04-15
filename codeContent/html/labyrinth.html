@@ -5,12 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Webgame-labyrinth</title>
+	<link type="text/css" rel="stylesheet" href="../css/common.css" />
 	<link type="text/css" rel="stylesheet" href="../css/labyrinth.css" />
-	<script src="../js/jQuery.min.js" type="text/javascript" charset="utf-8"></script>
 </head>
 <body>
 	<header id="header">
-		<h2>labyrinth-迷宫</h2>
+		<h2>labyrinth</h2>
 	</header>
 	<main id="main">
 		<main>
@@ -19,11 +19,19 @@
 		</main>
 		<aside id="aside">
 			<h2 id="time">Times</h2>
-			<div class="showDiv">0min(s)|0sec(s)</div>
+			<div class="showDiv">
+				<span>0</span>
+				<span class="interpElem">min(s)|</span>
+				<span>0</span>
+				<span class="interpElem">sec(s)</span>
+			</div>
 			<h2 id="step">Steps</h2>
-			<div class="showDiv">0step(s)</div>
+			<div class="showDiv">
+				<span>0</span>
+				<span class="interpElem">step(s)</span>
+			</div>
 			<div id="admin">
-				<input id="boxWHnum" type="text" placeholder="填个数字">
+				<input id="boxWHnum" type="text" placeholder="wid/hei">
 				<input id="boxWH" type="button" value="Set" onclick="initialCreate(parseInt(document.querySelector('#boxWHnum').value))">
 				<!-- <div id="boxWH" style="display: inline-block;">Set</div> -->
 				<div id="restart" onclick="restart()">Restart</div>
