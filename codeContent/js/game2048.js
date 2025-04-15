@@ -204,10 +204,10 @@ function isover() {
 function pageCSSFunc() {
     if (parseInt(window.getComputedStyle(mainTagElement.children[0]).width) < parseInt(window.getComputedStyle(mainTagElement.children[0]).height)) {
         liElements.forEach(elem => elem.style.width = elem.style.lineHeight = "17.5vw");//70vw / 4
-        liElements.forEach(elem => elem.style.fontSize = "8.75vw");// half of 17.5vw
+        liElements.forEach(elem => elem.style.fontSize = "calc(17.5vw / 3)");// 1/3 of 17.5vw
     } else {
         liElements.forEach(elem => elem.style.width = elem.style.lineHeight = "calc(25vh - 1.875vw)");//(100vh - 7.5vw) / 4
-        liElements.forEach(elem => elem.style.fontSize = "calc(12.5vh - .9375vw)");// half of 25vh - 1.875vw
+        liElements.forEach(elem => elem.style.fontSize = "calc((25vh - 1.875vw) / 3)");// 1/3 of 25vh - 1.875vw
     }
 }
 

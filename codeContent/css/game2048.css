@@ -18,6 +18,7 @@ li{
 	/* line-height: calc(25vh - 1.875vw); */
 	font-weight: 900;
 	color: aliceblue;
+    text-overflow: unset;
 }
 #box2048{
 	max-width: calc(100vh - 7.5vw);

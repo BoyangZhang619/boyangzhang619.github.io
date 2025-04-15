@@ -94,7 +94,8 @@ function selectGame(self, type = 1) {
 }
 
 function login() {
-    
+    infoTransfer.uN = document.querySelector("#username").value;
+    infoTransfer.pw = document.querySelector("#password").value;
 }
 function register() {
     // there will be some thing about register
