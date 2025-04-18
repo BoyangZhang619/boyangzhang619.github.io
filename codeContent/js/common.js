@@ -1,3 +1,9 @@
+window.onload = () => {
+    info = navigator.userAgent;
+    isPhone = /mobile/i.test(info); // if it's a mobile device, isPhone = true
+    if (isPhone) return confirm("This page is not supported on mobile devices. Please use a computer to access it.")?document.querySelector("#main").style.display = "none":null;
+}
+
 // console.log(infoTransfer);
 if(window.location.search.includes("?"))infoTransfer = JSON.parse(decodeURIComponent(window.location.search.replace("?", "")));
 for (let key in infoTransfer.gI) {
