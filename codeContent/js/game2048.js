@@ -8,8 +8,9 @@ window.onload = function () {
     [Math.floor(Math.random() * 16), Math.floor(Math.random() * 16)].forEach(position => dataArray[Math.floor(position / 4)][position % 4] = Math.ceil(Math.random() * 10) * 2 % 4 + 2);
     console.log("dataArray", dataArray);
     assignFunc(liElements);
-    pageCSSFunc();
+    pageStyleFunc();
     dyeingFunc(liElements);
+    // game2048Algorithm(dataArray)
     // info = navigator.userAgent;
     // isPhone = /mobile/i.test(info); // if it's a mobile device, isPhone = true
 }
@@ -25,7 +26,7 @@ window.onkeyup = function (event) {
     console.log(`${key} pressed|time: ${new Date().toLocaleTimeString()}`);
 }
 
-window.addEventListener("resize", pageCSSFunc);
+window.addEventListener("resize", pageStyleFunc);
 
 for (i = 0, dataArray = []; i < 4; dataArray[i] = ["", "", "", ""], i++);
 let liBGC = { "2": "198, 202, 185, .3", "4": "186, 188, 170, .3", "8": "173, 164, 155, .3", "16": "161, 150, 140, .3", "32": "148, 136, 125, .3", "64": "136, 122, 110, .3", "128": "123, 108, 95, .3", "256": "111, 94, 80, .3", "512": "98, 80, 65, .3", "1024": "86, 66, 50, .3", "": "86, 66, 50, .3" };
@@ -201,7 +202,7 @@ function isover() {
     }
 }
 
-function pageCSSFunc() {
+function pageStyleFunc() {
     if (parseInt(window.getComputedStyle(mainTagElement.children[0]).width) < parseInt(window.getComputedStyle(mainTagElement.children[0]).height)) {
         liElements.forEach(elem => elem.style.width = elem.style.lineHeight = "17.5vw");//70vw / 4
         liElements.forEach(elem => elem.style.fontSize = "calc(17.5vw / 3)");// 1/3 of 17.5vw
@@ -211,12 +212,12 @@ function pageCSSFunc() {
     }
 }
 
-function restart(){
+function restart() {
     for (i = 0, dataArray = []; i < 4; dataArray[i] = ["", "", "", ""], i++);
     [Math.floor(Math.random() * 16), Math.floor(Math.random() * 16)].forEach(position => dataArray[Math.floor(position / 4)][position % 4] = Math.ceil(Math.random() * 10) * 2 % 4 + 2);
     console.log("restart:dataArray", dataArray);
     assignFunc(liElements);
-    pageCSSFunc();
+    pageStyleFunc();
     dyeingFunc(liElements);
     isstart = false;
     secElement.textContent = 0;
@@ -226,9 +227,9 @@ function restart(){
     currentScore = 0;
 }
 
-function infoT (){
+function infoT() {
     let times = Object.keys(infoTransfer.gI.game2048).length;
-    infoTransfer.gI.game2048[`c${times}`]={
+    infoTransfer.gI.game2048[`c${times}`] = {
         "s": +stepElement.textContent,//step
         "t": +minElement.textContent * 60 - -secElement.textContent,//time
         "mN": currentMaxNumber,//max number

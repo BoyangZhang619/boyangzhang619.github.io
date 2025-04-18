@@ -7,6 +7,7 @@
 	<title>Webgame-labyrinth</title>
 	<link type="text/css" rel="stylesheet" href="../css/common.css" />
 	<link type="text/css" rel="stylesheet" href="../css/labyrinth.css" />
+	<link rel="icon" href="../../imageContent/icon.jpg" type="image/x-icon">
 </head>
 <body>
 	<header id="header">
@@ -31,8 +32,8 @@
 				<span class="interpElem">step(s)</span>
 			</div>
 			<div id="admin">
-				<input id="boxWHnum" type="text" placeholder="wid/hei">
-				<input id="boxWH" type="button" value="Set" onclick="initialCreate(parseInt(document.querySelector('#boxWHnum').value))">
+				<input id="boxWHnum" type="text" placeholder="wid[odd]">
+				<input id="boxWH" type="button" value="Set" onclick="initialCreate(+document.querySelector('#boxWHnum').value)">
 				<!-- <div id="boxWH" style="display: inline-block;">Set</div> -->
 				<div id="restart" onclick="restart()">Restart</div>
 				<div id="pause" onclick="pause()">Time Pause</div>
