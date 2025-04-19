@@ -28,17 +28,17 @@ window.onkeyup = function (event) {
 
 window.addEventListener("resize", pageStyleFunc);
 
-for (i = 0, dataArray = []; i < 4; dataArray[i] = ["", "", "", ""], i++);
+dataArray = new Array(4).fill(["", "", "", ""])
 let liBGC = { "2": "198, 202, 185, .3", "4": "186, 188, 170, .3", "8": "173, 164, 155, .3", "16": "161, 150, 140, .3", "32": "148, 136, 125, .3", "64": "136, 122, 110, .3", "128": "123, 108, 95, .3", "256": "111, 94, 80, .3", "512": "98, 80, 65, .3", "1024": "86, 66, 50, .3", "": "86, 66, 50, .3" };
 currentScore = 0;
 currentMaxNumber = 0;
 isstart = false;
 
-function dirFunc(dir) {
+function dirFunc(_dir) {
     // move the numbers in the array according to the direction
     if (!isstart) isstart = true;
-    if (["up", "down", "left", "right"].includes(dir)) stepElement.textContent -= -1;
-    switch (dir) {
+    if (["up", "down", "left", "right"].includes(_dir)) stepElement.textContent -= -1;
+    switch (_dir) {
         case "up": dirUp(); break;
         case "down": dirDown(); break;
         case "left": dirLeft(); break;
