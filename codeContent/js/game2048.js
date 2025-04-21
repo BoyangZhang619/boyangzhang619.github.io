@@ -1,4 +1,4 @@
-window.onload = function () {
+window.onload = () => {
     for (let i = 0; i < 16; i++) document.querySelector("#box2048").innerHTML += "<li></li>";
     liElements = document.querySelectorAll("#box2048>li");
     mainTagElement = document.querySelector("#main");

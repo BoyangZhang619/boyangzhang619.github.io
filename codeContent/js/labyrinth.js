@@ -26,12 +26,13 @@ function initialCreate(_width) {
     }
     document.querySelector("#box").innerHTML = ""; // Clear the previous labyrinth
     // Create the labyrinth with the given _width(height=_width)
-    dataArray = new Array(_width).fill([]).map(() => new Array(_width).fill({
+    dataArray = new Array(_width).fill([]).map(() => new Array(_width));
+    for (let i = 0; i < _width; i++)for (let j = 0; j < _width; j++)dataArray[i][j] = {
         isWall: true,
-        isVisited: null,
+        isVisited: null,//for pathfinding algorithm
         isStartPoint: null,
         isEndPoint: null
-    }));
+    };
     for (let i = 0; i < _width; i++) {
         let row = document.createElement("ul");
         row.className = "labyrinthRow";
@@ -54,6 +55,7 @@ function createLabyrinth(_width) {
     // Create the labyrinth structure
     const [_startPoint, _endPoint] = createStartEnd(_width);
     dataArray[_startPoint[0]][_startPoint[1]].isStartPoint = true;
+    dataArray[_startPoint[0]][_startPoint[1]].isWall = false;
     dataArray[_endPoint[0]][_endPoint[1]].isEndPoint = true;
     createPath(_width, _startPoint, _endPoint);
     // Call the pathfinding algorithm with the labyrinth data
@@ -65,71 +67,111 @@ function createStartEnd(_width) {
     do {
         _switchNum = Math.floor(Math.random() * 10)
     } while (_switchNum > 7)
-    console.log("vreateStartEnd", _switchNum);
     switch (_switchNum %= 4) {
-        case 0: return [[1, (_width + 1) / 2], [_width - 2, (_width + 1) / 2]];//up,down
-        case 1: return [[_width - 2, (_width + 1) / 2], [1, (_width + 1) / 2]];//down,up
-        case 2: return [[(_width + 1) / 2, 1], [(_width + 1) / 2, _width - 2]];//left,right
-        case 3: return [[(_width + 1) / 2, _width - 2], [(_width + 1) / 2, 1]];//right,left
+        case 0: return [[1, (_width - 1) / 2], [_width - 2, (_width - 1) / 2]];//up,down
+        case 1: return [[_width - 2, (_width - 1) / 2], [1, (_width - 1) / 2]];//down,up
+        case 2: return [[(_width - 1) / 2, 1], [(_width - 1) / 2, _width - 2]];//left,right
+        case 3: return [[(_width - 1) / 2, _width - 2], [(_width - 1) / 2, 1]];//right,left
     }
 }
 function createPath(_width, _startPoint, _endPoint) {
     let _currentPoint = _startPoint;
+    let _path = "#";//start with "#",following 0,1,2,3 for up,down,left,right
+    let _isCreating = true;
     let _switchNum = -1;
     let _pathAllowed = 1;
     let _pathAllowedNum = 0;
     do {
+        console.log("path:",_path);
+        console.log("current coordinate:",_currentPoint);
         //detect the quantity of path-allowed directions
-        if (_currentPoint[0] > 1) {
+        if (_currentPoint[0] > 1 && dataArray[_currentPoint[0] - 2][_currentPoint[1]].isWall) {
             _pathAllowed *= 2;
             _pathAllowedNum += 1;
         }//up
-        if (_currentPoint[0] < _width - 2) {
+        if (_currentPoint[0] < _width - 2 && dataArray[_currentPoint[0] + 2][_currentPoint[1]].isWall) {
             _pathAllowed *= 3;
             _pathAllowedNum += 1;
         }//down
-        if (_currentPoint[1] > 1) {
+        if (_currentPoint[1] > 1 && dataArray[_currentPoint[0]][_currentPoint[1] - 2].isWall) {
             _pathAllowed *= 5;
             _pathAllowedNum += 1;
         }//left
-        if (_currentPoint[1] < _width - 2) {
+        if (_currentPoint[1] < _width - 2 && dataArray[_currentPoint[0]][_currentPoint[1] + 2].isWall) {
             _pathAllowed *= 7;
             _pathAllowedNum += 1;
         }//right
+        if (_pathAllowedNum == 0) {
+            pathRetreat();
+            continue;
+        }
         do {
             _switchNum = Math.floor(Math.random() * 10)
         } while (_switchNum > (_pathAllowedNum * 2 - 1))
-        console.log("createPath:", _switchNum);
         //connect right dir and num
         //......
-        switch (_switchNum %= _pathAllowedNum) {
+        let _remainder = _switchNum % _pathAllowedNum;
+        [2, 3, 5, 7].forEach((elem, index) => {
+            if (_pathAllowedNum !== 4 && _pathAllowed % elem !== 0) {
+                _remainder = _remainder >= index ? _remainder + 1 : _remainder;
+                _pathAllowedNum += 1;
+            }
+        });
+        switch (_remainder) {
             case 0: createPathUp(); break;
             case 1: createPathDown(); break;
             case 2: createPathLeft(); break;
             case 3: createPathRight(); break;
         }
-        _pathAllowed = 0;
-    } while (true)
-
-
-    function createPathUp(params) {
-        if (_currentPoint[0] > 1) {//make sure that current point isnt at edge
-            _currentPoint[0] -= 2;
-            for (let i = 1; i <= 2; i++)dataArray[_currentPoint[0] - i][_currentPoint[1]].isWall = false;
+        _pathAllowed = 1;
+        _pathAllowedNum = 0;
+    } while (_isCreating)
+    function createPathUp() {
+        for (let i = 1; i <= 2; i++)dataArray[_currentPoint[0] - i][_currentPoint[1]]["isWall"] = false;
+        _currentPoint[0] -= 2;
+        _path += "0";
+    }
+    function createPathDown() {
+        for (let i = 1; i <= 2; i++)dataArray[_currentPoint[0] + i][_currentPoint[1]]["isWall"] = false;
+        _currentPoint[0] += 2;
+        _path += "1";
+    }
+    function createPathLeft() {
+        for (let i = 1; i <= 2; i++)dataArray[_currentPoint[0]][_currentPoint[1] - i]["isWall"] = false;
+        _currentPoint[1] -= 2;
+        _path += "2";
+    }
+    function createPathRight() {
+        for (let i = 1; i <= 2; i++)dataArray[_currentPoint[0]][_currentPoint[1] + i]["isWall"] = false;
+        _currentPoint[1] += 2;
+        _path += "3";
+    }
+    //obviously,these above four funcs could be replaced to a more complex func,for easier maintain,we dont use that
+    function pathRetreat() {
+        switch (_path[_path.length - 1]) {
+            case "0": _currentPoint[0] += 2; _path = _path.slice(0, -1); break;
+            case "1": _currentPoint[0] -= 2; _path = _path.slice(0, -1); break;
+            case "2": _currentPoint[1] += 2; _path = _path.slice(0, -1); break;
+            case "3": _currentPoint[1] -= 2; _path = _path.slice(0, -1); break;
+            case "#": _isCreating = false; break;
         }
     }
-    function createPathDown(params) {
-
+    function dyeingFunc() {
+        for (let i = 0; i < _width; i++) {
+            for (let j = 0; j < _width; j++) {
+                if (dataArray[i][j].isWall) {
+                    document.querySelector(`#cell-${i}-${j}`).style.backgroundColor = "rgb(248, 247, 240)";
+                    document.querySelector(`#cell-${i}-${j}`).style.color = "rgba(86, 66, 50, 0.685)";
+                    document.querySelector(`#cell-${i}-${j}`).innerText = "";
+                } else {
+                    document.querySelector(`#cell-${i}-${j}`).style.backgroundColor = "rgba(86, 66, 50, 0.685)";
+                    document.querySelector(`#cell-${i}-${j}`).style.color = "rgb(248, 247, 240)";
+                    document.querySelector(`#cell-${i}-${j}`).innerText = dataArray[i][j].isStartPoint ? "S" : dataArray[i][j].isEndPoint ? "E" : dataArray[i][j].isVisited ? _path : "";
+                }
+            }
+        }
     }
-    function createPathLeft(params) {
-
-    }
-    function createPathRight(params) {
-
-    }
-    function switchNumRevalue(_times, _allowedDir) {
-
-    }
+    dyeingFunc();
 }
 function pageStyleFunc(_width) {
     if (parseInt(window.getComputedStyle(mainTagElement.children[0]).width) < parseInt(window.getComputedStyle(mainTagElement.children[0]).height)) {
