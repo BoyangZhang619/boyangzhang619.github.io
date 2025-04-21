@@ -1,7 +1,8 @@
 window.onload = function () {
     ["record", "language", "theme", "about", "help"].forEach((elem) => settings(elem, true));// Initialization,create all the element
-	// info = navigator.userAgent;
-	// isPhone = /mobile/i.test(info); // if it's a mobile device, isPhone = true
+    info = navigator.userAgent;
+    isPhone = /mobile/i.test(info); // if it's a mobile device, isPhone = true
+    if (isPhone) return confirm("This page is not supported on mobile devices. Please use a computer to access it.")?document.querySelector("html").style.display = "none":null;
 }
 let selectGameType = "";
 let infoTransfer = {

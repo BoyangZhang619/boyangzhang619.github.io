@@ -1,6 +1,8 @@
 window.onload = () => {
-    initialCreate(49)
+    boxWidth=49;
+    initialCreate(boxWidth)
 }
+window.addEventListener("resize", () => {pageStyleFunc(boxWidth)});
 class ValueError extends Error {
     constructor(message) {
         super(message);
@@ -85,19 +87,19 @@ function createPath(_width, _startPoint, _endPoint) {
         console.log("path:",_path);
         console.log("current coordinate:",_currentPoint);
         //detect the quantity of path-allowed directions
-        if (_currentPoint[0] > 1 && dataArray[_currentPoint[0] - 2][_currentPoint[1]].isWall) {
+        if (_currentPoint[0] > 2 && dataArray[_currentPoint[0] - 2][_currentPoint[1]].isWall) {
             _pathAllowed *= 2;
             _pathAllowedNum += 1;
         }//up
-        if (_currentPoint[0] < _width - 2 && dataArray[_currentPoint[0] + 2][_currentPoint[1]].isWall) {
+        if (_currentPoint[0] < _width - 3 && dataArray[_currentPoint[0] + 2][_currentPoint[1]].isWall) {
             _pathAllowed *= 3;
             _pathAllowedNum += 1;
         }//down
-        if (_currentPoint[1] > 1 && dataArray[_currentPoint[0]][_currentPoint[1] - 2].isWall) {
+        if (_currentPoint[1] > 2 && dataArray[_currentPoint[0]][_currentPoint[1] - 2].isWall) {
             _pathAllowed *= 5;
             _pathAllowedNum += 1;
         }//left
-        if (_currentPoint[1] < _width - 2 && dataArray[_currentPoint[0]][_currentPoint[1] + 2].isWall) {
+        if (_currentPoint[1] < _width - 3 && dataArray[_currentPoint[0]][_currentPoint[1] + 2].isWall) {
             _pathAllowed *= 7;
             _pathAllowedNum += 1;
         }//right
@@ -126,6 +128,7 @@ function createPath(_width, _startPoint, _endPoint) {
         _pathAllowed = 1;
         _pathAllowedNum = 0;
     } while (_isCreating)
+    dyeingFunc();
     function createPathUp() {
         for (let i = 1; i <= 2; i++)dataArray[_currentPoint[0] - i][_currentPoint[1]]["isWall"] = false;
         _currentPoint[0] -= 2;
@@ -160,20 +163,20 @@ function createPath(_width, _startPoint, _endPoint) {
         for (let i = 0; i < _width; i++) {
             for (let j = 0; j < _width; j++) {
                 if (dataArray[i][j].isWall) {
-                    document.querySelector(`#cell-${i}-${j}`).style.backgroundColor = "rgb(248, 247, 240)";
-                    document.querySelector(`#cell-${i}-${j}`).style.color = "rgba(86, 66, 50, 0.685)";
-                    document.querySelector(`#cell-${i}-${j}`).innerText = "";
-                } else {
                     document.querySelector(`#cell-${i}-${j}`).style.backgroundColor = "rgba(86, 66, 50, 0.685)";
                     document.querySelector(`#cell-${i}-${j}`).style.color = "rgb(248, 247, 240)";
+                    document.querySelector(`#cell-${i}-${j}`).innerText = "";
+                } else {
+                    document.querySelector(`#cell-${i}-${j}`).style.backgroundColor = "rgb(248, 247, 240)";
+                    document.querySelector(`#cell-${i}-${j}`).style.color = "rgba(86, 66, 50, 0.685)";
                     document.querySelector(`#cell-${i}-${j}`).innerText = dataArray[i][j].isStartPoint ? "S" : dataArray[i][j].isEndPoint ? "E" : dataArray[i][j].isVisited ? _path : "";
                 }
             }
         }
     }
-    dyeingFunc();
 }
 function pageStyleFunc(_width) {
+    console.log(_width)
     if (parseInt(window.getComputedStyle(mainTagElement.children[0]).width) < parseInt(window.getComputedStyle(mainTagElement.children[0]).height)) {
         document.querySelectorAll("#box>ul").forEach(elem => elem.style.height = `${70 / _width}vw`)
         liElements.forEach(elem => elem.style.width = elem.style.lineHeight = `${70 / _width}vw`);//70vw / width

@@ -1,5 +1,5 @@
 window.onload = () => {
-    for (let i = 0; i < 16; i++) document.querySelector("#box2048").innerHTML += "<li></li>";
+    for (i = 0; i < 16; i++) document.querySelector("#box2048").innerHTML += "<li></li>";
     liElements = document.querySelectorAll("#box2048>li");
     mainTagElement = document.querySelector("#main");
     minElement = document.querySelectorAll(".showDiv")[0].children[0];
@@ -28,7 +28,7 @@ window.onkeyup = function (event) {
 
 window.addEventListener("resize", pageStyleFunc);
 
-dataArray = new Array(4).fill(["", "", "", ""])
+for (i = 0, dataArray = []; i < 4; dataArray[i] = ["", "", "", ""], i++);
 let liBGC = { "2": "198, 202, 185, .3", "4": "186, 188, 170, .3", "8": "173, 164, 155, .3", "16": "161, 150, 140, .3", "32": "148, 136, 125, .3", "64": "136, 122, 110, .3", "128": "123, 108, 95, .3", "256": "111, 94, 80, .3", "512": "98, 80, 65, .3", "1024": "86, 66, 50, .3", "": "86, 66, 50, .3" };
 currentScore = 0;
 currentMaxNumber = 0;
