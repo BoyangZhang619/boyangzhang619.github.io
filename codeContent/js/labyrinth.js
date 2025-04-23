@@ -1,8 +1,25 @@
 window.onload = () => {
-    boxWidth=49;
-    initialCreate(boxWidth)
+    boxWidth = 49;
+    isStart = false;
+    minElement = document.querySelectorAll(".showDiv")[0].children[0];
+    secElement = document.querySelectorAll(".showDiv")[0].children[2];
+    stepElement = document.querySelectorAll(".showDiv")[1].children[0];
+    dyeingFunction = new Function();
+    currentPoint = [null, null];
+    initialCreate(boxWidth);
 }
-window.addEventListener("resize", () => {pageStyleFunc(boxWidth)});
+window.addEventListener("resize", () => { pageStyleFunc(boxWidth) });
+window.onkeydown = function (event) {
+    if (currentPoint[0] == null || currentPoint[1] == null) return;
+    let key = event.code;
+    switch (key) {
+        case "KeyW": case "ArrowUp": go("up"); break;
+        case "KeyS": case "ArrowDown": go("down"); break;
+        case "KeyA": case "ArrowLeft": go("left"); break;
+        case "KeyD": case "ArrowRight": go("right"); break;
+    }
+    console.log(`${key} pressed|time: ${new Date().toLocaleTimeString()}`);
+}
 class ValueError extends Error {
     constructor(message) {
         super(message);
@@ -10,10 +27,15 @@ class ValueError extends Error {
     }
 }
 function initialCreate(_width) {
+    stepElement.textContent = 0;
+    secElement.textContent = 0;
+    minElement.textContent = 0;
+    isStart = false;
+    currentPoint = [null, null];
     try {
-        if (_width >= 200 || _width <= 9) {
-            alert("Width must be between 11 and 199.");
-            throw new ValueError("Width must be between 11 and 199.")
+        if (_width >= 76 || _width <= 9) {
+            alert("Width must be between 11 and 75.");
+            throw new ValueError("Width must be between 11 and 75.")
         }
         if ((_width - 1) % 2 !== 0) {
             alert("Width must be an odd number.");
@@ -46,10 +68,7 @@ function initialCreate(_width) {
             cell.id = `cell-${i}-${j}`;
             row.appendChild(cell);
         }
-        // document.querySelector("#box").appendChild(document.querySelector(".labyrinthRow"));
     }
-    mainTagElement = document.querySelector("#main");
-    liElements = document.querySelectorAll(".labyrinthCell");
     pageStyleFunc(_width);
     createLabyrinth(_width);
 }
@@ -63,6 +82,8 @@ function createLabyrinth(_width) {
     // Call the pathfinding algorithm with the labyrinth data
     // pathfindingAlgorithm(dataArray, _width);
     document.querySelector("#wait").style.display = "none";
+    currentPoint = _startPoint;
+    dataArray[currentPoint[0]][currentPoint[1]].isVisited = "start";
 }
 function createStartEnd(_width) {
     let _switchNum = -1;
@@ -84,8 +105,8 @@ function createPath(_width, _startPoint, _endPoint) {
     let _pathAllowed = 1;
     let _pathAllowedNum = 0;
     do {
-        console.log("path:",_path);
-        console.log("current coordinate:",_currentPoint);
+        console.log("path:", _path);
+        console.log("current coordinate:", _currentPoint);
         //detect the quantity of path-allowed directions
         if (_currentPoint[0] > 2 && dataArray[_currentPoint[0] - 2][_currentPoint[1]].isWall) {
             _pathAllowed *= 2;
@@ -129,6 +150,7 @@ function createPath(_width, _startPoint, _endPoint) {
         _pathAllowedNum = 0;
     } while (_isCreating)
     dyeingFunc();
+    dyeingFunction = dyeingFunc;
     function createPathUp() {
         for (let i = 1; i <= 2; i++)dataArray[_currentPoint[0] - i][_currentPoint[1]]["isWall"] = false;
         _currentPoint[0] -= 2;
@@ -162,14 +184,21 @@ function createPath(_width, _startPoint, _endPoint) {
     function dyeingFunc() {
         for (let i = 0; i < _width; i++) {
             for (let j = 0; j < _width; j++) {
-                if (dataArray[i][j].isWall) {
-                    document.querySelector(`#cell-${i}-${j}`).style.backgroundColor = "rgba(86, 66, 50, 0.685)";
-                    document.querySelector(`#cell-${i}-${j}`).style.color = "rgb(248, 247, 240)";
-                    document.querySelector(`#cell-${i}-${j}`).innerText = "";
+                if (dataArray[i][j].isStartPoint) {
+                    document.querySelector(`#cell-${i}-${j}`).style.backgroundColor = "rgb(142, 129, 35)"
+                    document.querySelector(`#cell-${i}-${j}`).innerText = "S";
+                } else if (dataArray[i][j].isEndPoint) {
+                    document.querySelector(`#cell-${i}-${j}`).style.backgroundColor = "rgb(86, 66, 50)"
+                    document.querySelector(`#cell-${i}-${j}`).innerText = "E";
+                } else if (dataArray[i][j].isWall) {
+                    document.querySelector(`#cell-${i}-${j}`).style.backgroundColor = "rgba(86, 66, 50, 0.685)"
+                } else if (dataArray[i][j].isVisited) {
+                    document.querySelector(`#cell-${i}-${j}`).style.backgroundColor = "rgba(175, 161, 58, 0.5)"
                 } else {
-                    document.querySelector(`#cell-${i}-${j}`).style.backgroundColor = "rgb(248, 247, 240)";
-                    document.querySelector(`#cell-${i}-${j}`).style.color = "rgba(86, 66, 50, 0.685)";
-                    document.querySelector(`#cell-${i}-${j}`).innerText = dataArray[i][j].isStartPoint ? "S" : dataArray[i][j].isEndPoint ? "E" : dataArray[i][j].isVisited ? _path : "";
+                    [
+                        ["backgroundColor", "rgb(248, 247, 240)"],
+                        ["innerText", dataArray[i][j].isStartPoint ? "S" : dataArray[i][j].isEndPoint ? "E" : dataArray[i][j].isVisited ? _path : ""]
+                    ].forEach(([key, value]) => { document.querySelector(`#cell-${i}-${j}`).style[key] = value; });
                 }
             }
         }
@@ -177,13 +206,81 @@ function createPath(_width, _startPoint, _endPoint) {
 }
 function pageStyleFunc(_width) {
     console.log(_width)
-    if (parseInt(window.getComputedStyle(mainTagElement.children[0]).width) < parseInt(window.getComputedStyle(mainTagElement.children[0]).height)) {
-        document.querySelectorAll("#box>ul").forEach(elem => elem.style.height = `${70 / _width}vw`)
-        liElements.forEach(elem => elem.style.width = elem.style.lineHeight = `${70 / _width}vw`);//70vw / width
-        liElements.forEach(elem => elem.style.fontSize = `${70 / _width}vw`);// 1/3 of 17.5vw
+    if (parseInt(window.getComputedStyle(document.querySelector("#main").children[0]).width) < parseInt(window.getComputedStyle(document.querySelector("#main").children[0]).height)) {
+        [["--width", _width], ["--paramA", 0], ["--paramB", 70]].forEach(([key, value]) => { document.documentElement.style.setProperty(key, value); });
     } else {
-        document.querySelectorAll("#box>ul").forEach(elem => elem.style.height = `calc(${100 / _width}vh - ${7.5 / _width}vw)`)
-        liElements.forEach(elem => elem.style.width = elem.style.lineHeight = `calc(${100 / _width}vh - ${7.5 / _width}vw)`);//(100vh - 7.5vw) / width
-        liElements.forEach(elem => elem.style.fontSize = `calc(${100 / (_width * 3)}vh - ${7.5 / (_width * 3)}vw)`);// 1/3 of (100vh - 7.5vw)/width
+        [["--width", _width], ["--paramA", 100], ["--paramB", -7.5]].forEach(([key, value]) => { document.documentElement.style.setProperty(key, value); });
     }
 }
+function go(_direction) {
+    isStart = isStart ? isStart : true;
+    // check if the point have arrived at the end point
+    if (dataArray[currentPoint[0]][currentPoint[1]].isEndPoint) {
+        alert("You have reached the end point!");
+        infoT();
+        isStart = false;
+        return;
+    }
+    switch (_direction) {
+        case "up":
+            if (dataArray[currentPoint[0] - 1][currentPoint[1]].isWall) return;
+            dataArray[currentPoint[0] - 1][currentPoint[1]].isVisited = "up";
+            stepElement.textContent -= -1;
+            currentPoint[0] -= 1;
+            dyeingFunction();
+            break;
+        case "down":
+            if (dataArray[currentPoint[0] + 1][currentPoint[1]].isWall) return;
+            dataArray[currentPoint[0] + 1][currentPoint[1]].isVisited = "down";
+            stepElement.textContent -= -1;
+            currentPoint[0] += 1;
+            dyeingFunction();
+            break;
+        case "left":
+            if (dataArray[currentPoint[0]][currentPoint[1] - 1].isWall) return;
+            dataArray[currentPoint[0]][currentPoint[1] - 1].isVisited = "left";
+            stepElement.textContent -= -1;
+            currentPoint[1] -= 1;
+            dyeingFunction();
+            break;
+        case "right":
+            if (dataArray[currentPoint[0]][currentPoint[1] + 1].isWall) return;
+            dataArray[currentPoint[0]][currentPoint[1] + 1].isVisited = "right";
+            stepElement.textContent -= -1;
+            currentPoint[1] += 1;
+            dyeingFunction();
+            break;
+    }
+}
+
+function restart() {
+    document.querySelector("#box").innerHTML = ""; // Clear the previous labyrinth
+    initialCreate(boxWidth);
+}
+
+function infoT() {
+    let times = Object.keys(infoTransfer.gI.labyrinth).length;
+    infoTransfer.gI.labyrinth[`c${times}`] = {
+        "s": +stepElement.textContent,//step
+        "t": +minElement.textContent * 60 - -secElement.textContent,//time
+        "mN": null,//max number
+        "bS": null,//best score
+        "iS": 1,//is start
+        "iO": 1,//is over 
+        // "dA": JSON.stringify(dataArray),//data array//too much data
+    }
+}
+
+function pause() {
+    isStart = isStart ? false : true;
+}
+
+function timerFunc(){
+    if(!isStart) return;
+    secElement.textContent -= -1;
+    if (secElement.textContent == 60) {
+        secElement.textContent = 0;
+        minElement.textContent -= -1;
+    }
+}
+timer = setInterval(timerFunc, 1000);

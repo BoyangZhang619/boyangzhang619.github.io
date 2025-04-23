@@ -1,27 +1,41 @@
-#aside>*{
+:root {
+	--width: 49;
+	--height: var(--width);
+	--paramA: 0;
+	--paramB: 0;
+}
+
+#aside>* {
 	margin: 3vh auto 2vh;
 	text-align: center;
-	color: rgba(86,66,50, 0.685);
+	color: rgba(86, 66, 50, 0.685);
 	font-size: 5vh;
 	font-weight: 500;
 }
-#aside>h2{
+
+#aside>h2 {
 	font-size: 3.75vh;
 }
-#aside>div{
+
+#aside>div {
 	font-size: 3vh;
 }
-ul{
+
+ul {
 	overflow: initial;
-	/* max-width: calc(100vh - 7.5vw); */
-	/* max-height: calc(2vh - 0.15vw); */
-	/* background-color: rgba(86, 66, 50, 0.3); */
+	height: calc((var(--paramA) / var(--width) * 1vh) + (var(--paramB) / var(--width) * 1vw))
 }
-li{
+
+li {
 	aspect-ratio: 1/1;
 	display: inline-block;
 	text-align: center;
+	color: silver;
+	/* float: left; */
 	/* overflow: visible; */
+	line-height: calc((var(--paramA) / var(--width) * 1vh) + (var(--paramB) / var(--width) * 1vw));
+	width: calc((var(--paramA) / var(--width) * 1vh) + (var(--paramB) / var(--width) * 1vw));
+	font-size: calc((var(--paramA) / var(--width) * 1vh) + (var(--paramB) / var(--width) * 1vw));
 }
 
 #box {
@@ -34,7 +48,7 @@ li{
 	background-color: rgba(86, 66, 50, 0.3);
 }
 
-#wait{
+#wait {
 	position: fixed;
 	top: 50vh;
 	left: 35vw;
@@ -44,45 +58,54 @@ li{
 	font-size: 5vh;
 	font-weight: 500;
 }
-#admin>div,#admin>input{
+
+#admin>div,
+#admin>input {
 	color: rgb(248, 247, 240);
 	width: 20vw;
 	border-radius: 10px;
 	background-color: rgba(86, 66, 50, 0.685);
 	transition: all 0.2s 0s linear;
-	box-shadow: 2px 2px 10px 1px rgba(86,66,50, 0.685) ;
+	box-shadow: 2px 2px 10px 1px rgba(86, 66, 50, 0.685);
 	font-size: 3vh;
 	line-height: 6vh;
-	height:6vh;
+	height: 6vh;
 	margin: 10px auto;
 }
-#admin>input{
+
+#admin>input {
 	margin-bottom: 0;
 }
-#admin>div:hover,#admin>input:hover{
+
+#admin>div:hover,
+#admin>input:hover {
 	transition: all 0.2s 0s linear;
-	box-shadow: .5px .5px 3px 1px rgba(86, 66, 50, 0.877) ;
+	box-shadow: .5px .5px 3px 1px rgba(86, 66, 50, 0.877);
 }
-#admin{
+
+#admin {
 	overflow: scroll;
 	width: 30vw;
 	position: absolute;
 	bottom: 7.5vh;
 	height: 32.5vh;
 }
-#boxWH{
+
+#boxWH {
 	width: 7vw !important;
 	margin-left: 1vw;
 	display: inline-block !important;
 	border: none !important;
 }
-#boxWHnum{
+
+#boxWHnum {
 	display: inline-block !important;
 	width: 12vw !important;
 	border: none !important;
 	color: rgba(86, 66, 50, 0.877) !important;
 	background-color: rgba(248, 247, 240, .5) !important;
 }
-.showDiv{
+
+.showDiv {
 	font-size: 3vh !important;
 }

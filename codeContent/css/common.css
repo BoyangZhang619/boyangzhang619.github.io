@@ -38,7 +38,7 @@ html {
     height: 7.5vw;
     background-color: rgba(86, 66, 50, 0.685);
     color: rgb(248, 247, 240);
-    /* box-shadow: 2px 2px 10px 1px black; */
+    box-shadow: 2px 2px 10px 1px rgb(54, 54, 54);
 }
 
 #header>h2 {
