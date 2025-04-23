@@ -23,18 +23,17 @@
 
 ul {
 	overflow: initial;
-	height: calc((var(--paramA) / var(--width) * 1vh) + (var(--paramB) / var(--width) * 1vw))
+	height: calc((var(--paramA) / var(--width) * 1vh) + (var(--paramB) / var(--width) * 1vw));
+	display: flex;
 }
 
 li {
 	aspect-ratio: 1/1;
-	display: inline-block;
+	flex: 1;
+	min-width: 0;
 	text-align: center;
 	color: silver;
-	/* float: left; */
-	/* overflow: visible; */
 	line-height: calc((var(--paramA) / var(--width) * 1vh) + (var(--paramB) / var(--width) * 1vw));
-	width: calc((var(--paramA) / var(--width) * 1vh) + (var(--paramB) / var(--width) * 1vw));
 	font-size: calc((var(--paramA) / var(--width) * 1vh) + (var(--paramB) / var(--width) * 1vw));
 }
 

@@ -33,9 +33,9 @@ function initialCreate(_width) {
     isStart = false;
     currentPoint = [null, null];
     try {
-        if (_width >= 76 || _width <= 9) {
-            alert("Width must be between 11 and 75.");
-            throw new ValueError("Width must be between 11 and 75.")
+        if (_width >= 200 || _width <= 9) {
+            alert("Width must be between 11 and 199.");
+            throw new ValueError("Width must be between 11 and 199.")
         }
         if ((_width - 1) % 2 !== 0) {
             alert("Width must be an odd number.");
