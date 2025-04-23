@@ -76,7 +76,7 @@ function createLabyrinth(_width) {
     // Create the labyrinth structure
     const [_startPoint, _endPoint] = createStartEnd(_width);
     dataArray[_startPoint[0]][_startPoint[1]].isStartPoint = true;
-    dataArray[_startPoint[0]][_startPoint[1]].isWall = false;
+    dataArray[_endPoint[0]][_endPoint[1]].isWall = false;
     dataArray[_endPoint[0]][_endPoint[1]].isEndPoint = true;
     createPath(_width, _startPoint, _endPoint);
     // Call the pathfinding algorithm with the labyrinth data
@@ -98,7 +98,7 @@ function createStartEnd(_width) {
     }
 }
 function createPath(_width, _startPoint, _endPoint) {
-    let _currentPoint = _startPoint;
+    let _currentPoint = _endPoint;
     let _path = "#";//start with "#",following 0,1,2,3 for up,down,left,right
     let _isCreating = true;
     let _switchNum = -1;
