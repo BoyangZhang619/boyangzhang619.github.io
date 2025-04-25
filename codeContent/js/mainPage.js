@@ -3,12 +3,6 @@ window.onload = function () {
     info = navigator.userAgent;
     isPhone = /mobile/i.test(info); // if it's a mobile device, isPhone = true
     if (isPhone) return confirm("This page is not supported on mobile devices. Please use a computer to access it.") ? document.querySelector("html").style.display = "none" : null;
-    if (infoTransfer.uN !== "") {
-        document.querySelector("#login").style.display = "none";
-        // if the user name is not empty, hide the login part
-        document.querySelector("#hello").textContent+=infoTransfer.uN;
-        document.querySelector("#hello").style.display = "block";
-    }
 }
 let selectGameType = "";
 let infoTransfer = {
@@ -156,7 +150,14 @@ function selectGame(self, type = 1) {
 function login() {
     infoTransfer.uN = document.querySelector("#username").value;
     infoTransfer.pw = document.querySelector("#password").value;
+    if (infoTransfer.uN !== "") {
+        document.querySelector("#login").style.display = "none";
+        // if the user name is not empty, hide the login part
+        document.querySelector("#hello").textContent+=infoTransfer.uN;
+        document.querySelector("#hello").style.display = "block";
+    }
 }
 function register() {
+    login()
     // there will be some thing about register
 }
