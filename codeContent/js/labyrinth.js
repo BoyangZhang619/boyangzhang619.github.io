@@ -79,7 +79,7 @@ function createLabyrinth(_width) {
     dataArray[_endPoint[0]][_endPoint[1]].isEndPoint = true;
     createPath(_width, _startPoint, _endPoint);
     // Call the pathfinding algorithm with the labyrinth data
-    // pathfindingAlgorithm(dataArray, _width);
+    pathfindingAlgorithm(dataArray, _width);
     document.querySelector("#wait").style.display = "none";
     currentPoint = _startPoint;
     dataArray[currentPoint[0]][currentPoint[1]].isVisited = "start";
@@ -290,3 +290,10 @@ function timerFunc() {
     }
 }
 timer = setInterval(timerFunc, 1000);
+
+function pathfindingAlgorithm(_dataArray, _width) {
+    console.log(_dataArray, _width)
+    // Implement the pathfinding algorithm here
+    // This is a placeholder function for now
+    console.log("Pathfinding algorithm executed.");
+}
