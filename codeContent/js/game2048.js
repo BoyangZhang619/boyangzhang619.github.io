@@ -237,6 +237,7 @@ function infoT() {
         "iS": 1,//is start
         "iO": 1,//is over 
         "dA": JSON.stringify(dataArray),//data array
+        "dT": new Date().toLocaleString(),//date time
     }
 }
 

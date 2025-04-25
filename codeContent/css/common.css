@@ -28,6 +28,10 @@ button {
     cursor: pointer;
 }
 
+li {
+    list-style: none;
+}
+
 html {
     height: 100vw;
     width: 100vw;

@@ -165,6 +165,8 @@
 
 /* main part */
 #loginContent,
+#hello,
+#recordContent,
 #languageContent,
 #themeContent,
 #aboutContent,
@@ -173,18 +175,11 @@
     width: 45vw;
     height: calc(100vh - 7.5vw);
     margin: 0 auto;
+    overflow: scroll;
 }
-
-#loginContent:hover,
-#languageContent:hover, #themeContent:hover,
-#aboutContent:hover,
-#helpContent:hover {
-    transition: all 0.2s 0s linear;
-    box-shadow: .5px .5px 3px 1px rgba(86, 66, 50, 0.877);
-}
-
 
 #loginContent>h1,
+#recordContent>h1,
 #languageContent>h1,
 #themeContent>h1,
 #aboutContent>h1,
@@ -202,6 +197,7 @@
     white-space: pre-wrap;
 }
 
+#recordContent>div,
 #languageContent>div,
 #themeContent>div {
     margin: 3.75vh auto;
@@ -217,8 +213,71 @@
     text-align: center;
 }
 
+#recordContent>div:hover,
 #languageContent>div:hover,
 #themeContent>div:hover {
     transition: all 0.2s 0s linear;
     box-shadow: .5px .5px 3px 1px rgba(86, 66, 50, 0.877);
+}
+
+#hello {
+    text-align: center;
+    color: rgba(86, 66, 50, 1);
+    font-size: 6vh;
+    line-height: calc(100vh - 15vw);
+    margin: 0 auto;
+}
+#recordContent>hr {
+    margin-bottom: 2vh;
+}
+
+.recordListChoice {
+    box-sizing: border-box;
+    margin: 1.75vh 10px;
+    width: calc(45vw - 20px);
+    height: 15vh;
+    /* border: 2px solid rgba(86, 66, 50, .675); */
+    border-radius: 1.5vw;
+    background-color: rgba(240, 248, 255, 0.5);
+    color: rgba(86, 66, 50, .675);
+    transition: all 0.2s 0s linear;
+    box-shadow: 2px 2px 10px 1px rgba(86, 66, 50, 0.685);
+    line-height: 3.5vh;
+    font-size: 3.5vh;
+    text-align: center;
+}
+
+.recordListChoice:hover {
+    transition: all 0.2s 0s linear;
+    box-shadow: .5px .5px 3px 1px rgba(86, 66, 50, 0.877);
+}
+
+.recordListChoice>div {
+    width: calc(9vw - 4px);
+    float: left;
+    height: 15vh;
+    line-height: 7vh;
+    font-size: 3vh;
+    text-align: center;
+}
+
+#recordListDateSearch {
+    width: calc(7vw - 4px);
+    margin: 0.5vh 1vw;
+    float: left;
+    height: 7vh;
+    border-radius: 1vw;
+    transition: all 0.2s 0s linear;
+    box-shadow: 2px 2px 8px 1px rgba(86, 66, 50, 0.685);
+    background-color: rgba(86, 66, 50, .675);
+    color: white;
+}
+
+#recordListDateSearch:hover {
+    transition: all 0.2s 0s linear;
+    box-shadow: .5px .5px 3px 1px rgba(86, 66, 50, 0.877);
+}
+
+.recordList{
+    overflow: scroll;
 }

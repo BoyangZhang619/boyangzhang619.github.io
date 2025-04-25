@@ -1,6 +1,7 @@
 window.onload = () => {
-    boxWidth = 49;
+    boxWidth = 29;
     isStart = false;
+    gameScore = 0;
     minElement = document.querySelectorAll(".showDiv")[0].children[0];
     secElement = document.querySelectorAll(".showDiv")[0].children[2];
     stepElement = document.querySelectorAll(".showDiv")[1].children[0];
@@ -78,6 +79,8 @@ function createLabyrinth(_width) {
     dataArray[_startPoint[0]][_startPoint[1]].isStartPoint = true;
     dataArray[_endPoint[0]][_endPoint[1]].isEndPoint = true;
     createPath(_width, _startPoint, _endPoint);
+    dataArray[_startPoint[0]][_startPoint[1]].isWall = false;
+    dataArray[_endPoint[0]][_endPoint[1]].isWall = false;
     // Call the pathfinding algorithm with the labyrinth data
     // pathfindingAlgorithm(dataArray, _width);
     document.querySelector("#wait").style.display = "none";
@@ -98,7 +101,7 @@ function createStartEnd(_width) {
 }
 function createPath(_width, _startPoint, _endPoint) {
     //start from the center of the labyrinth
-    let _currentPoint = (_width + 1) % 4? [(_width + 1) / 2, (_width + 1) / 2] : [(_width - 1) / 2, (_width - 1) / 2];
+    let _currentPoint = (_width + 1) % 4 ? [(_width + 1) / 2, (_width + 1) / 2] : [(_width - 1) / 2, (_width - 1) / 2];
     let _path = "#";//start with "#",following 0,1,2,3 for up,down,left,right
     let _isCreating = true;
     let _switchNum = -1;
@@ -214,31 +217,39 @@ function go(_direction) {
     switch (_direction) {
         case "up":
             if (dataArray[currentPoint[0] - 1][currentPoint[1]].isWall) return;
+            if (dataArray[currentPoint[0] - 1][currentPoint[1]].isVisited) gameScore -= 3;
             dataArray[currentPoint[0] - 1][currentPoint[1]].isVisited = "up";
             stepElement.textContent -= -1;
             currentPoint[0] -= 1;
+            gameScore += 1;
             // check if the point have arrived at the end point and dye it
             dyeingFunction(currentPoint, _direction);
             break;
         case "down":
             if (dataArray[currentPoint[0] + 1][currentPoint[1]].isWall) return;
+            if (dataArray[currentPoint[0] + 1][currentPoint[1]].isVisited) gameScore -= 3;
             dataArray[currentPoint[0] + 1][currentPoint[1]].isVisited = "down";
             stepElement.textContent -= -1;
             currentPoint[0] += 1;
+            gameScore += 1;
             dyeingFunction(currentPoint, _direction);
             break;
         case "left":
             if (dataArray[currentPoint[0]][currentPoint[1] - 1].isWall) return;
+            if (dataArray[currentPoint[0]][currentPoint[1] - 1].isVisited) gameScore -= 3;
             dataArray[currentPoint[0]][currentPoint[1] - 1].isVisited = "left";
             stepElement.textContent -= -1;
             currentPoint[1] -= 1;
+            gameScore += 1;
             dyeingFunction(currentPoint, _direction);
             break;
         case "right":
             if (dataArray[currentPoint[0]][currentPoint[1] + 1].isWall) return;
+            if (dataArray[currentPoint[0]][currentPoint[1] + 1].isVisited) gameScore -= 3;
             dataArray[currentPoint[0]][currentPoint[1] + 1].isVisited = "right";
             stepElement.textContent -= -1;
             currentPoint[1] += 1;
+            gameScore += 1;
             dyeingFunction(currentPoint, _direction);
             break;
     }
@@ -270,9 +281,10 @@ function infoT() {
         "t": +minElement.textContent * 60 - -secElement.textContent,//time
         "w": boxWidth,//width
         "mN": null,//max number
-        "bS": null,//best score
+        "bS": (+stepElement.textContent) - (+minElement.textContent * 60 - -secElement.textContent) * 2,//best score
         "iS": 1,//is start
         "iO": 1,//is over 
+        "dT": new Date().toLocaleString(),//date time
         // "dA": JSON.stringify(dataArray),//data array//too much data
     }
 }
@@ -287,6 +299,7 @@ function timerFunc() {
     if (secElement.textContent == 60) {
         secElement.textContent = 0;
         minElement.textContent -= -1;
+        gameScore -= 2;
     }
 }
 timer = setInterval(timerFunc, 1000);
