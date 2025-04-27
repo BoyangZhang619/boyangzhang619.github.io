@@ -63,11 +63,11 @@ function recordChanged(type) {
         for (i = 0; i < Object.keys(_labyrinthRecord.record).length - 1; i++) {
             recordTypeKey = Object.keys(_labyrinthRecord.record)[i + 1];
             _temporaryString += `<li class="recordListChoice interpElem">
-            <div>Step<hr/><strong>${_labyrinthRecord_game2048Record.record[recordTypeKey].s}</strong></div>
-            <div>Time<hr/><strong>${_labyrinthRecord_game2048Record.record[recordTypeKey].t}</strong></div>
-            <div>Width<hr/><strong>${_labyrinthRecord_game2048Record.record[recordTypeKey].w}</strong></div>
-            <div>Score<hr/><strong>${_labyrinthRecord_game2048Record.record[recordTypeKey].bS}</strong></div>
-            <div>Data<hr/><div id="recordListDateSearch" onclick="alert('Write time: ${_labyrinthRecord_game2048Record.record[recordTypeKey].dT}')">click</div></div>
+            <div>Step<hr/><strong>${_labyrinthRecord.record[recordTypeKey].s}</strong></div>
+            <div>Time<hr/><strong>${_labyrinthRecord.record[recordTypeKey].t}</strong></div>
+            <div>Width<hr/><strong>${_labyrinthRecord.record[recordTypeKey].w}</strong></div>
+            <div>Score<hr/><strong>${_labyrinthRecord.record[recordTypeKey].bS}</strong></div>
+            <div>Data<hr/><div id="recordListDateSearch" onclick="alert('Write time: ${_labyrinthRecord.record[recordTypeKey].dT}')">click</div></div>
             </li>`;
         }
         _temporaryString += `<li class="recordListChoice interpElem" style="line-height:15vh" onclick="selectGame(null,'labyrinth');selectGame(null,0);">let's play more!</li></ul>`;
