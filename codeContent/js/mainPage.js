@@ -13,6 +13,8 @@ window.onload = function () {
         isLogin = true;
         document.querySelector("#hello").textContent = `Hello, ${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}`;
         document.querySelector("#hello").style.display = "block";
+    }else{
+        document.querySelector("#login").style.display = "block";
     }
 }
 let isLogin = false;
