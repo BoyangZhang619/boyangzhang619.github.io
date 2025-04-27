@@ -275,8 +275,9 @@ function restart() {
 }
 
 function infoT() {
-    let times = Object.keys(infoTransfer.gI.labyrinth).length;
-    infoTransfer.gI.labyrinth[`c${times}`] = {
+    let _times = Object.keys(JSON.parse(localStorage.getItem(JSON.parse(localStorage.getItem("allUsers"))["_currentUser"] + "-labyrinth")).record).length;
+    let _currentUserGameRecord = JSON.parse(localStorage.getItem(JSON.parse(localStorage.getItem("allUsers"))["_currentUser"] + "-labyrinth"));
+    let _currentTime = {
         "s": +stepElement.textContent,//step
         "t": +minElement.textContent * 60 - -secElement.textContent,//time
         "w": boxWidth,//width
@@ -287,8 +288,9 @@ function infoT() {
         "dT": new Date().toLocaleString(),//date time
         // "dA": JSON.stringify(dataArray),//data array//too much data
     }
+    _currentUserGameRecord.record[`times${_times}`] = _currentTime;
+    localStorage.setItem((JSON.parse(localStorage.getItem("allUsers"))["_currentUser"] + "-labyrinth"),JSON.stringify(_currentUserGameRecord));
 }
-
 function pause() {
     isStart = isStart ? false : true;
 }

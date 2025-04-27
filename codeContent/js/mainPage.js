@@ -2,14 +2,20 @@ window.onload = function () {
     ["record", "language", "theme", "about", "help"].forEach((elem) => settings(elem, true));// Initialization,create all the element
     info = navigator.userAgent;
     isPhone = /mobile/i.test(info); // if it's a mobile device, isPhone = true
-    if (isPhone) return confirm("This page is not supported on mobile devices. Please use a computer to access it.") ? document.querySelector("html").style.display = "none" : null;
-    if (infoTransfer.uN !== "") {
+    if (isPhone) return confirm("This page is not supported on mobile devices. Please use a computer to access it.") ? document.querySelector("html").innerHTML = "there is nothing" : alert("Exactly, you have to use a computer to access it.")? document.querySelector("html").innerHTML = "there is nothing" : null;
+    if (localStorage.getItem("isInfoTransferOpen") === null) {
+        localStorage.setItem("allUsers", JSON.stringify({ "_currentUser": "undefined" }));
+        localStorage.setItem("isInfoTransferOpen", "of course!");
+    }
+    if (JSON.parse(localStorage.getItem("allUsers"))["_currentUser"] !== "undefined") {
         document.querySelector("#login").style.display = "none";
         // if the user name is not empty, hide the login part
-        document.querySelector("#hello").textContent+=infoTransfer.uN;
+        isLogin = true;
+        document.querySelector("#hello").textContent = `Hello, ${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}`;
         document.querySelector("#hello").style.display = "block";
     }
 }
+let isLogin = false;
 let selectGameType = "";
 let infoTransfer = {
     l: "English",//language
@@ -23,9 +29,10 @@ let infoTransfer = {
         "mineClearance": {}
     }
 }
-for (let key in infoTransfer.gI) infoTransfer.gI[key].c0 = { mN: 0, bS: 0 }//mN=max number,bS=best score
+// for (let key in infoTransfer.gI) infoTransfer.gI[key].c0 = { mN: 0, bS: 0 }//mN=max number,bS=best score
 // for decrease the capacity of the code, I will replace some words with a single letter
 function recordChanged(type) {
+    if (!isLogin) return alert("Please login to get your record.");
     switch (type) {
         case "game2048": showGame2048Record(); break;
         case "labyrinth": showLabyrinthRecord(); break;
@@ -35,14 +42,15 @@ function recordChanged(type) {
     }
     function showGame2048Record() {
         let _temporaryString = `<h1 class="interpElem">Record of game2048</h1><hr/><ul class="recordList">`;
-        for (i = 0; i < Object.keys(infoTransfer.gI.game2048).length - 1; i++) {
-            recordTypeKey = Object.keys(infoTransfer.gI.game2048)[i + 1];
+        let _game2048Record = JSON.parse(localStorage.getItem(JSON.parse(localStorage.getItem("allUsers"))["_currentUser"] + "-game2048"));
+        for (i = 0; i < Object.keys(_game2048Record.record).length - 1; i++) {
+            recordTypeKey = Object.keys(_game2048Record.record)[i + 1];
             _temporaryString += `<li class="recordListChoice interpElem">
-            <div>Step<hr/><strong>${infoTransfer.gI.game2048[recordTypeKey].s}</strong></div>
-            <div>Time<hr/><strong>${infoTransfer.gI.game2048[recordTypeKey].t}</strong></div>
-            <div>Score<hr/><strong>${infoTransfer.gI.game2048[recordTypeKey].bS}</strong></div>
-            <div>Num<hr/><strong>${infoTransfer.gI.game2048[recordTypeKey].mN}</strong></div>
-            <div>Data<hr/><div id="recordListDateSearch" onclick="alert('Write time: ${infoTransfer.gI.game2048[recordTypeKey].dT}\\nFinal array:${infoTransfer.gI.game2048[recordTypeKey].dA}')">click</div></div>
+            <div>Step<hr/><strong>${_game2048Record.record[recordTypeKey].s}</strong></div>
+            <div>Time<hr/><strong>${_game2048Record.record[recordTypeKey].t}</strong></div>
+            <div>Score<hr/><strong>${_game2048Record.record[recordTypeKey].bS}</strong></div>
+            <div>Num<hr/><strong>${_game2048Record.record[recordTypeKey].mN}</strong></div>
+            <div>Data<hr/><div id="recordListDateSearch" onclick="alert('Write time: ${_game2048Record.record[recordTypeKey].dT}\\nFinal array:${_game2048Record.record[recordTypeKey].dA}')">click</div></div>
             </li>`;
         }
         _temporaryString += `<li class="recordListChoice interpElem" style="line-height:15vh" onclick="selectGame(null,'game2048');selectGame(null,0);">let's play more!</li></ul>`;
@@ -51,14 +59,15 @@ function recordChanged(type) {
     }
     function showLabyrinthRecord() {
         let _temporaryString = `<h1 class="interpElem">Record of labyrinth</h1><hr/><ul class="recordList">`;
-        for (i = 0; i < Object.keys(infoTransfer.gI.labyrinth).length - 1; i++) {
-            recordTypeKey = Object.keys(infoTransfer.gI.labyrinth)[i + 1];
+        let _labyrinthRecord = JSON.parse(localStorage.getItem(JSON.parse(localStorage.getItem("allUsers"))["_currentUser"] + "-labyrinth"));
+        for (i = 0; i < Object.keys(_labyrinthRecord.record).length - 1; i++) {
+            recordTypeKey = Object.keys(_labyrinthRecord.record)[i + 1];
             _temporaryString += `<li class="recordListChoice interpElem">
-            <div>Step<hr/><strong>${infoTransfer.gI.labyrinth[recordTypeKey].s}</strong></div>
-            <div>Time<hr/><strong>${infoTransfer.gI.labyrinth[recordTypeKey].t}</strong></div>
-            <div>Width<hr/><strong>${infoTransfer.gI.labyrinth[recordTypeKey].w}</strong></div>
-            <div>Score<hr/><strong>${infoTransfer.gI.labyrinth[recordTypeKey].bS}</strong></div>
-            <div>Data<hr/><div id="recordListDateSearch" onclick="alert('Write time: ${infoTransfer.gI.labyrinth[recordTypeKey].dT}')">click</div></div>
+            <div>Step<hr/><strong>${_labyrinthRecord_game2048Record.record[recordTypeKey].s}</strong></div>
+            <div>Time<hr/><strong>${_labyrinthRecord_game2048Record.record[recordTypeKey].t}</strong></div>
+            <div>Width<hr/><strong>${_labyrinthRecord_game2048Record.record[recordTypeKey].w}</strong></div>
+            <div>Score<hr/><strong>${_labyrinthRecord_game2048Record.record[recordTypeKey].bS}</strong></div>
+            <div>Data<hr/><div id="recordListDateSearch" onclick="alert('Write time: ${_labyrinthRecord_game2048Record.record[recordTypeKey].dT}')">click</div></div>
             </li>`;
         }
         _temporaryString += `<li class="recordListChoice interpElem" style="line-height:15vh" onclick="selectGame(null,'labyrinth');selectGame(null,0);">let's play more!</li></ul>`;
@@ -74,14 +83,20 @@ function recordChanged(type) {
     }
 }
 function langChanged(type) {
-    infoTransfer.language = type;
+    if (!isLogin) return alert("Please login to change the language.");
+    let _userInfo = JSON.parse(localStorage.getItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-info`));
+    _userInfo.language = type;
+    localStorage.setItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-info`, JSON.stringify(_userInfo));
     // there will be a language change function in the future
-    console.log(`language is changed to ${type}`);
+    console.log(`language is changed to ${type},however, there is no language change function now`);
 }
 function themeChanged(type) {
-    infoTransfer.theme = type;
+    if (!isLogin) return alert("Please login to change the theme.");
+    let _userInfo = JSON.parse(localStorage.getItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-info`));
+    _userInfo.theme = type;
+    localStorage.setItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-info`, JSON.stringify(_userInfo));
     // there will be a theme change function in the future
-    console.log(`theme is changed to ${type}`);
+    console.log(`theme is changed to ${type},however, there is no theme change function now`);
 }
 
 function partsSwitch() {
@@ -97,8 +112,8 @@ function partsSwitch() {
         return console.log("settingPart is displayed");
     } else {
         selectGamePart.style.display = "block";
-        helloPart.style.display = "block";
-        // else loginPart.style.display = "block";
+        if (JSON.parse(localStorage.getItem("allUsers"))["_currentUser"] !== "undefined") helloPart.style.display = "block";
+        else loginPart.style.display = "block";
         settingPart.style.display = "none";
         settings("other", true)
         return console.log("selectGamePart is displayed");
@@ -141,7 +156,7 @@ function settings(type, _isInitialization = false, _aboutSentence, _helpSentence
 
 function selectGame(self, type = 1) {
     selectGameType = type ? type : selectGameType;
-    if (!type && selectGameType !== "") window.open(`./codeContent/html/${selectGameType}.html?${JSON.stringify(infoTransfer)}`, "_self");
+    if (!type && selectGameType !== "") window.open(`./codeContent/html/${selectGameType}.html`, "_self");
     if (type) buttonDown(self);
     function buttonDown(self) {
         if (self === null) return;
@@ -154,16 +169,35 @@ function selectGame(self, type = 1) {
 }
 
 function login() {
-    infoTransfer.uN = document.querySelector("#username").value;
-    infoTransfer.pw = document.querySelector("#password").value;
-    if (infoTransfer.uN !== "") {
-        document.querySelector("#login").style.display = "none";
-        // if the user name is not empty, hide the login part
-        document.querySelector("#hello").textContent+=infoTransfer.uN;
-        document.querySelector("#hello").style.display = "block";
-    }
+    let _username = document.querySelector("#username").value;
+    let _password = document.querySelector("#password").value;
+    if (_username.replaceAll(" ", "") === "" || _password.replaceAll(" ", "") === "") return alert("Please enter your username and password.");
+    if (JSON.parse(localStorage.getItem("allUsers"))[_username] === null || JSON.parse(localStorage.getItem("allUsers"))[_username] !== _password || _username == "_currentUser") return alert("Username or password is incorrect or haven't registered. Please try again.");
+    let _allUsers = JSON.parse(localStorage.getItem("allUsers"));
+    _allUsers["_currentUser"] = _username;
+    localStorage.setItem("allUsers", JSON.stringify(_allUsers));
+    document.querySelector("#login").style.display = "none";
+    document.querySelector("#hello").textContent = `Hello, ${_username}`;
+    document.querySelector("#hello").style.display = "block";
+    isLogin = true;
 }
+
 function register() {
-    login()
+    let _username = document.querySelector("#username").value;
+    let _password = document.querySelector("#password").value;
+    let _isUsernameExist = !!localStorage.getItem(_username);
+    const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[a-zA-Z0-9]{6,}$/;
+    if (_username.replaceAll(" ", "") === "" || _password.replaceAll(" ", "") === "") return alert("Please enter your username and password.");
+    if (_isUsernameExist) return alert("This username already exists. Please choose another one or login this account.");
+    else if (!passwordRegex.test(_password)) return alert("Password must be at least 6 characters long and contain at least one uppercase letter, one lowercase letter, and one number.");
+    let _allUsers = JSON.parse(localStorage.getItem("allUsers"));
+    _allUsers[_username] = _password;
+    localStorage.setItem("allUsers", JSON.stringify(_allUsers));
+    ["game2048", "labyrinth", "mineClearance", "klotski"].forEach((elem) => {
+        localStorage.setItem(`${_username}-${elem}`, JSON.stringify({ "gameInfo": {}, "record": { "times0": { "this one isn't a record": "undefined" } } }));
+    });
+    localStorage.setItem(`${_username}-info`, JSON.stringify({ "language": "English", "theme": "light" }));
+    document.querySelector("#password").value = "";
+    alert("you have registered successfully! Please login to continue.");
     // there will be some thing about register
 }

@@ -195,7 +195,6 @@ function isover() {
         if (levelA == 3 && levelB == 2) {
             alert("Game over");
             infoT();
-            console.log(infoTransfer);
             isstart = false;
             break;
         }
@@ -228,8 +227,9 @@ function restart() {
 }
 
 function infoT() {
-    let times = Object.keys(infoTransfer.gI.game2048).length;
-    infoTransfer.gI.game2048[`c${times}`] = {
+    let _times = Object.keys(JSON.parse(localStorage.getItem(JSON.parse(localStorage.getItem("allUsers"))["_currentUser"] + "-game2048")).record).length;
+    let _currentUserGameRecord = JSON.parse(localStorage.getItem(JSON.parse(localStorage.getItem("allUsers"))["_currentUser"] + "-game2048"));
+    let _currentTime = {
         "s": +stepElement.textContent,//step
         "t": +minElement.textContent * 60 - -secElement.textContent,//time
         "mN": currentMaxNumber,//max number
@@ -239,6 +239,8 @@ function infoT() {
         "dA": JSON.stringify(dataArray),//data array
         "dT": new Date().toLocaleString(),//date time
     }
+    _currentUserGameRecord.record[`times${_times}`] = _currentTime;
+    localStorage.setItem((JSON.parse(localStorage.getItem("allUsers"))["_currentUser"] + "-game2048"),JSON.stringify(_currentUserGameRecord));
 }
 
 function pause() {
