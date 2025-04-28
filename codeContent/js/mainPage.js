@@ -19,18 +19,6 @@ window.onload = function () {
 }
 let isLogin = false;
 let selectGameType = "";
-let infoTransfer = {
-    l: "English",//language
-    t: "light",//theme
-    uN: "",//user name
-    pw: "",//password
-    gI: {//game info
-        "game2048": {},
-        "klotski": {},
-        "labyrinth": {},
-        "mineClearance": {}
-    }
-}
 // for (let key in infoTransfer.gI) infoTransfer.gI[key].c0 = { mN: 0, bS: 0 }//mN=max number,bS=best score
 // for decrease the capacity of the code, I will replace some words with a single letter
 function recordChanged(type) {
