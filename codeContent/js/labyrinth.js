@@ -1,11 +1,13 @@
 window.onload = () => {
     boxWidth = 29;
+    creatingBoxIndex = 0;
     isStart = false;
     gameScore = 0;
     minElement = document.querySelectorAll(".showDiv")[0].children[0];
     secElement = document.querySelectorAll(".showDiv")[0].children[2];
     stepElement = document.querySelectorAll(".showDiv")[1].children[0];
     currentPoint = [null, null];
+    [startPoint, endPoint] = [[null, null], [null, null]];
     initialCreate(boxWidth);
 }
 
@@ -32,10 +34,10 @@ class ValueError extends Error {
 
 function initialCreate(_width) {
     try {
-        // if (_width >= 200 || _width <= 9) {
-        //     alert("Width must be between 11 and 199.");
-        //     throw new ValueError("Width must be between 11 and 199.")
-        // }
+        if (_width >= 150 || _width <= 10) {
+            alert("Width must be between 11 and 149.");
+            throw new ValueError("Width must be between 11 and 149.")
+        }
         if ((_width - 1) % 2 !== 0) {
             alert("Width must be an odd number.");
             throw new ValueError("Width must be an odd number");
@@ -68,22 +70,43 @@ function initialCreate(_width) {
     };
     pageStyleFunc(_width);
     createLabyrinth(_width);
-    for (let i = 0; i < _width; i++) {
+    let promise = new Promise(resolve => resolve());
+    document.querySelector("#box").style.display = "block";
+    promise.then(creatingBox());
+    function creatingBox() {
         let row = document.createElement("ul");
         row.className = "labyrinthRow";
-        row.id = `row-${i}`;
+        row.id = `row-${creatingBoxIndex}`;
         document.querySelector("#box").appendChild(row);
         for (let j = 0; j < _width; j++) {
             let cell = document.createElement("li");
             cell.className = "labyrinthCell";
-            cell.id = `cell-${i}-${j}`;
+            cell.id = `cell-${creatingBoxIndex}-${j}`;
             row.appendChild(cell);
         }
+        for (let j = 0; j < _width; j++) {
+            if (dataArray[creatingBoxIndex][j].isWall) {
+                document.querySelector(`#cell-${creatingBoxIndex}-${j}`).style.backgroundColor = "#84756A";
+            } else {
+                document.querySelector(`#cell-${creatingBoxIndex}-${j}`).style.backgroundColor = "rgb(248, 247, 240)";
+                document.querySelector(`#cell-${creatingBoxIndex}-${j}`).style.innerText = dataArray[creatingBoxIndex][j].isStartPoint ? "S" : dataArray[creatingBoxIndex][j].isEndPoint ? "E" : "";
+            }
+        }
+        if (creatingBoxIndex == _width - 1) {
+            creatingBoxIndex = 0;
+            document.querySelector(`#cell-${startPoint[0]}-${startPoint[1]}`).style.backgroundColor = "rgb(88, 84, 48)"
+            document.querySelector(`#cell-${startPoint[0]}-${startPoint[1]}`).innerText = "S";
+            document.querySelector(`#cell-${endPoint[0]}-${endPoint[1]}`).style.backgroundColor = "rgb(86, 66, 50)"
+            document.querySelector(`#cell-${endPoint[0]}-${endPoint[1]}`).innerText = "E";
+            document.querySelector("#boxWHnum").disabled = false;
+            document.querySelector("#wait").style.display = "none";
+            return;
+        }
+        if (creatingBoxIndex < _width - 1) {
+            creatingBoxIndex++;
+            setTimeout(creatingBox, 0);
+        }
     }
-    dye(_width);
-    document.querySelector("#boxWHnum").disabled = false;
-    document.querySelector("#wait").style.display = "none";
-    document.querySelector("#box").style.display = "block";
 }
 
 function createLabyrinth(_width) {
@@ -94,6 +117,7 @@ function createLabyrinth(_width) {
     createPath(_width, _startPoint, _endPoint);
     dataArray[_startPoint[0]][_startPoint[1]].isWall = false;
     dataArray[_endPoint[0]][_endPoint[1]].isWall = false;
+    [startPoint, endPoint] = [_startPoint, _endPoint];
     // Call the pathfinding algorithm with the labyrinth data
     // pathfindingAlgorithm(dataArray, _width);
     currentPoint = _startPoint;
@@ -253,26 +277,6 @@ function go(_direction) {
     }
 }
 
-function dye(_width){
-    for (let i = 0; i < _width; i++) {
-        for (let j = 0; j < _width; j++) {
-            if (dataArray[i][j].isStartPoint) {
-                document.querySelector(`#cell-${i}-${j}`).style.backgroundColor = "rgb(88, 84, 48)"
-                document.querySelector(`#cell-${i}-${j}`).innerText = "S";
-            } else if (dataArray[i][j].isEndPoint) {
-                document.querySelector(`#cell-${i}-${j}`).style.backgroundColor = "rgb(86, 66, 50)"
-                document.querySelector(`#cell-${i}-${j}`).innerText = "E";
-            } else if (dataArray[i][j].isWall) {
-                document.querySelector(`#cell-${i}-${j}`).style.backgroundColor = "rgba(86, 66, 50, 0.685)"
-            } else {
-                [
-                    ["backgroundColor", "rgb(248, 247, 240)"],
-                    ["innerText", dataArray[i][j].isStartPoint ? "S" : dataArray[i][j].isEndPoint ? "E" : ""]
-                ].forEach(([key, value]) => { document.querySelector(`#cell-${i}-${j}`).style[key] = value; });
-            }
-        }
-    }
-}
 
 function dyeingFunction([paramA, paramB], _direction) {
     switch (_direction) {

@@ -44,16 +44,17 @@ li {
 	margin: 0 auto;
 	border-radius: 8px;
 	box-shadow: 2px 2px 5px black;
-	background-color: rgba(86, 66, 50, 0.3);
+	/* background-color: rgba(86, 66, 50, 0.3); */
 }
 
 #wait {
 	position: fixed;
 	top: 50vh;
 	left: 35vw;
+	z-index: -1;
 	transform: translateX(-50%);
 	text-align: center;
-	color: rgba(248, 247, 240, 1);
+	color: rgb(86, 66, 50);
 	font-size: 5vh;
 	font-weight: 500;
 }
