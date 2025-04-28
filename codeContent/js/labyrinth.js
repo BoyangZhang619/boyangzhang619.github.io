@@ -55,6 +55,9 @@ function initialCreate(_width) {
     isStart = false;
     currentPoint = [null, null];
     document.querySelector("#box").innerHTML = ""; // Clear the previous labyrinth
+    document.querySelector("#boxWHnum").disabled = true;
+    document.querySelector("#wait").style.display = "block";
+    document.querySelector("#box").style.display = "none";
     // Create the labyrinth with the given _width(height=_width)
     dataArray = new Array(_width).fill([]).map(() => new Array(_width));
     for (let i = 0; i < _width; i++)for (let j = 0; j < _width; j++)dataArray[i][j] = {
@@ -63,6 +66,8 @@ function initialCreate(_width) {
         isStartPoint: null,
         isEndPoint: null
     };
+    pageStyleFunc(_width);
+    createLabyrinth(_width);
     for (let i = 0; i < _width; i++) {
         let row = document.createElement("ul");
         row.className = "labyrinthRow";
@@ -75,8 +80,10 @@ function initialCreate(_width) {
             row.appendChild(cell);
         }
     }
-    pageStyleFunc(_width);
-    createLabyrinth(_width);
+    dye(_width);
+    document.querySelector("#boxWHnum").disabled = false;
+    document.querySelector("#wait").style.display = "none";
+    document.querySelector("#box").style.display = "block";
 }
 
 function createLabyrinth(_width) {
@@ -89,7 +96,6 @@ function createLabyrinth(_width) {
     dataArray[_endPoint[0]][_endPoint[1]].isWall = false;
     // Call the pathfinding algorithm with the labyrinth data
     // pathfindingAlgorithm(dataArray, _width);
-    document.querySelector("#wait").style.display = "none";
     currentPoint = _startPoint;
     dataArray[currentPoint[0]][currentPoint[1]].isVisited = "start";
 }
@@ -115,7 +121,9 @@ function createPath(_width, _startPoint, _endPoint) {
     let _switchNum = -1;
     let _pathAllowed = 1;
     let _pathAllowedNum = 0;
+    let __test = 0;
     do {
+        __test++;
         // console.log("path:", _path);
         // console.log("current coordinate:", _currentPoint);
         //detect the quantity of path-allowed directions
@@ -160,7 +168,7 @@ function createPath(_width, _startPoint, _endPoint) {
         _pathAllowed = 1;
         _pathAllowedNum = 0;
     } while (_isCreating)
-    dyeingFunc();
+    console.log("test", __test)
     function createPathUp() {
         for (let i = 1; i <= 2; i++)dataArray[_currentPoint[0] - i][_currentPoint[1]]["isWall"] = false;
         _currentPoint[0] -= 2;
@@ -189,26 +197,6 @@ function createPath(_width, _startPoint, _endPoint) {
             case "2": _currentPoint[1] += 2; _path = _path.slice(0, -1); break;
             case "3": _currentPoint[1] -= 2; _path = _path.slice(0, -1); break;
             case "#": _isCreating = false; break;
-        }
-    }
-    function dyeingFunc() {
-        for (let i = 0; i < _width; i++) {
-            for (let j = 0; j < _width; j++) {
-                if (dataArray[i][j].isStartPoint) {
-                    document.querySelector(`#cell-${i}-${j}`).style.backgroundColor = "rgb(88, 84, 48)"
-                    document.querySelector(`#cell-${i}-${j}`).innerText = "S";
-                } else if (dataArray[i][j].isEndPoint) {
-                    document.querySelector(`#cell-${i}-${j}`).style.backgroundColor = "rgb(86, 66, 50)"
-                    document.querySelector(`#cell-${i}-${j}`).innerText = "E";
-                } else if (dataArray[i][j].isWall) {
-                    document.querySelector(`#cell-${i}-${j}`).style.backgroundColor = "rgba(86, 66, 50, 0.685)"
-                } else {
-                    [
-                        ["backgroundColor", "rgb(248, 247, 240)"],
-                        ["innerText", dataArray[i][j].isStartPoint ? "S" : dataArray[i][j].isEndPoint ? "E" : dataArray[i][j].isVisited ? _path : ""]
-                    ].forEach(([key, value]) => { document.querySelector(`#cell-${i}-${j}`).style[key] = value; });
-                }
-            }
         }
     }
 }
@@ -265,6 +253,27 @@ function go(_direction) {
     }
 }
 
+function dye(_width){
+    for (let i = 0; i < _width; i++) {
+        for (let j = 0; j < _width; j++) {
+            if (dataArray[i][j].isStartPoint) {
+                document.querySelector(`#cell-${i}-${j}`).style.backgroundColor = "rgb(88, 84, 48)"
+                document.querySelector(`#cell-${i}-${j}`).innerText = "S";
+            } else if (dataArray[i][j].isEndPoint) {
+                document.querySelector(`#cell-${i}-${j}`).style.backgroundColor = "rgb(86, 66, 50)"
+                document.querySelector(`#cell-${i}-${j}`).innerText = "E";
+            } else if (dataArray[i][j].isWall) {
+                document.querySelector(`#cell-${i}-${j}`).style.backgroundColor = "rgba(86, 66, 50, 0.685)"
+            } else {
+                [
+                    ["backgroundColor", "rgb(248, 247, 240)"],
+                    ["innerText", dataArray[i][j].isStartPoint ? "S" : dataArray[i][j].isEndPoint ? "E" : ""]
+                ].forEach(([key, value]) => { document.querySelector(`#cell-${i}-${j}`).style[key] = value; });
+            }
+        }
+    }
+}
+
 function dyeingFunction([paramA, paramB], _direction) {
     switch (_direction) {
         case "up": document.querySelector(`#cell-${paramA + 1}-${paramB}`).style.backgroundColor = "rgba(175, 161, 58, 0.5)"; break;
@@ -301,7 +310,7 @@ function infoT() {
         // "dA": JSON.stringify(dataArray),//data array//too much data
     }
     _currentUserGameRecord.record[`times${_times}`] = _currentTime;
-    localStorage.setItem((JSON.parse(localStorage.getItem("allUsers"))["_currentUser"] + "-labyrinth"),JSON.stringify(_currentUserGameRecord));
+    localStorage.setItem((JSON.parse(localStorage.getItem("allUsers"))["_currentUser"] + "-labyrinth"), JSON.stringify(_currentUserGameRecord));
 }
 
 function pause() {
