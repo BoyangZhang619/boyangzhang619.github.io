@@ -252,7 +252,7 @@ let timer = setInterval(() => {
     if (isstart) {
         secElement.textContent = ++sec;
         if (sec == 60) {
-            step = 0
+            sec = 0;
             secElement.textContent = step;
             minElement.textContent = ++min;
         }
