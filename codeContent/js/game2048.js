@@ -5,6 +5,7 @@ window.onload = () => {
     minElement = document.querySelectorAll(".showDiv")[0].children[0];
     secElement = document.querySelectorAll(".showDiv")[0].children[2];
     stepElement = document.querySelectorAll(".showDiv")[1].children[0];
+    min = 0, sec = 0, step = 0;
     [Math.floor(Math.random() * 16), Math.floor(Math.random() * 16)].forEach(position => dataArray[Math.floor(position / 4)][position % 4] = Math.ceil(Math.random() * 10) * 2 % 4 + 2);
     console.log("dataArray", dataArray);
     assignFunc(liElements);
@@ -37,7 +38,7 @@ isstart = false;
 function dirFunc(_dir) {
     // move the numbers in the array according to the direction
     if (!isstart) isstart = true;
-    if (["up", "down", "left", "right"].includes(_dir)) stepElement.textContent -= -1;
+    if (["up", "down", "left", "right"].includes(_dir)) stepElement.textContent = ++step;
     switch (_dir) {
         case "up": dirUp(); break;
         case "down": dirDown(); break;
@@ -230,8 +231,8 @@ function infoT() {
     let _times = Object.keys(JSON.parse(localStorage.getItem(JSON.parse(localStorage.getItem("allUsers"))["_currentUser"] + "-game2048")).record).length;
     let _currentUserGameRecord = JSON.parse(localStorage.getItem(JSON.parse(localStorage.getItem("allUsers"))["_currentUser"] + "-game2048"));
     let _currentTime = {
-        "s": +stepElement.textContent,//step
-        "t": +minElement.textContent * 60 - -secElement.textContent,//time
+        "s": step,//step
+        "t": min * 60 + sec,//time
         "mN": currentMaxNumber,//max number
         "bS": currentScore,//best score
         "iS": 1,//is start
@@ -240,7 +241,7 @@ function infoT() {
         "dT": new Date().toLocaleString(),//date time
     }
     _currentUserGameRecord.record[`times${_times}`] = _currentTime;
-    localStorage.setItem((JSON.parse(localStorage.getItem("allUsers"))["_currentUser"] + "-game2048"),JSON.stringify(_currentUserGameRecord));
+    localStorage.setItem((JSON.parse(localStorage.getItem("allUsers"))["_currentUser"] + "-game2048"), JSON.stringify(_currentUserGameRecord));
 }
 
 function pause() {
@@ -249,10 +250,11 @@ function pause() {
 
 let timer = setInterval(() => {
     if (isstart) {
-        secElement.textContent -= -1;
-        if (secElement.textContent == 60) {
-            secElement.textContent = 0;
-            minElement.textContent -= -1;
+        secElement.textContent = ++sec;
+        if (sec == 60) {
+            step = 0
+            secElement.textContent = step;
+            minElement.textContent = ++min;
         }
     }
 }, 1000);

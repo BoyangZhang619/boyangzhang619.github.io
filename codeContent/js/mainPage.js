@@ -174,7 +174,7 @@ function login() {
     let _username = document.querySelector("#username").value;
     let _password = document.querySelector("#password").value;
     if (_username.replaceAll(" ", "") === "" || _password.replaceAll(" ", "") === "") return alert("Please enter your username and password.");
-    if (JSON.parse(localStorage.getItem("allUsers"))[_username] === null || JSON.parse(localStorage.getItem("allUsers"))[_username] !== _password || _username == "_currentUser") return alert("Username or password is incorrect or haven't registered. Please try again.");
+    if (JSON.parse(localStorage.getItem("allUsers"))[_username] === null || JSON.parse(localStorage.getItem("allUsers"))[_username] !== _password || _username == "_currentUser" || _username == "undefined") return alert("Username or password is incorrect or haven't registered. Please try again.");
     let _allUsers = JSON.parse(localStorage.getItem("allUsers"));
     _allUsers["_currentUser"] = _username;
     localStorage.setItem("allUsers", JSON.stringify(_allUsers));

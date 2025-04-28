@@ -5,6 +5,7 @@ window.onload = () => {
     minElement = document.querySelectorAll(".showDiv")[0].children[0];
     secElement = document.querySelectorAll(".showDiv")[0].children[2];
     stepElement = document.querySelectorAll(".showDiv")[1].children[0];
+    min = 0, sec = 0, step = 0;
     currentPoint = [null, null];
     initialCreate(boxWidth);
 }
@@ -27,7 +28,6 @@ class ValueError extends Error {
     }
 }
 function initialCreate(_width) {
-    boxWidth = _width;
     try {
         if (_width >= 200 || _width <= 9) {
             alert("Width must be between 11 and 199.");
@@ -44,6 +44,7 @@ function initialCreate(_width) {
     } finally {
         document.querySelector("#boxWHnum").value = "";
     }
+    boxWidth = _width;
     stepElement.textContent = 0;
     secElement.textContent = 0;
     minElement.textContent = 0;
@@ -219,7 +220,7 @@ function go(_direction) {
             if (dataArray[currentPoint[0] - 1][currentPoint[1]].isWall) return;
             if (dataArray[currentPoint[0] - 1][currentPoint[1]].isVisited) gameScore -= 3;
             dataArray[currentPoint[0] - 1][currentPoint[1]].isVisited = "up";
-            stepElement.textContent -= -1;
+            stepElement.textContent = ++step;
             currentPoint[0] -= 1;
             gameScore += 1;
             // check if the point have arrived at the end point and dye it
@@ -229,7 +230,7 @@ function go(_direction) {
             if (dataArray[currentPoint[0] + 1][currentPoint[1]].isWall) return;
             if (dataArray[currentPoint[0] + 1][currentPoint[1]].isVisited) gameScore -= 3;
             dataArray[currentPoint[0] + 1][currentPoint[1]].isVisited = "down";
-            stepElement.textContent -= -1;
+            stepElement.textContent = ++step;
             currentPoint[0] += 1;
             gameScore += 1;
             dyeingFunction(currentPoint, _direction);
@@ -238,7 +239,7 @@ function go(_direction) {
             if (dataArray[currentPoint[0]][currentPoint[1] - 1].isWall) return;
             if (dataArray[currentPoint[0]][currentPoint[1] - 1].isVisited) gameScore -= 3;
             dataArray[currentPoint[0]][currentPoint[1] - 1].isVisited = "left";
-            stepElement.textContent -= -1;
+            stepElement.textContent = ++step;
             currentPoint[1] -= 1;
             gameScore += 1;
             dyeingFunction(currentPoint, _direction);
@@ -247,7 +248,7 @@ function go(_direction) {
             if (dataArray[currentPoint[0]][currentPoint[1] + 1].isWall) return;
             if (dataArray[currentPoint[0]][currentPoint[1] + 1].isVisited) gameScore -= 3;
             dataArray[currentPoint[0]][currentPoint[1] + 1].isVisited = "right";
-            stepElement.textContent -= -1;
+            stepElement.textContent = ++step;
             currentPoint[1] += 1;
             gameScore += 1;
             dyeingFunction(currentPoint, _direction);
@@ -278,11 +279,11 @@ function infoT() {
     let _times = Object.keys(JSON.parse(localStorage.getItem(JSON.parse(localStorage.getItem("allUsers"))["_currentUser"] + "-labyrinth")).record).length;
     let _currentUserGameRecord = JSON.parse(localStorage.getItem(JSON.parse(localStorage.getItem("allUsers"))["_currentUser"] + "-labyrinth"));
     let _currentTime = {
-        "s": +stepElement.textContent,//step
-        "t": +minElement.textContent * 60 - -secElement.textContent,//time
+        "s": step,//step
+        "t": min * 60 + sec,//time
         "w": boxWidth,//width
         "mN": null,//max number
-        "bS": (+stepElement.textContent) - (+minElement.textContent * 60 - -secElement.textContent) * 2,//best score
+        "bS": (step) - (min * 60 + sec) * 2,//best score
         "iS": 1,//is start
         "iO": 1,//is over 
         "dT": new Date().toLocaleString(),//date time
@@ -297,10 +298,11 @@ function pause() {
 
 function timerFunc() {
     if (!isStart) return;
-    secElement.textContent -= -1;
-    if (secElement.textContent == 60) {
-        secElement.textContent = 0;
-        minElement.textContent -= -1;
+    secElement.textContent = ++sec;
+    if (sec == 60) {
+        sec = 0;
+        secElement.textContent = sec;
+        minElement.textContent = ++min;
         gameScore -= 2;
     }
 }
