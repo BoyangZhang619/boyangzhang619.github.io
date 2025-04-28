@@ -2,7 +2,7 @@ window.onload = function () {
     ["record", "language", "theme", "about", "help"].forEach((elem) => settings(elem, true));// Initialization,create all the element
     info = navigator.userAgent;
     isPhone = /mobile/i.test(info); // if it's a mobile device, isPhone = true
-    if (isPhone) return confirm("This page is not supported on mobile devices. Please use a computer to access it.") ? document.querySelector("html").innerHTML = "there is nothing" : alert("Exactly, you have to use a computer to access it.")? document.querySelector("html").innerHTML = "there is nothing" : null;
+    if (isPhone) return confirm("This page is not supported on mobile devices. Please use a computer to access it.") ? document.querySelector("html").innerHTML = "there is nothing" : alert("Exactly, you have to use a computer to access it.") ? document.querySelector("html").innerHTML = "there is nothing" : null;
     if (localStorage.getItem("isInfoTransferOpen") === null) {
         localStorage.setItem("allUsers", JSON.stringify({ "_currentUser": "undefined" }));
         localStorage.setItem("isInfoTransferOpen", "of course!");
@@ -13,7 +13,7 @@ window.onload = function () {
         isLogin = true;
         document.querySelector("#hello").textContent = `Hello, ${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}`;
         document.querySelector("#hello").style.display = "block";
-    }else{
+    } else {
         document.querySelector("#login").style.display = "block";
     }
 }
@@ -174,7 +174,8 @@ function login() {
     let _username = document.querySelector("#username").value;
     let _password = document.querySelector("#password").value;
     if (_username.replaceAll(" ", "") === "" || _password.replaceAll(" ", "") === "") return alert("Please enter your username and password.");
-    if (JSON.parse(localStorage.getItem("allUsers"))[_username] === null || JSON.parse(localStorage.getItem("allUsers"))[_username] !== _password || _username == "_currentUser" || _username == "undefined") return alert("Username or password is incorrect or haven't registered. Please try again.");
+    try { if (JSON.parse(localStorage.getItem("allUsers"))[_username] === null || atob(JSON.parse(localStorage.getItem("allUsers"))[_username]) !== _password || _username == "_currentUser" || _username == "undefined") return alert("Username or password is incorrect or haven't registered. Please try again."); }
+    catch { return alert("Username or password is incorrect or haven't registered. Please try again.."); }
     let _allUsers = JSON.parse(localStorage.getItem("allUsers"));
     _allUsers["_currentUser"] = _username;
     localStorage.setItem("allUsers", JSON.stringify(_allUsers));
@@ -187,13 +188,13 @@ function login() {
 function register() {
     let _username = document.querySelector("#username").value;
     let _password = document.querySelector("#password").value;
-    let _isUsernameExist = !!localStorage.getItem(_username);
+    let _isUsernameExist = !!JSON.parse(localStorage.getItem("allUsers"))[_username];
     const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[a-zA-Z0-9]{6,}$/;
     if (_username.replaceAll(" ", "") === "" || _password.replaceAll(" ", "") === "") return alert("Please enter your username and password.");
     if (_isUsernameExist) return alert("This username already exists. Please choose another one or login this account.");
     else if (!passwordRegex.test(_password)) return alert("Password must be at least 6 characters long and contain at least one uppercase letter, one lowercase letter, and one number.");
     let _allUsers = JSON.parse(localStorage.getItem("allUsers"));
-    _allUsers[_username] = _password;
+    _allUsers[_username] = btoa(_password);
     localStorage.setItem("allUsers", JSON.stringify(_allUsers));
     ["game2048", "labyrinth", "mineClearance", "klotski"].forEach((elem) => {
         localStorage.setItem(`${_username}-${elem}`, JSON.stringify({ "gameInfo": {}, "record": { "times0": { "this one isn't a record": "undefined" } } }));
@@ -202,4 +203,28 @@ function register() {
     document.querySelector("#password").value = "";
     alert("you have registered successfully! Please login to continue.");
     // there will be some thing about register
+}
+
+function logout() {
+    if (!isLogin) return alert("Please login to logout.");
+    let _allUsers = JSON.parse(localStorage.getItem("allUsers"));
+    _allUsers["_currentUser"] = "undefined";
+    localStorage.setItem("allUsers", JSON.stringify(_allUsers));
+    document.querySelector("#login").style.display = "block";
+    document.querySelector("#hello").style.display = "none";
+    isLogin = false;
+}
+
+function deleteAccount() {
+    if (!isLogin) return alert("Please login to delete your account.");
+    let _allUsers = JSON.parse(localStorage.getItem("allUsers"));
+    delete _allUsers[JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]];
+    localStorage.setItem("allUsers", JSON.stringify(_allUsers));
+    localStorage.removeItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-info`);
+    ["game2048", "labyrinth", "mineClearance", "klotski"].forEach((elem) => {
+        localStorage.removeItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-${elem}`);
+    });
+    document.querySelector("#login").style.display = "block";
+    document.querySelector("#hello").style.display = "none";
+    isLogin = false;
 }

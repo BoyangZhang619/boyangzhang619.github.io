@@ -5,11 +5,12 @@ window.onload = () => {
     minElement = document.querySelectorAll(".showDiv")[0].children[0];
     secElement = document.querySelectorAll(".showDiv")[0].children[2];
     stepElement = document.querySelectorAll(".showDiv")[1].children[0];
-    min = 0, sec = 0, step = 0;
     currentPoint = [null, null];
     initialCreate(boxWidth);
 }
+
 window.addEventListener("resize", () => { pageStyleFunc(boxWidth) });
+
 window.onkeydown = function (event) {
     if (currentPoint[0] == null || currentPoint[1] == null) return;
     let key = event.code;
@@ -21,18 +22,20 @@ window.onkeydown = function (event) {
     }
     console.log(`${key} pressed|time: ${new Date().toLocaleTimeString()}`);
 }
+
 class ValueError extends Error {
     constructor(message) {
         super(message);
         this.name = "ValueError";
     }
 }
+
 function initialCreate(_width) {
     try {
-        if (_width >= 200 || _width <= 9) {
-            alert("Width must be between 11 and 199.");
-            throw new ValueError("Width must be between 11 and 199.")
-        }
+        // if (_width >= 200 || _width <= 9) {
+        //     alert("Width must be between 11 and 199.");
+        //     throw new ValueError("Width must be between 11 and 199.")
+        // }
         if ((_width - 1) % 2 !== 0) {
             alert("Width must be an odd number.");
             throw new ValueError("Width must be an odd number");
@@ -48,6 +51,7 @@ function initialCreate(_width) {
     stepElement.textContent = 0;
     secElement.textContent = 0;
     minElement.textContent = 0;
+    min = 0, sec = 0, step = 0;
     isStart = false;
     currentPoint = [null, null];
     document.querySelector("#box").innerHTML = ""; // Clear the previous labyrinth
@@ -74,6 +78,7 @@ function initialCreate(_width) {
     pageStyleFunc(_width);
     createLabyrinth(_width);
 }
+
 function createLabyrinth(_width) {
     // Create the labyrinth structure
     const [_startPoint, _endPoint] = createStartEnd(_width);
@@ -88,6 +93,7 @@ function createLabyrinth(_width) {
     currentPoint = _startPoint;
     dataArray[currentPoint[0]][currentPoint[1]].isVisited = "start";
 }
+
 function createStartEnd(_width) {
     let _switchNum = -1;
     do {
@@ -100,6 +106,7 @@ function createStartEnd(_width) {
         case 3: return [[(_width - 1) / 2, _width - 2], [(_width - 1) / 2, 1]];//right,left
     }
 }
+
 function createPath(_width, _startPoint, _endPoint) {
     //start from the center of the labyrinth
     let _currentPoint = (_width + 1) % 4 ? [(_width + 1) / 2, (_width + 1) / 2] : [(_width - 1) / 2, (_width - 1) / 2];
@@ -109,8 +116,8 @@ function createPath(_width, _startPoint, _endPoint) {
     let _pathAllowed = 1;
     let _pathAllowedNum = 0;
     do {
-        console.log("path:", _path);
-        console.log("current coordinate:", _currentPoint);
+        // console.log("path:", _path);
+        // console.log("current coordinate:", _currentPoint);
         //detect the quantity of path-allowed directions
         if (_currentPoint[0] > 2 && dataArray[_currentPoint[0] - 2][_currentPoint[1]].isWall) {
             _pathAllowed *= 2;
@@ -205,6 +212,7 @@ function createPath(_width, _startPoint, _endPoint) {
         }
     }
 }
+
 function pageStyleFunc(_width) {
     console.log(_width)
     if (parseInt(window.getComputedStyle(document.querySelector("#main").children[0]).width) < parseInt(window.getComputedStyle(document.querySelector("#main").children[0]).height)) {
@@ -213,6 +221,7 @@ function pageStyleFunc(_width) {
         [["--width", _width], ["--paramA", 100], ["--paramB", -7.5]].forEach(([key, value]) => { document.documentElement.style.setProperty(key, value); });
     }
 }
+
 function go(_direction) {
     isStart = isStart ? isStart : true;
     switch (_direction) {
@@ -255,6 +264,7 @@ function go(_direction) {
             break;
     }
 }
+
 function dyeingFunction([paramA, paramB], _direction) {
     switch (_direction) {
         case "up": document.querySelector(`#cell-${paramA + 1}-${paramB}`).style.backgroundColor = "rgba(175, 161, 58, 0.5)"; break;
@@ -270,6 +280,7 @@ function dyeingFunction([paramA, paramB], _direction) {
         return;
     }
 }
+
 function restart() {
     document.querySelector("#box").innerHTML = ""; // Clear the previous labyrinth
     initialCreate(boxWidth);
@@ -292,6 +303,7 @@ function infoT() {
     _currentUserGameRecord.record[`times${_times}`] = _currentTime;
     localStorage.setItem((JSON.parse(localStorage.getItem("allUsers"))["_currentUser"] + "-labyrinth"),JSON.stringify(_currentUserGameRecord));
 }
+
 function pause() {
     isStart = isStart ? false : true;
 }
