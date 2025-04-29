@@ -2,7 +2,7 @@ window.onload = function () {
     ["record", "language", "theme", "about", "help"].forEach((elem) => settings(elem, true));// Initialization,create all the element
     info = navigator.userAgent;
     isPhone = /mobile/i.test(info); // if it's a mobile device, isPhone = true
-    if (isPhone) return confirm("This page is not supported on mobile devices. Please use a computer to access it.") ? document.querySelector("html").innerHTML = "there is nothing" : alert("Exactly, you have to use a computer to access it.") ? document.querySelector("html").innerHTML = "there is nothing" : null;
+    // if (isPhone) return confirm("This page is not supported on mobile devices. Please use a computer to access it.") ? document.querySelector("html").innerHTML = "there is nothing" : alert("Exactly, you have to use a computer to access it.") ? document.querySelector("html").innerHTML = "there is nothing" : null;
     if (localStorage.getItem("isInfoTransferOpen") === null) {
         localStorage.setItem("allUsers", JSON.stringify({ "_currentUser": "undefined" }));
         localStorage.setItem("isInfoTransferOpen", "of course!");

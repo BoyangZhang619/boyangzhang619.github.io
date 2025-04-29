@@ -6,6 +6,10 @@ window.onload = () => {
     secElement = document.querySelectorAll(".showDiv")[0].children[2];
     stepElement = document.querySelectorAll(".showDiv")[1].children[0];
     min = 0, sec = 0, step = 0;
+    startX = 0;
+    startY = 0;
+    endX = 0;
+    endY = 0;
     [Math.floor(Math.random() * 16), Math.floor(Math.random() * 16)].forEach(position => dataArray[Math.floor(position / 4)][position % 4] = Math.ceil(Math.random() * 10) * 2 % 4 + 2);
     console.log("dataArray", dataArray);
     assignFunc(liElements);
@@ -15,7 +19,6 @@ window.onload = () => {
     // info = navigator.userAgent;
     // isPhone = /mobile/i.test(info); // if it's a mobile device, isPhone = true
 }
-
 window.onkeyup = function (event) {
     let key = event.code;
     switch (key) {
@@ -34,6 +37,45 @@ let liBGC = { "2": "198, 202, 185, .3", "4": "186, 188, 170, .3", "8": "173, 164
 currentScore = 0;
 currentMaxNumber = 0;
 isstart = false;
+
+const minSwipeDistance = 50;
+let touchArea = document.querySelector("#main>main");
+touchArea.addEventListener('touchstart', handleTouchStart);
+touchArea.addEventListener('touchmove', handleTouchMove);
+touchArea.addEventListener('touchend', handleTouchEnd);
+function handleTouchStart(event) {
+    event.preventDefault();
+    const touch = event.touches[0];
+    startX = touch.clientX;
+    startY = touch.clientY;
+}
+
+function handleTouchMove(event) {
+    const touch = event.touches[0];
+    endX = touch.clientX;
+    endY = touch.clientY;
+}
+
+function handleTouchEnd() {
+    const deltaX = endX - startX;
+    const deltaY = endY - startY;
+    if (Math.abs(deltaX) < minSwipeDistance && Math.abs(deltaY) < minSwipeDistance) {
+        return;
+    }
+    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+        if (deltaX > 0) {
+            dirFunc("right");
+        } else {
+            dirFunc("left");
+        }
+    } else {
+        if (deltaY > 0) {
+            dirFunc("down");
+        } else {
+            dirFunc("up");
+        }
+    }
+}
 
 function dirFunc(_dir) {
     // move the numbers in the array according to the direction
