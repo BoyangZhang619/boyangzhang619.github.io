@@ -33,8 +33,8 @@ function recordChanged(type) {
     function showGame2048Record() {
         let _temporaryString = `<h1 class="interpElem">Record of game2048</h1><hr/><ul class="recordList">`;
         let _game2048Record = JSON.parse(localStorage.getItem(JSON.parse(localStorage.getItem("allUsers"))["_currentUser"] + "-game2048"));
-        for (i = 0; i < Object.keys(_game2048Record.record).length - 1; i++) {
-            recordTypeKey = Object.keys(_game2048Record.record)[i + 1];
+        for (i = Object.keys(_game2048Record.record).length - 1; i > 0 ; i--) {
+            recordTypeKey = Object.keys(_game2048Record.record)[i];
             _temporaryString += `<li class="recordListChoice interpElem">
             <div>Step<hr/><strong>${_game2048Record.record[recordTypeKey].s}</strong></div>
             <div>Time<hr/><strong>${_game2048Record.record[recordTypeKey].t}</strong></div>

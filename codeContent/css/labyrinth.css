@@ -1,5 +1,5 @@
 :root {
-	--width: 49;
+	--width: 29;
 	--height: var(--width);
 	--paramA: 0;
 	--paramB: 0;
@@ -40,9 +40,11 @@ li {
 #box {
 	max-width: calc(100vh - 7.5vw);
 	max-height: calc(100vh - 7.5vw);
+	height: calc((var(--paramA) * vh) + (var(--paramB) * 1vw));
+	width: calc((var(--paramA) * vh) + (var(--paramB) * 1vw));
 	aspect-ratio: 1;
 	margin: 0 auto;
-	border-radius: 8px;
+	/* border-radius: 8px; */
 	box-shadow: 2px 2px 5px black;
 	/* background-color: rgba(86, 66, 50, 0.3); */
 }

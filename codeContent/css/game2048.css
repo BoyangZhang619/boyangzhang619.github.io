@@ -1,16 +1,19 @@
-#aside>*{
+#aside>* {
 	margin: 3vh auto 2vh;
 	text-align: center;
 	/* font-size: 5vh; */
 	font-weight: 500;
 }
-#aside>h2{
+
+#aside>h2 {
 	font-size: 3.75vh;
 }
-#aside>div{
+
+#aside>div {
 	font-size: 3vh;
 }
-li{
+
+li {
 	aspect-ratio: 1/1;
 	float: left;
 	background-color: rgba(86, 66, 50, 0.3);
@@ -18,40 +21,50 @@ li{
 	/* line-height: calc(25vh - 1.875vw); */
 	font-weight: 900;
 	color: aliceblue;
-    text-overflow: unset;
+	text-overflow: unset;
 }
-#box2048{
+
+#box2048 {
 	max-width: calc(100vh - 7.5vw);
 	max-height: calc(100vh - 7.5vw);
 	aspect-ratio: 1;
 	background-color: rgb(248, 247, 240, 0.3);
 	margin: 0 auto;
-	box-shadow: 2px 2px 5px rgba(86,66,50, 1);
+	box-shadow: 2px 2px 5px rgba(86, 66, 50, 1);
 }
 
-#back,#intro,#pause,#restart{
+#back,
+#intro,
+#pause,
+#restart {
 	color: rgb(248, 247, 240);
 	width: 20vw;
 	border-radius: 10px;
 	background-color: rgba(86, 66, 50, 0.685);
 	transition: all 0.2s 0s linear;
-	box-shadow: 2px 2px 10px 1px rgba(86,66,50, 0.685) ;
+	box-shadow: 2px 2px 10px 1px rgba(86, 66, 50, 0.685);
 	font-size: 3vh;
-	line-height : 6vh;
-	height:6vh;
+	line-height: 6vh;
+	height: 6vh;
 	margin: 10px auto;
 }
-#back:hover,#intro:hover,#pause:hover,#restart:hover{
+
+#back:hover,
+#intro:hover,
+#pause:hover,
+#restart:hover {
 	transition: all 0.2s 0s linear;
-	box-shadow: .5px .5px 3px 1px rgba(86, 66, 50, 0.877) ;
+	box-shadow: .5px .5px 3px 1px rgba(86, 66, 50, 0.877);
 }
-#admin{
+
+#admin {
 	overflow: scroll;
 	width: 30vw;
 	position: absolute;
 	bottom: 7.5vh;
 	height: 32.5vh;
 }
-.showDiv{
+
+.showDiv {
 	font-size: 3vh !important;
 }

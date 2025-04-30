@@ -10,6 +10,7 @@ window.onload = () => {
     startY = 0;
     endX = 0;
     endY = 0;
+    isGameOver = false;
     [Math.floor(Math.random() * 16), Math.floor(Math.random() * 16)].forEach(position => dataArray[Math.floor(position / 4)][position % 4] = Math.ceil(Math.random() * 10) * 2 % 4 + 2);
     console.log("dataArray", dataArray);
     assignFunc(liElements);
@@ -236,9 +237,10 @@ function isover() {
         if (dataArray[levelA][levelB] == dataArray[levelA][levelB + 1]) return;
         if (dataArray[levelB][levelA] == dataArray[levelB + 1][levelA]) return;
         if (levelA == 3 && levelB == 2) {
-            alert("Game over");
+            // alert("Game over");
             infoT();
-            isstart = false;
+            restart();
+            isGameOver = true;
             break;
         }
     }
@@ -248,9 +250,11 @@ function pageStyleFunc() {
     if (parseInt(window.getComputedStyle(mainTagElement.children[0]).width) < parseInt(window.getComputedStyle(mainTagElement.children[0]).height)) {
         liElements.forEach(elem => elem.style.width = elem.style.lineHeight = "17.5vw");//70vw / 4
         liElements.forEach(elem => elem.style.fontSize = "calc(17.5vw / 3)");// 1/3 of 17.5vw
+        document.querySelector("#box").style.margin = "calc(50vh - 38.75vw) auto";
     } else {
         liElements.forEach(elem => elem.style.width = elem.style.lineHeight = "calc(25vh - 1.875vw)");//(100vh - 7.5vw) / 4
         liElements.forEach(elem => elem.style.fontSize = "calc((25vh - 1.875vw) / 3)");// 1/3 of 25vh - 1.875vw
+        document.querySelector("#box").style.margin = "0 auto";
     }
 }
 
@@ -267,6 +271,7 @@ function restart() {
     stepElement.textContent = 0;
     currentMaxNumber = 0;
     currentScore = 0;
+    min = 0, sec = 0, step = 0;
 }
 
 function infoT() {
@@ -300,3 +305,23 @@ let timer = setInterval(() => {
         }
     }
 }, 1000);
+
+//--------------------------
+function automaticPlay() {
+    if (isGameOver) {
+        let promise = new Promise(resolve => {
+            setTimeout(() => {
+                resolve();
+            }, 1000); // Adjust the delay as needed
+        });
+        promise.then(() => {
+            isGameOver = false; // Reset the game over state
+            automaticPlay() // Restart the automatic play after a delay
+        });
+        return;
+    }
+    let direction = ["down", "right"];
+    let randomDirection = direction[Math.floor(Math.random() * 2)];
+    dirFunc(randomDirection);
+    setTimeout(automaticPlay); // Adjust the interval as needed
+}

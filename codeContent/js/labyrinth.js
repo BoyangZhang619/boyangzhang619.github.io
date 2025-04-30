@@ -5,8 +5,8 @@ window.onload = () => {
     gameScore = 0;
     startX = 0;
     startY = 0;
-    endX = 0;
-    endY = 0;
+    movedX = 0;
+    movedY = 0;
     minElement = document.querySelectorAll(".showDiv")[0].children[0];
     secElement = document.querySelectorAll(".showDiv")[0].children[2];
     stepElement = document.querySelectorAll(".showDiv")[1].children[0];
@@ -36,44 +36,35 @@ class ValueError extends Error {
     }
 }
 
-const minSwipeDistance = 50;
+const minSwipeDistance = 10;
 let touchArea = document.querySelector("#main>main");
 touchArea.addEventListener('touchstart', handleTouchStart);
 touchArea.addEventListener('touchmove', handleTouchMove);
-touchArea.addEventListener('touchend', handleTouchEnd);
 function handleTouchStart(event) {
     event.preventDefault();
     const touch = event.touches[0];
     startX = touch.clientX;
     startY = touch.clientY;
+    movedX = touch.clientX;
+    movedY = touch.clientY;
 }
 
 function handleTouchMove(event) {
     const touch = event.touches[0];
-    endX = touch.clientX;
-    endY = touch.clientY;
+    const deltaX = touch.clientX - movedX;
+    const deltaY = touch.clientY - movedY;
+    if (Math.abs(deltaX) < minSwipeDistance && Math.abs(deltaY) < minSwipeDistance) return;
+    movedX = touch.clientX;
+    movedY = touch.clientY;
+    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+        if (deltaX > 0) go("right");
+        else go("left");
+    } else {
+        if (deltaY > 0) go("down");
+        else go("up");
+    }
 }
 
-function handleTouchEnd() {
-    const deltaX = endX - startX;
-    const deltaY = endY - startY;
-    if (Math.abs(deltaX) < minSwipeDistance && Math.abs(deltaY) < minSwipeDistance) {
-        return;
-    }
-    if (Math.abs(deltaX) > Math.abs(deltaY)) {
-        if (deltaX > 0) {
-            go("right");
-        } else {
-            go("left");
-        }
-    } else {
-        if (deltaY > 0) {
-            go("down");
-        } else {
-            go("up");
-        }
-    }
-}
 
 function initialCreate(_width) {
     try {
@@ -271,8 +262,10 @@ function createPath(_width, _startPoint, _endPoint) {
 function pageStyleFunc(_width) {
     console.log(_width)
     if (parseInt(window.getComputedStyle(document.querySelector("#main").children[0]).width) < parseInt(window.getComputedStyle(document.querySelector("#main").children[0]).height)) {
+        document.querySelector("#box").style.margin = "calc(50vh - 38.75vw) auto";
         [["--width", _width], ["--paramA", 0], ["--paramB", 70]].forEach(([key, value]) => { document.documentElement.style.setProperty(key, value); });
     } else {
+        document.querySelector("#box").style.margin = "0 auto";
         [["--width", _width], ["--paramA", 100], ["--paramB", -7.5]].forEach(([key, value]) => { document.documentElement.style.setProperty(key, value); });
     }
 }
