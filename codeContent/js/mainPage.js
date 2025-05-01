@@ -3,8 +3,9 @@ window.onload = function () {
     info = navigator.userAgent;
     isPhone = /mobile/i.test(info); // if it's a mobile device, isPhone = true
     // if (isPhone) return confirm("This page is not supported on mobile devices. Please use a computer to access it.") ? document.querySelector("html").innerHTML = "there is nothing" : alert("Exactly, you have to use a computer to access it.") ? document.querySelector("html").innerHTML = "there is nothing" : null;
-    if (localStorage.getItem("isInfoTransferOpen") === null) {
+    if (localStorage.getItem("isInfoTransferOpen") === null) {// localStoragr
         localStorage.setItem("allUsers", JSON.stringify({ "_currentUser": "undefined" }));
+        localStorage.setItem("userDevice", JSON.stringify({ "isPhone": isPhone }));
         localStorage.setItem("isInfoTransferOpen", "of course!");
     }
     if (JSON.parse(localStorage.getItem("allUsers"))["_currentUser"] !== "undefined") {

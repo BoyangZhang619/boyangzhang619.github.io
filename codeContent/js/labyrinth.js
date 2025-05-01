@@ -1,5 +1,5 @@
 window.onload = () => {
-    boxWidth = 29;
+    boxWidth = 29;// means 29 blocks in a row and 29 blocks in a column
     creatingBoxIndex = 0;
     isStart = false;
     gameScore = 0;
@@ -18,6 +18,7 @@ window.onload = () => {
 window.addEventListener("resize", () => { pageStyleFunc(boxWidth) });
 
 window.onkeydown = function (event) {
+    // event.preventDefault();
     if (currentPoint[0] == null || currentPoint[1] == null) return;
     let key = event.code;
     switch (key) {
@@ -68,10 +69,10 @@ function handleTouchMove(event) {
 
 function initialCreate(_width) {
     try {
-        if (_width >= 150 || _width <= 10) {
-            alert("Width must be between 11 and 149.");
-            throw new ValueError("Width must be between 11 and 149.")
-        }
+        // if (_width >= 150 || _width <= 10) {
+        //     alert("Width must be between 11 and 149.");
+        //     throw new ValueError("Width must be between 11 and 149.")
+        // }
         if ((_width - 1) % 2 !== 0) {
             alert("Width must be an odd number.");
             throw new ValueError("Width must be an odd number");
@@ -104,29 +105,32 @@ function initialCreate(_width) {
     };
     pageStyleFunc(_width);
     createLabyrinth(_width);
-    let promise = new Promise(resolve => resolve());
-    document.querySelector("#box").style.display = "block";
+    let promise = new Promise(resolve => {
+        setTimeout(() => resolve())
+    });
     promise.then(creatingBox());
     function creatingBox() {
+        document.querySelector("#wait").textContent = `Please Wait A Moment(${((creatingBoxIndex + 1) / _width * 100).toFixed(0)}%)`;
         let row = document.createElement("ul");
         row.className = "labyrinthRow";
         row.id = `row-${creatingBoxIndex}`;
-        document.querySelector("#box").appendChild(row);
-        for (let j = 0; j < _width; j++) {
+        for (let i = 0; i < _width; i++) {
             let cell = document.createElement("li");
             cell.className = "labyrinthCell";
-            cell.id = `cell-${creatingBoxIndex}-${j}`;
+            cell.id = `cell-${creatingBoxIndex}-${i}`;
             row.appendChild(cell);
         }
-        for (let j = 0; j < _width; j++) {
-            if (dataArray[creatingBoxIndex][j].isWall) {
-                document.querySelector(`#cell-${creatingBoxIndex}-${j}`).style.backgroundColor = "#84756A";
+        document.querySelector("#box").appendChild(row);
+        for (let i = 0; i < _width; i++) {
+            if (dataArray[creatingBoxIndex][i].isWall) {
+                document.querySelector(`#cell-${creatingBoxIndex}-${i}`).style.backgroundColor = "rgb(132, 117, 106)";
             } else {
-                document.querySelector(`#cell-${creatingBoxIndex}-${j}`).style.backgroundColor = "rgb(248, 247, 240)";
-                document.querySelector(`#cell-${creatingBoxIndex}-${j}`).style.innerText = dataArray[creatingBoxIndex][j].isStartPoint ? "S" : dataArray[creatingBoxIndex][j].isEndPoint ? "E" : "";
+                document.querySelector(`#cell-${creatingBoxIndex}-${i}`).style.backgroundColor = "rgb(248, 247, 240)";
+                document.querySelector(`#cell-${creatingBoxIndex}-${i}`).style.innerText = dataArray[creatingBoxIndex][i].isStartPoint ? "S" : dataArray[creatingBoxIndex][i].isEndPoint ? "E" : "";
             }
         }
-        if (creatingBoxIndex == _width - 1) {
+            creatingBoxIndex++;
+        if (creatingBoxIndex == _width) {
             creatingBoxIndex = 0;
             document.querySelector(`#cell-${startPoint[0]}-${startPoint[1]}`).style.backgroundColor = "rgb(88, 84, 48)"
             document.querySelector(`#cell-${startPoint[0]}-${startPoint[1]}`).innerText = "S";
@@ -134,10 +138,10 @@ function initialCreate(_width) {
             document.querySelector(`#cell-${endPoint[0]}-${endPoint[1]}`).innerText = "E";
             document.querySelector("#boxWHnum").disabled = false;
             document.querySelector("#wait").style.display = "none";
+            document.querySelector("#box").style.display = "block";
             return;
         }
-        if (creatingBoxIndex < _width - 1) {
-            creatingBoxIndex++;
+        if (creatingBoxIndex < _width) {
             setTimeout(creatingBox, 0);
         }
     }
@@ -260,7 +264,6 @@ function createPath(_width, _startPoint, _endPoint) {
 }
 
 function pageStyleFunc(_width) {
-    console.log(_width)
     if (parseInt(window.getComputedStyle(document.querySelector("#main").children[0]).width) < parseInt(window.getComputedStyle(document.querySelector("#main").children[0]).height)) {
         document.querySelector("#box").style.margin = "calc(50vh - 38.75vw) auto";
         [["--width", _width], ["--paramA", 0], ["--paramB", 70]].forEach(([key, value]) => { document.documentElement.style.setProperty(key, value); });

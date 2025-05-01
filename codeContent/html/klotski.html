@@ -2,36 +2,47 @@
 <html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Webgame-klotski</title>
-		<link type="text/css" rel="stylesheet" href="../css/klotski.css" />
-		<link rel="icon" href="../../imageContent/icon.jpg" type="image/x-icon">
-		<script src="../js/jQuery.min.js" type="text/javascript" charset="utf-8"></script>
-	</head>
-	<body onchange="pageChange()">
-		<header id="header">
-			<h2>klotski-华容道</h2>
-		</header>
-		<main id="main">
-			<main> 
-				<div id="a"></div>
-			</main>
-			<aside id="aside">
-				<h2 id="time">Times</h2>
-				<div class="showDiv">0min(s)|0sec(s)</div>
-				<h2 id="step">Steps</h2>
-				<div class="showDiv">0step(s)</div>
-				<div id="admin">
-					
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Webgame-klotski</title>
+	<link type="text/css" rel="stylesheet" href="../css/klotski.css" />
+	<link type="text/css" rel="stylesheet" href="../css/common.css" />
+	<link rel="icon" href="../../imageContent/icon.jpg" type="image/x-icon">
+</head>
+
+<body>
+	<header id="header">
+		<h2>klotski</h2>
+	</header>
+	<main id="main">
+		<main>
+			<div id="box"></div>
+		</main>
+		<aside id="aside">
+			<h2 id="time" class="interpElem">Time</h2>
+			<div class="showDiv">
+				<span>0</span>
+				<span class="interpElem">min(s)|</span>
+				<span>0</span>
+				<span class="interpElem">sec(s)</span>
+			</div>
+			<h2 id="step" class="interpElem">Steps</h2>
+			<div class="showDiv">
+				<span>0</span>
+				<span class="interpElem">step(s)</span>
+			</div>
+			<div id="admin">
+				<input id="boxWHnum" type="text" placeholder="wid[odd]">
+				<input id="boxWH" type="button" value="Set" onclick="initialCreate(+document.querySelector('#boxWHnum').value)">
 				<div id="restart" onclick="restart()">Restart</div>
-				<div id="pause" onclick="pause()">Time Pause</div>
+				<div id="pause" onclick="pause()">Pause/Resume</div>
 				<div id="intro" onclick="intro('klotski')">Game Intro</div>
 				<div id="back" onclick="back()">Back</div>
-				</div>
-			</aside>
-		</main>
-		<script src="../js/common.js"></script>
-		<script src="../js/klotski.js"></script>
-	</body>
+			</div>
+		</aside>
+	</main>
+	<script src="../js/common.js"></script>
+	<script src="../js/klotski.js"></script>
+</body>
+
 </html>

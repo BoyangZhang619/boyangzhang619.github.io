@@ -18,12 +18,12 @@ function getLocalStorageSize() {
     let total = 0;
     for (let key in localStorage) {
         if (localStorage.hasOwnProperty(key)) {
-            total += (key.length + localStorage[key].length) * 2; // UTF-16 编码，每个字符占 2 字节
+            total += (key.length + localStorage[key].length) * 2; // 2 bytes per character (UTF-16)
         }
     }
-    return total; // 返回字节数
+    return total;
 }
 
-if (getLocalStorageSize() > 4.5 * 1024 * 1024) { // 接近 5MB 时预警
-    console.log("存储空间即将用尽");
+if (getLocalStorageSize() > 4.5 * 1024 * 1024) { // alarm when local storage is over 4.5MB
+    console.log("the storage space will be used up soon, please clear the local storage.");
 }
