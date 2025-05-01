@@ -69,10 +69,10 @@ function handleTouchMove(event) {
 
 function initialCreate(_width) {
     try {
-        // if (_width >= 150 || _width <= 10) {
-        //     alert("Width must be between 11 and 149.");
-        //     throw new ValueError("Width must be between 11 and 149.")
-        // }
+        if (_width >= 150 || _width <= 10) {
+            alert("Width must be between 11 and 149.");
+            throw new ValueError("Width must be between 11 and 149.")
+        }
         if ((_width - 1) % 2 !== 0) {
             alert("Width must be an odd number.");
             throw new ValueError("Width must be an odd number");
