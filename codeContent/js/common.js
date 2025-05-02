@@ -7,6 +7,11 @@ gameIntroContent = {
     "labyrinth": "Genre: Pathfinding puzzle\n\nGameplay: Navigate through a labyrinth from a start point to an exit, avoiding dead ends. Mazes can be physical (paper) or digital.\n\nKey Feature: Tests memory and problem-solving skills, often with time limits or hidden traps in modern versions.",
     "mineClearance": "Genre: Logic puzzle\n\nGameplay: Clear a grid of hidden mines using numeric clues indicating nearby explosives. Right-click to flag suspected mines.\n\nKey Feature: Iconic Windows pre-installed game since 1990; balances luck and deductive reasoning.",
 }
+window.addEventListener("pointerdown", () => {
+    if (document.documentElement.requestFullscreen && /mobile/i.test(navigator.userAgent)) {
+      document.documentElement.requestFullscreen();
+    }
+});
 function gameIntro(type) {
     //run the func which pauses the game
     alert(gameIntroContent[type]);

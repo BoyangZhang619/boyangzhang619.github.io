@@ -32,10 +32,8 @@
 				<span class="interpElem">mine(s)</span>
 			</div>
 			<div id="admin">
-				<input class="boxWHnum" type="text" placeholder="width">
-				<input class="boxWHnum" type="text" placeholder="mines">
-				<!-- <input id="lei" type="button" value="Set" onclick="start(parseInt(document.querySelector('#boxWHnum').value))"> -->
-				<div id="boxWH" onclick="start(parseInt(document.querySelector('.boxWHnum').value),document.querySelectorAll('.boxWHnum')[1].value)">Set</div>
+				<input id="boxWHnum" type="text" placeholder="wid,mines">
+				<input id="boxWH" type="button" value="Set" onclick="initialCreate(null,document.querySelector('#boxWHnum').value)">
 				<div id="restart" onclick="restart()">Restart</div>
 				<div id="pause" onclick="pause()">Pause/Resume</div>
 				<div id="intro" onclick="gameIntro('mineClearance')">Game Intro</div>

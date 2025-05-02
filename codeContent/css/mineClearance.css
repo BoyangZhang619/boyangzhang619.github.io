@@ -52,7 +52,7 @@ li {
 	flex: 1;
 	min-width: 0;
 	text-align: center;
-	color: silver;
+	color: rgb(132, 117, 106);
 	line-height: calc((var(--paramA) / var(--width) * 1vh) + (var(--paramB) / var(--width) * 1vw));
 	font-size: calc((var(--paramA) / var(--width) * 1vh) + (var(--paramB) / var(--width) * 1vw));
 	transition: all 0.2s 0s linear;
@@ -95,15 +95,19 @@ li:hover{
 	height: 32.5vh;
 }
 
-.boxWHnum {
+#boxWH {
+	width: 7vw !important;
+	margin-left: 1vw;
 	display: inline-block !important;
-	width: 9.5vw !important;
+	border: none !important;
+}
+
+#boxWHnum {
+	display: inline-block !important;
+	width: 12vw !important;
 	border: none !important;
 	color: rgba(86, 66, 50, 0.877) !important;
 	background-color: rgba(248, 247, 240, .5) !important;
-}
-.boxWHnum:nth-child(2) {
-	margin-left: .5vw !important;
 }
 
 .showDiv {
