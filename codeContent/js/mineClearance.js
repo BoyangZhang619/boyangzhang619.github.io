@@ -2,10 +2,16 @@ window.onload = () => {
     boxWidth = 10;// means 25 blocks in a row and 25 blocks in a column
     minesCount = 16;// means 49 mines in total
     creatingBoxIndex = 0;
+    min = 0, sec = 0, remMines = minesCount;
+    isStart = false;
+    isOver = false;
     isMapCreated = false;
     isClickAllowed = true;
     isDbClickAllowed = false;
     isRightClickAllowed = false;
+    minElement = document.querySelectorAll(".showDiv")[0].children[0];
+    secElement = document.querySelectorAll(".showDiv")[0].children[2];
+    remMinesElement = document.querySelectorAll(".showDiv")[1].children[0];
     initialCreate(boxWidth);
 }
 window.addEventListener("resize", () => { pageStyleFunc(boxWidth) });
@@ -14,12 +20,12 @@ document.querySelector("#box").addEventListener("click", (event) => {
     event.preventDefault();
     if (!isClickAllowed) return;
     if (event.target.className == "cell") {
+        isStart = true;
         let cellId = event.target.id.split("-");
         let row = parseInt(cellId[1]);
         let column = parseInt(cellId[2]);
         if (!isMapCreated) return createMineMap(row, column);
         if (dataArray[row][column].isShow || dataArray[row][column].isFlagged || dataArray[row][column].isQuestion) return;
-        if (dataArray[row][column].isMine) alert("Game Over!");
         if (dataArray[row][column].isMine) return isGameOver("gameover");
         showEmpty(row, column);
         isGameOver();
@@ -69,9 +75,12 @@ document.querySelector("#box").addEventListener("contextmenu", (event) => {
         let column = parseInt(cellId[2]);
         if (dataArray[row][column].isShow == true) return;
         if (dataArray[row][column].isFlagged == null && dataArray[row][column].isFlagged == null && dataArray[row][column].isQuestion == null) {
+            remMinesElement.textContent = --remMines;
+            if (remMines < 0) alert("The number of mines looks like unnormal.");
             dataArray[row][column].isFlagged = true;
             document.querySelector(`#cell-${row}-${column}`).textContent = "🚩";
         } else if (dataArray[row][column].isFlagged == true && dataArray[row][column].isQuestion == null) {
+            remMinesElement.textContent = ++remMines;
             dataArray[row][column].isQuestion = true;
             dataArray[row][column].isFlagged = null;
             document.querySelector(`#cell-${row}-${column}`).textContent = "❓";
@@ -82,11 +91,45 @@ document.querySelector("#box").addEventListener("contextmenu", (event) => {
     }
 })
 
-function initialCreate(_width,_setOfWidthAndMinesCount = null) {
-    if(_width === null){
-        _setOfWidthAndMinesCount = _setOfWidthAndMinesCount.split(",");
-        boxWidth = parseInt(_setOfWidthAndMinesCount[0]);
-        minesCount = parseInt(_setOfWidthAndMinesCount[1]);
+class ValueError extends Error {
+    constructor(message) {
+        super(message);
+        this.name = "ValueError";
+    }
+}
+
+function initialCreate(_width, _setOfWidthAndMinesCount = null) {
+    if (_width === null) {
+        creatingBoxIndex = 0;
+        isStart = false;
+        isOver = true;
+        isMapCreated = false;
+        isClickAllowed = true;
+        isDbClickAllowed = false;
+        isRightClickAllowed = false;
+        secElement.textContent = 0;
+        minElement.textContent = 0;
+        try {
+            _setOfWidthAndMinesCount = _setOfWidthAndMinesCount.split(",");
+            boxWidth = Number(_setOfWidthAndMinesCount[0]);
+            minesCount = Number(_setOfWidthAndMinesCount[1]);
+            if (isNaN(boxWidth) || isNaN(minesCount)) throw new ValueError("The width and the number of landmines must be integer numbers and separated by an English comma in the middle.");
+            if (boxWidth < 10 || boxWidth > 40) throw new ValueError("The width must be between 10 and 40.");
+            if (minesCount < 10 || minesCount > (boxWidth ** 2) / 2) throw new ValueError("The number of landmines must be between 10 and half of the total number of blocks.");
+        } catch (e) {
+            if (e instanceof ValueError) {
+                alert(e.message);
+                console.error(e.message);
+                return;
+            } else {
+                alert("An unknown error occurred. Please try again.");
+                return;
+            }
+        } finally {
+            document.querySelector("#boxWHnum").value = "";
+        }
+        min = 0, sec = 0, remMines = minesCount;
+        remMinesElement.textContent = minesCount;
         _width = boxWidth;
     }
     dataArray = new Array(_width).fill([]).map(() => new Array(_width));
@@ -168,15 +211,16 @@ function createMineMap(_row, _column) {
             }
         }
     }
+    isOver = false;
     isMapCreated = true;
     isDbClickAllowed = true;
     isRightClickAllowed = true;
+    remMinesElement.textContent = minesCount;
     showEmpty(_row, _column);
     isGameOver();
 }
 
 function showEmpty(_row, _column) {
-    if (dataArray[_row][_column].isMine) alert("Game Over!2");
     if (dataArray[_row][_column].isMine) return isGameOver("gameover");
     if (dataArray[_row][_column].isNumber) {
         document.querySelector(`#cell-${_row}-${_column}`).textContent = dataArray[_row][_column].isNumber;
@@ -212,8 +256,12 @@ function showAll() {
 }
 function isGameOver(_result = null) {
     if (_result === "gameover") {
+        infoT();
+        remMinesElement.textContent = 0;
+        isStart = false;
+        isOver = true;
         showAll();
-        alert("Game Over!");
+        alert("Game over,you got lose!");
     }
     if (_result === null) {
         let isAllShow = true;
@@ -227,8 +275,12 @@ function isGameOver(_result = null) {
             if (!isAllShow) break;
         }
         if (isAllShow) {
+            remMinesElement.textContent = 0;
+            isStart = false;
+            isOver = true;
+            infoT();
             showAll();
-            alert("You Win!");
+            alert("Game over,you got success!");
         }
     }
 }
@@ -241,3 +293,45 @@ function pageStyleFunc(_width) {
         [["--width", _width], ["--paramA", 100], ["--paramB", -7.5]].forEach(([key, value]) => { document.documentElement.style.setProperty(key, value); });
     }
 }
+
+function infoT() {
+    let _gameInfo = JSON.parse(localStorage.getItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-${"mineClearance"}`));
+    _gameInfo.gameInfo.totalTimes += 1;
+    for (let i = 0; i < JSON.parse(localStorage.getItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-${"mineClearance"}`)).gameInfo.totalPages; i++) {
+        localStorage.setItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-${"mineClearance"}`, JSON.stringify(_gameInfo));
+    }
+    let _times = Object.keys(JSON.parse(localStorage.getItem(JSON.parse(localStorage.getItem("allUsers"))["_currentUser"] + "-mineClearance")).record).length;
+    let _currentUserGameRecord = JSON.parse(localStorage.getItem(JSON.parse(localStorage.getItem("allUsers"))["_currentUser"] + "-mineClearance"));
+    let _currentTime = {
+        "t": min * 60 + sec,//time
+        "w": boxWidth,//width
+        "mN": null,//max number
+        "iS": 1,//is start
+        "iO": isOver,//is over 
+        "mC": minesCount,//mines count
+        "dT": new Date().toLocaleString(),//date time
+        // "dA": JSON.stringify(dataArray),//data array//the data array is too large to store in local storage
+    }
+    _currentUserGameRecord.record[`times${_times}`] = _currentTime;
+    localStorage.setItem((JSON.parse(localStorage.getItem("allUsers"))["_currentUser"] + "-mineClearance"), JSON.stringify(_currentUserGameRecord));
+}
+
+function restart() {
+    initialCreate(null, `${boxWidth},${minesCount}`);
+}
+
+function pause() {
+    if (isOver) return;
+    isStart = isStart ? false : true;
+}
+
+function timerFunc() {
+    if (!isStart) return;
+    secElement.textContent = ++sec;
+    if (sec == 60) {
+        sec = 0;
+        secElement.textContent = sec;
+        minElement.textContent = ++min;
+    }
+}
+timer = setInterval(timerFunc, 1000);

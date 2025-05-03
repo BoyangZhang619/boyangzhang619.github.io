@@ -339,6 +339,11 @@ function restart() {
 }
 
 function infoT() {
+    let _gameInfo = JSON.parse(localStorage.getItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-${"labyrinth"}`));
+    _gameInfo.gameInfo.totalTimes += 1;
+    for (let i = 0; i < JSON.parse(localStorage.getItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-${"labyrinth"}`)).gameInfo.totalPages; i++) {
+        localStorage.setItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-${"labyrinth"}`, JSON.stringify(_gameInfo));
+    }
     let _times = Object.keys(JSON.parse(localStorage.getItem(JSON.parse(localStorage.getItem("allUsers"))["_currentUser"] + "-labyrinth")).record).length;
     let _currentUserGameRecord = JSON.parse(localStorage.getItem(JSON.parse(localStorage.getItem("allUsers"))["_currentUser"] + "-labyrinth"));
     let _currentTime = {
