@@ -8,7 +8,7 @@ gameIntroContent = {
     "mineClearance": "Genre: Logic puzzle\n\nGameplay: Clear a grid of hidden mines using numeric clues indicating nearby explosives. Right-click to flag suspected mines.\n\nKey Feature: Iconic Windows pre-installed game since 1990; balances luck and deductive reasoning.",
 }
 window.addEventListener("pointerdown", () => {
-    if (document.documentElement.requestFullscreen && /mobile/i.test(navigator.userAgent)) {
+    if (/Mobi|Android|iPhone|iPad|iPod|Windows Phone/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)) {
       document.documentElement.requestFullscreen();
     }
 });
