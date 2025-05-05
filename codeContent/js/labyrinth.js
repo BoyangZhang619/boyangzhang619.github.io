@@ -70,11 +70,11 @@ function handleTouchMove(event) {
 function initialCreate(_width) {
     try {
         if (_width >= 150 || _width <= 10) {
-            alert("Width must be between 11 and 149.");
+            alertInfo("Width must be between 11 and 149.", "Error");
             throw new ValueError("Width must be between 11 and 149.")
         }
         if ((_width - 1) % 2 !== 0) {
-            alert("Width must be an odd number.");
+            alertInfo("Width must be an odd number.", "Error");
             throw new ValueError("Width must be an odd number");
         }
     } catch (error) {
@@ -326,7 +326,7 @@ function dyeingFunction([paramA, paramB], _direction) {
     }
     document.querySelector(`#cell-${paramA}-${paramB}`).style.backgroundColor = "rgba(104, 96, 30, 0.75)";
     if (dataArray[paramA][paramB].isEndPoint) {
-        alert("You have reached the end point!");
+        alertInfo("You have reached the end point!");
         infoT();
         isStart = false;
         return;
@@ -339,13 +339,15 @@ function restart() {
 }
 
 function infoT() {
-    let _gameInfo = JSON.parse(localStorage.getItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-${"labyrinth"}`));
+    let _gameInfo = JSON.parse(localStorage.getItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-labyrinth-1`));
     _gameInfo.gameInfo.totalTimes += 1;
-    for (let i = 0; i < JSON.parse(localStorage.getItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-${"labyrinth"}`)).gameInfo.totalPages; i++) {
-        localStorage.setItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-${"labyrinth"}`, JSON.stringify(_gameInfo));
+    if (_gameInfo.gameInfo.totalTimes % 10 == 1 && _gameInfo.gameInfo.totalTimes != 1) {
+        _gameInfo.gameInfo.totalPages += 1;
+        localStorage.setItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-labyrinth-${_gameInfo.gameInfo.totalPages}`, JSON.stringify({ "record": { "times0": { "this one isn't a record": "undefined" } } }));
     }
-    let _times = Object.keys(JSON.parse(localStorage.getItem(JSON.parse(localStorage.getItem("allUsers"))["_currentUser"] + "-labyrinth")).record).length;
-    let _currentUserGameRecord = JSON.parse(localStorage.getItem(JSON.parse(localStorage.getItem("allUsers"))["_currentUser"] + "-labyrinth"));
+    localStorage.setItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-labyrinth-1`, JSON.stringify(_gameInfo));
+    let _times = Object.keys(JSON.parse(localStorage.getItem(JSON.parse(localStorage.getItem("allUsers"))["_currentUser"] + "-labyrinth-" + _gameInfo.gameInfo.totalPages)).record).length;
+    let _currentUserGameRecord = JSON.parse(localStorage.getItem(JSON.parse(localStorage.getItem("allUsers"))["_currentUser"] + "-labyrinth-" + _gameInfo.gameInfo.totalPages));
     let _currentTime = {
         "s": step,//step
         "t": min * 60 + sec,//time
@@ -358,7 +360,7 @@ function infoT() {
         // "dA": JSON.stringify(dataArray),//data array//too much data
     }
     _currentUserGameRecord.record[`times${_times}`] = _currentTime;
-    localStorage.setItem((JSON.parse(localStorage.getItem("allUsers"))["_currentUser"] + "-labyrinth"), JSON.stringify(_currentUserGameRecord));
+    localStorage.setItem((JSON.parse(localStorage.getItem("allUsers"))["_currentUser"] + "-labyrinth-" + _gameInfo.gameInfo.totalPages), JSON.stringify(_currentUserGameRecord));
 }
 
 function pause() {

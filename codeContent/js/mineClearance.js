@@ -62,6 +62,7 @@ document.querySelector("#box").addEventListener("dblclick", (event) => {
                 if (row < boxWidth - 1 && column < boxWidth - 1) if (dataArray[row + 1][column + 1].isShow == null && dataArray[row + 1][column + 1].isFlagged != true) showEmpty(row + 1, column + 1);
             }
         }
+        isGameOver();
     }
 });
 
@@ -76,7 +77,7 @@ document.querySelector("#box").addEventListener("contextmenu", (event) => {
         if (dataArray[row][column].isShow == true) return;
         if (dataArray[row][column].isFlagged == null && dataArray[row][column].isFlagged == null && dataArray[row][column].isQuestion == null) {
             remMinesElement.textContent = --remMines;
-            if (remMines < 0) alert("The number of mines looks like unnormal.");
+            if (remMines < 0) alertInfo("The number of mines looks like unnormal.");
             dataArray[row][column].isFlagged = true;
             document.querySelector(`#cell-${row}-${column}`).textContent = "🚩";
         } else if (dataArray[row][column].isFlagged == true && dataArray[row][column].isQuestion == null) {
@@ -118,11 +119,11 @@ function initialCreate(_width, _setOfWidthAndMinesCount = null) {
             if (minesCount < 10 || minesCount > (boxWidth ** 2) / 2) throw new ValueError("The number of landmines must be between 10 and half of the total number of blocks.");
         } catch (e) {
             if (e instanceof ValueError) {
-                alert(e.message);
+                alertInfo(e.message, "Error");
                 console.error(e.message);
                 return;
             } else {
-                alert("An unknown error occurred. Please try again.");
+                alertInfo("An unknown error occurred. Please try again.", "Error");
                 return;
             }
         } finally {
@@ -261,7 +262,7 @@ function isGameOver(_result = null) {
         isStart = false;
         isOver = true;
         showAll();
-        alert("Game over,you got lose!");
+        alertInfo("Game over,you got lose!");
     }
     if (_result === null) {
         let isAllShow = true;
@@ -280,10 +281,11 @@ function isGameOver(_result = null) {
             isOver = true;
             infoT();
             showAll();
-            alert("Game over,you got success!");
+            alertInfo("Game over,you got success!");
         }
     }
 }
+
 function pageStyleFunc(_width) {
     if (parseInt(window.getComputedStyle(document.querySelector("#main").children[0]).width) < parseInt(window.getComputedStyle(document.querySelector("#main").children[0]).height)) {
         document.querySelector("#box").style.margin = "calc(50vh - 38.75vw) auto";
@@ -295,13 +297,15 @@ function pageStyleFunc(_width) {
 }
 
 function infoT() {
-    let _gameInfo = JSON.parse(localStorage.getItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-${"mineClearance"}`));
+    let _gameInfo = JSON.parse(localStorage.getItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-mineClearance-1`));
     _gameInfo.gameInfo.totalTimes += 1;
-    for (let i = 0; i < JSON.parse(localStorage.getItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-${"mineClearance"}`)).gameInfo.totalPages; i++) {
-        localStorage.setItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-${"mineClearance"}`, JSON.stringify(_gameInfo));
+    if (_gameInfo.gameInfo.totalTimes % 10 == 1 && _gameInfo.gameInfo.totalTimes != 1) {
+        _gameInfo.gameInfo.totalPages += 1;
+        localStorage.setItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-mineClearance-${_gameInfo.gameInfo.totalPages}`, JSON.stringify({ "record": { "times0": { "this one isn't a record": "undefined" } } }));
     }
-    let _times = Object.keys(JSON.parse(localStorage.getItem(JSON.parse(localStorage.getItem("allUsers"))["_currentUser"] + "-mineClearance")).record).length;
-    let _currentUserGameRecord = JSON.parse(localStorage.getItem(JSON.parse(localStorage.getItem("allUsers"))["_currentUser"] + "-mineClearance"));
+    localStorage.setItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-mineClearance-1`, JSON.stringify(_gameInfo));
+    let _times = Object.keys(JSON.parse(localStorage.getItem(JSON.parse(localStorage.getItem("allUsers"))["_currentUser"] + "-mineClearance-" + _gameInfo.gameInfo.totalPages)).record).length;
+    let _currentUserGameRecord = JSON.parse(localStorage.getItem(JSON.parse(localStorage.getItem("allUsers"))["_currentUser"] + "-mineClearance-" + _gameInfo.gameInfo.totalPages));
     let _currentTime = {
         "t": min * 60 + sec,//time
         "w": boxWidth,//width
@@ -313,7 +317,7 @@ function infoT() {
         // "dA": JSON.stringify(dataArray),//data array//the data array is too large to store in local storage
     }
     _currentUserGameRecord.record[`times${_times}`] = _currentTime;
-    localStorage.setItem((JSON.parse(localStorage.getItem("allUsers"))["_currentUser"] + "-mineClearance"), JSON.stringify(_currentUserGameRecord));
+    localStorage.setItem((JSON.parse(localStorage.getItem("allUsers"))["_currentUser"] + "-mineClearance-" + _gameInfo.gameInfo.totalPages), JSON.stringify(_currentUserGameRecord));
 }
 
 function restart() {

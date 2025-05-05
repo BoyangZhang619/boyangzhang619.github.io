@@ -1,4 +1,4 @@
-console.log("The storage space has been used up to " + getLocalStorageSize() + "/5242880 bytes.("+(getLocalStorageSize()/5242880).toFixed(5)+")");
+console.log("The storage space has been used up to " + getLocalStorageSize() + "/5242880 bytes.(" + (getLocalStorageSize() / 5242880).toFixed(5) + ")");
 // console.log(infoTransfer);
 if (window.location.search.includes("?")) infoTransfer = JSON.parse(decodeURIComponent(window.location.search.replace("?", "")));
 gameIntroContent = {
@@ -9,12 +9,12 @@ gameIntroContent = {
 }
 window.addEventListener("pointerdown", () => {
     if (document.documentElement.requestFullscreen && /mobile/i.test(navigator.userAgent)) {
-      document.documentElement.requestFullscreen();
+        document.documentElement.requestFullscreen();
     }
 });
 function gameIntro(type) {
     //run the func which pauses the game
-    alert(gameIntroContent[type]);
+    alertInfo(gameIntroContent[type]);
 }
 function back() {
     window.open(`../../index.html`, "_self");
@@ -31,4 +31,11 @@ function getLocalStorageSize() {
 
 if (getLocalStorageSize() > 4.5 * 1024 * 1024) { // alarm when local storage is over 4.5MB
     console.log("the storage space will be used up soon, please clear the local storage.");
+}
+document.querySelector("#determine").addEventListener("click", () => alertInfo(null,null, true))
+function alertInfo(_txt, _title = "Alert", _close = false) {
+    if (_close) return document.querySelector("#screenBlock").style.display = "none";
+    document.querySelector("#info>h2").textContent = _title;
+    document.querySelector("#info>p").textContent = _txt;
+    document.querySelector("#screenBlock").style.display = "block";
 }

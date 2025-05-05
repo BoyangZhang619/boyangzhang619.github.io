@@ -167,6 +167,7 @@
 #login,
 #hello,
 #recordContent,
+#accountContent,
 #languageContent,
 #themeContent,
 #aboutContent,
@@ -180,6 +181,7 @@
 
 #loginContent>h1,
 #recordContent>h1,
+#accountContent>h1,
 #languageContent>h1,
 #themeContent>h1,
 #aboutContent>h1,
@@ -198,6 +200,7 @@
 }
 
 #recordContent>div,
+#accountContent>div,
 #languageContent>div,
 #themeContent>div {
     margin: 3.75vh auto;
@@ -214,6 +217,7 @@
 }
 
 #recordContent>div:hover,
+#accountContent>div:hover,
 #languageContent>div:hover,
 #themeContent>div:hover {
     transition: all 0.2s 0s linear;

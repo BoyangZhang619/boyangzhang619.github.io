@@ -237,7 +237,7 @@ function isover() {
         if (dataArray[levelA][levelB] == dataArray[levelA][levelB + 1]) return;
         if (dataArray[levelB][levelA] == dataArray[levelB + 1][levelA]) return;
         if (levelA == 3 && levelB == 2) {
-            // alert("Game over");
+            alertInfo("Game over");
             infoT();
             restart();
             isGameOver = true;
@@ -279,11 +279,9 @@ function infoT() {
     _gameInfo.gameInfo.totalTimes += 1;
     if (_gameInfo.gameInfo.totalTimes % 10 == 1 && _gameInfo.gameInfo.totalTimes != 1) {
         _gameInfo.gameInfo.totalPages += 1;
-        localStorage.setItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-game2048-${_gameInfo.gameInfo.totalPages}`, JSON.stringify({ "gameInfo": { "totalTimes": _gameInfo.gameInfo.totalTimes, "totalPages": _gameInfo.gameInfo.totalPages, "defaultWidth": 4 }, "record": { "times0": { "this one isn't a record": "undefined" } } }));
+        localStorage.setItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-game2048-${_gameInfo.gameInfo.totalPages}`, JSON.stringify({ "record": { "times0": { "this one isn't a record": "undefined" } } }));
     }
-    for (let i = 1; i <= JSON.parse(localStorage.getItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-game2048-1`)).gameInfo.totalPages; i++) {
-        localStorage.setItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-game2048-${i}`, JSON.stringify(_gameInfo));
-    }
+    localStorage.setItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-game2048-1`, JSON.stringify(_gameInfo));
     let _times = Object.keys(JSON.parse(localStorage.getItem(JSON.parse(localStorage.getItem("allUsers"))["_currentUser"] + "-game2048-" + _gameInfo.gameInfo.totalPages)).record).length;
     let _currentUserGameRecord = JSON.parse(localStorage.getItem(JSON.parse(localStorage.getItem("allUsers"))["_currentUser"] + "-game2048-" + _gameInfo.gameInfo.totalPages));
     let _currentTime = {
