@@ -170,7 +170,7 @@ function recordChanged(_type, _isUseNavOnly = false, ...infoArr) {
             <div>Step<hr/><strong>${_klotskiRecord.record[recordTypeKey].s}</strong></div>
             <div>Time<hr/><strong>${_klotskiRecord.record[recordTypeKey].t}</strong></div>
             <div>Width<hr/><strong>${_klotskiRecord.record[recordTypeKey].w}</strong></div>
-            <div>Score<hr/><strong>${_klotskiRecord.record[recordTypeKey].bS}</strong></div>
+            <div>Result<hr/><strong>${_klotskiRecord.record[recordTypeKey].iO}</strong></div>
             <div>Data<hr/><div id="recordListDateSearch" onclick="alertInfo('Write time: ${_klotskiRecord.record[recordTypeKey].dT}')">click</div></div>
             </li>`;
         }

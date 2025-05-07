@@ -304,7 +304,7 @@ function pageStyleFunc(_width) {
     }
 }
 
-function infoT() {
+function infoT(_isover = true) {
     let _gameInfo = JSON.parse(localStorage.getItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-mineClearance-1`));
     _gameInfo.gameInfo.totalTimes += 1;
     if (_gameInfo.gameInfo.totalTimes % 10 == 1 && _gameInfo.gameInfo.totalTimes != 1) {
@@ -319,7 +319,7 @@ function infoT() {
         "w": boxWidth,//width
         "mN": null,//max number
         "iS": 1,//is start
-        "iO": isOver,//is over 
+        "iO": isOver && _isover,//is over 
         "mC": minesCount,//mines count
         "dT": new Date().toLocaleString(),//date time
         // "dA": JSON.stringify(dataArray),//data array//the data array is too large to store in local storage
@@ -329,6 +329,7 @@ function infoT() {
 }
 
 function restart() {
+    infoT(false)
     initialCreate(null, `${boxWidth},${minesCount}`);
 }
 

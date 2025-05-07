@@ -261,6 +261,7 @@ function pageStyleFunc() {
 }
 
 function restart() {
+    infoT(false)
     for (i = 0, dataArray = []; i < 4; dataArray[i] = ["", "", "", ""], i++);
     [Math.floor(Math.random() * 16), Math.floor(Math.random() * 16)].forEach(position => dataArray[Math.floor(position / 4)][position % 4] = Math.ceil(Math.random() * 10) * 2 % 4 + 2);
     console.log("restart:dataArray", dataArray);
@@ -276,7 +277,7 @@ function restart() {
     min = 0, sec = 0, step = 0;
 }
 
-function infoT() {
+function infoT(_isover = true) {
     let _gameInfo = JSON.parse(localStorage.getItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-game2048-1`));
     _gameInfo.gameInfo.totalTimes += 1;
     if (_gameInfo.gameInfo.totalTimes % 10 == 1 && _gameInfo.gameInfo.totalTimes != 1) {
@@ -292,7 +293,7 @@ function infoT() {
         "mN": currentMaxNumber,//max number
         "bS": currentScore,//best score
         "iS": 1,//is start
-        "iO": 1,//is over 
+        "iO": _isover ? 1 : 0,//is over 
         "dA": JSON.stringify(dataArray),//data array
         "dT": new Date().toLocaleString(),//date time
     }

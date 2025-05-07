@@ -32,9 +32,12 @@ li {
 	flex: 1;
 	min-width: 0;
 	text-align: center;
+	box-sizing: border-box;
+	border: 1px rgb(117, 92, 71) solid;
+	background-color: rgba(86, 66, 50, 0.685);
 	color: silver;
 	line-height: calc((var(--paramA) / var(--width) * 1vh) + (var(--paramB) / var(--width) * 1vw));
-	font-size: calc((var(--paramA) / var(--width) * 1vh) + (var(--paramB) / var(--width) * 1vw));
+	font-size: calc((var(--paramA) / var(--width) * .75vh) + (var(--paramB) / var(--width) * .75vw));
 }
 
 #box {
@@ -44,9 +47,7 @@ li {
 	width: calc((var(--paramA) * vh) + (var(--paramB) * 1vw));
 	aspect-ratio: 1;
 	margin: 0 auto;
-	/* border-radius: 8px; */
 	box-shadow: 2px 2px 5px black;
-	/* background-color: rgba(86, 66, 50, 0.3); */
 }
 
 #wait {

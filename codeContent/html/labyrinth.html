@@ -2,14 +2,15 @@
 <html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Webgame-labyrinth</title>
 	<link type="text/css" rel="stylesheet" href="../css/common.css" />
 	<link type="text/css" rel="stylesheet" href="../css/labyrinth.css" />
 	<link rel="icon" href="../../imageContent/icon.jpg" type="image/x-icon">
 </head>
-<body>
+
+<body translate="no">
 	<header id="header">
 		<h2>labyrinth</h2>
 	</header>
@@ -33,7 +34,8 @@
 			</div>
 			<div id="admin">
 				<input id="boxWHnum" type="text" placeholder="wid[odd]">
-				<input id="boxWH" type="button" value="Set" onclick="initialCreate(+document.querySelector('#boxWHnum').value)">
+				<input id="boxWH" type="button" value="Set"
+					onclick="initialCreate(+document.querySelector('#boxWHnum').value)">
 				<div id="restart" onclick="restart()">Restart</div>
 				<div id="pause" onclick="pause()">Pause/Resume</div>
 				<div id="intro" onclick="gameIntro('labyrinth')">Game Intro</div>
@@ -41,17 +43,18 @@
 			</div>
 		</aside>
 	</main>
-    <div id="screenBlock">
-        <div id="alertInfo">
-            <div id="info">
-                <h2>Alert</h2>
-                <p></p>
-            </div>
-            <div id="determine">OK</div>
-        </div>
-    </div>
+	<div id="screenBlock">
+		<div id="alertInfo">
+			<div id="info">
+				<h2>Alert</h2>
+				<p></p>
+			</div>
+			<div id="determine">OK</div>
+		</div>
+	</div>
 	<script src="../js/common.js"></script>
 	<script src="../js/labyrinth.js"></script>
 </body>
+
 </html>
 <!-- ⫷⫸〓⿰⿳⿶⿹〾⿱⿴⿷⿺⿲⿵⿸⿻⨷⩎⩏⩐⩑⩒⩓⩔⩕⩖⩗⩘⩙⩚⩛⩜⩝⩞⩟⨷⨸⨹⨺ -->

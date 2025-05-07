@@ -330,19 +330,20 @@ function dyeingFunction([paramA, paramB], _direction) {
     document.querySelector(`#cell-${paramA}-${paramB}`).style.backgroundColor = "rgba(104, 96, 30, 0.75)";
     if (dataArray[paramA][paramB].isEndPoint) {
         alertInfo("You have reached the end point!");
-        restart();
         infoT();
         isStart = false;
+        restart();
         return;
     }
 }
 
 function restart() {
+    infoT(false)
     document.querySelector("#box").innerHTML = ""; // Clear the previous labyrinth
     initialCreate(boxWidth);
 }
 
-function infoT() {
+function infoT(_isover = true) {
     let _gameInfo = JSON.parse(localStorage.getItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-labyrinth-1`));
     _gameInfo.gameInfo.totalTimes += 1;
     if (_gameInfo.gameInfo.totalTimes % 10 == 1 && _gameInfo.gameInfo.totalTimes != 1) {
@@ -359,7 +360,7 @@ function infoT() {
         "mN": null,//max number
         "bS": (step) - (min * 60 + sec) * 2,//best score
         "iS": 1,//is start
-        "iO": 1,//is over 
+        "iO": _isover ? 1 : 0,//is over 
         "dT": new Date().toLocaleString(),//date time
         // "dA": JSON.stringify(dataArray),//data array//too much data
     }

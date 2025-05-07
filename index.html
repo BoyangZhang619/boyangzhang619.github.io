@@ -7,7 +7,7 @@
     <title>Intelligent webgame</title>
     <link rel="stylesheet" href="./codeContent/css/common.css">
     <link rel="stylesheet" href="./codeContent/css/mainPage.css">
-	<link rel="icon" href="./imageContent/icon.jpg" type="image/x-icon">
+    <link rel="icon" href="./imageContent/icon.jpg" type="image/x-icon">
 </head>
 
 <body translate="no">
@@ -19,7 +19,8 @@
         <main>
             <div id="login">
                 <h2 class="interpElem">LOGIN</h2>
-                <!-- <form> because form tag will make form submit automatically,so i have to replace it into div temporary--><div>
+                <form method="post" action="">
+                    <!-- actually it can't post to backend,because i haven't learned that yet,so that all the data are stored in local-->
                     <div>
                         <label for="username" class="interpElem">Username:</label>
                         <input type="text" id="username" name="username" required placeholder="Enter your username">
@@ -32,9 +33,9 @@
                         <button type="submit" class="interpElem" onclick="login()">Login</button>
                         <button type="button" class="interpElem" onclick="register()">Reg</button>
                     </div>
-                </div><!-- </form> -->
+                </form>
             </div>
-            <div id="hello">Hello,</div>
+            <div id="hello"></div>
             <div id="recordContent"></div>
             <div id="accountContent"></div>
             <div id="languageContent"></div>

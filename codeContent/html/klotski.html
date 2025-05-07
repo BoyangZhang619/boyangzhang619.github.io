@@ -10,7 +10,7 @@
 	<link rel="icon" href="../../imageContent/icon.jpg" type="image/x-icon">
 </head>
 
-<body>
+<body translate="no">
 	<header id="header">
 		<h2>klotski</h2>
 	</header>
@@ -32,8 +32,9 @@
 				<span class="interpElem">step(s)</span>
 			</div>
 			<div id="admin">
-				<input id="boxWHnum" type="text" placeholder="wid[odd]">
-				<input id="boxWH" type="button" value="Set" onclick="initialCreate(+document.querySelector('#boxWHnum').value)">
+				<input id="boxWHnum" type="text" placeholder="wid">
+				<input id="boxWH" type="button" value="Set"
+					onclick="initialCreate(+document.querySelector('#boxWHnum').value)">
 				<div id="restart" onclick="restart()">Restart</div>
 				<div id="pause" onclick="pause()">Pause/Resume</div>
 				<div id="intro" onclick="intro('klotski')">Game Intro</div>
@@ -41,15 +42,15 @@
 			</div>
 		</aside>
 	</main>
-    <div id="screenBlock">
-        <div id="alertInfo">
-            <div id="info">
-                <h2>Alert</h2>
-                <p></p>
-            </div>
-            <div id="determine">OK</div>
-        </div>
-    </div>
+	<div id="screenBlock">
+		<div id="alertInfo">
+			<div id="info">
+				<h2>Alert</h2>
+				<p></p>
+			</div>
+			<div id="determine">OK</div>
+		</div>
+	</div>
 	<script src="../js/common.js"></script>
 	<script src="../js/klotski.js"></script>
 </body>
