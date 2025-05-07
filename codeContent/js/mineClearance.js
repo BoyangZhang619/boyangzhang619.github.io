@@ -1,6 +1,9 @@
 window.onload = () => {
-    boxWidth = 10;// means 25 blocks in a row and 25 blocks in a column
-    minesCount = 16;// means 49 mines in total
+    // boxWidth = 10;// means 25 blocks in a row and 25 blocks in a column
+    // minesCount = 16;// means 49 mines in total
+    [boxWidth, minesCount] = (JSON.parse(localStorage.getItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-mineClearance-1`)).gameInfo.defaultWidth && JSON.parse(localStorage.getItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-mineClearance-1`)).gameInfo.defaultWidth.split(",")) || [10, 16]
+    boxWidth = +boxWidth;
+    minesCount = +minesCount
     creatingBoxIndex = 0;
     min = 0, sec = 0, remMines = minesCount;
     isStart = false;
@@ -132,6 +135,9 @@ function initialCreate(_width, _setOfWidthAndMinesCount = null) {
         min = 0, sec = 0, remMines = minesCount;
         remMinesElement.textContent = minesCount;
         _width = boxWidth;
+        let _gameInfo = JSON.parse(localStorage.getItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-mineClearance-1`));
+        _gameInfo.gameInfo.defaultWidth = boxWidth + "," + minesCount;
+        localStorage.setItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-mineClearance-1`, JSON.stringify(_gameInfo))
     }
     dataArray = new Array(_width).fill([]).map(() => new Array(_width));
     for (let i = 0; i < _width; i++)for (let j = 0; j < _width; j++)dataArray[i][j] = {
@@ -263,6 +269,7 @@ function isGameOver(_result = null) {
         isOver = true;
         showAll();
         alertInfo("Game over,you got lose!");
+        setTimeout(() => restart(), 1500)
     }
     if (_result === null) {
         let isAllShow = true;
@@ -282,6 +289,7 @@ function isGameOver(_result = null) {
             infoT();
             showAll();
             alertInfo("Game over,you got success!");
+            setTimeout(() => restart(), 1000)
         }
     }
 }

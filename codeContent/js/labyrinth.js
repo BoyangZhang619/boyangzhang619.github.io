@@ -1,5 +1,5 @@
 window.onload = () => {
-    boxWidth = 29;// means 29 blocks in a row and 29 blocks in a column
+    boxWidth = JSON.parse(localStorage.getItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-labyrinth-1`)).gameInfo.defaultWidth || 29;// means 29 blocks in a row and 29 blocks in a column
     creatingBoxIndex = 0;
     isStart = false;
     gameScore = 0;
@@ -18,7 +18,7 @@ window.onload = () => {
 window.addEventListener("resize", () => { pageStyleFunc(boxWidth) });
 
 window.onkeydown = function (event) {
-    // event.preventDefault();
+    if (document.querySelector("#screenBlock").style.display === "block") return;
     if (currentPoint[0] == null || currentPoint[1] == null) return;
     let key = event.code;
     switch (key) {
@@ -84,6 +84,9 @@ function initialCreate(_width) {
     } finally {
         document.querySelector("#boxWHnum").value = "";
     }
+    let _gameInfo = JSON.parse(localStorage.getItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-labyrinth-1`));
+    _gameInfo.gameInfo.defaultWidth = _width;
+    localStorage.setItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-labyrinth-1`, JSON.stringify(_gameInfo))
     boxWidth = _width;
     stepElement.textContent = 0;
     secElement.textContent = 0;
@@ -129,7 +132,7 @@ function initialCreate(_width) {
                 document.querySelector(`#cell-${creatingBoxIndex}-${i}`).style.innerText = dataArray[creatingBoxIndex][i].isStartPoint ? "S" : dataArray[creatingBoxIndex][i].isEndPoint ? "E" : "";
             }
         }
-            creatingBoxIndex++;
+        creatingBoxIndex++;
         if (creatingBoxIndex == _width) {
             creatingBoxIndex = 0;
             document.querySelector(`#cell-${startPoint[0]}-${startPoint[1]}`).style.backgroundColor = "rgb(88, 84, 48)"
@@ -327,6 +330,7 @@ function dyeingFunction([paramA, paramB], _direction) {
     document.querySelector(`#cell-${paramA}-${paramB}`).style.backgroundColor = "rgba(104, 96, 30, 0.75)";
     if (dataArray[paramA][paramB].isEndPoint) {
         alertInfo("You have reached the end point!");
+        restart();
         infoT();
         isStart = false;
         return;

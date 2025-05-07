@@ -21,6 +21,7 @@ window.onload = () => {
     // isPhone = /mobile/i.test(info); // if it's a mobile device, isPhone = true
 }
 window.onkeyup = function (event) {
+    if (document.querySelector("#screenBlock").style.display === "block") return;
     let key = event.code;
     switch (key) {
         case "KeyW": case "ArrowUp": dirFunc("up"); break;
@@ -58,6 +59,7 @@ function handleTouchMove(event) {
 }
 
 function handleTouchEnd() {
+    if (document.querySelector("#screenBlock").style.display === "block") return;
     const deltaX = endX - startX;
     const deltaY = endY - startY;
     if (Math.abs(deltaX) < minSwipeDistance && Math.abs(deltaY) < minSwipeDistance) {

@@ -32,6 +32,7 @@ document.addEventListener("click", (event) => {
     }
     let preLi = event.target.closest(".recordNav>li.pre");
     if (preLi) {
+        console.log("preLi");
         let _gameInfo = JSON.parse(localStorage.getItem(JSON.parse(localStorage.getItem("allUsers"))["_currentUser"] + "-" + recordGameType + "-1")).gameInfo;
         if (_gameInfo.currentShowedPage == 1) return;
         let allLis = document.querySelectorAll(".recordNav>li>ul>li");
@@ -41,8 +42,9 @@ document.addEventListener("click", (event) => {
     }
     let nextLi = event.target.closest(".recordNav>li.next");
     if (nextLi) {
+        console.log("nextLi");
         let _gameInfo = JSON.parse(localStorage.getItem(JSON.parse(localStorage.getItem("allUsers"))["_currentUser"] + "-" + recordGameType + "-1")).gameInfo;
-        if (_gameInfo.currentShowedPage == _gameInfo.totalPages) return;
+        if (_gameInfo.currentShowedPage == _gameInfo.totalPages) return console.log(_gameInfo.currentShowedPage == _gameInfo.totalPages);
         let allLis = document.querySelectorAll(".recordNav>li>ul>li");
         let lastLi = allLis[allLis.length - 1];
         recordChanged(recordGameType, true, Number(_gameInfo.currentShowedPage) + 1, allLis.length, lastLi.textContent, recordGameType);
@@ -54,11 +56,12 @@ function recordChanged(_type, _isUseNavOnly = false, ...infoArr) {
     if (_isUseNavOnly) return recordNavCompute(...infoArr);
     recordGameType = _type;
     if (!isLogin) return alertInfo("Please login to get your record.", "Error");
+    _currentShowedPage=JSON.parse(localStorage.getItem(JSON.parse(localStorage.getItem("allUsers"))["_currentUser"] + "-"+_type+"-1")).gameInfo.currentShowedPage;
     switch (_type) {
-        case "game2048": showGame2048Record(1); break;
-        case "labyrinth": showLabyrinthRecord(1); break;
-        case "mineClearance": showMineClearanceRecord(1); break;
-        case "klotski": showKlotskiRecord(1); break;
+        case "game2048": showGame2048Record(_currentShowedPage); break;
+        case "labyrinth": showLabyrinthRecord(_currentShowedPage); break;
+        case "mineClearance": showMineClearanceRecord(_currentShowedPage); break;
+        case "klotski": showKlotskiRecord(_currentShowedPage); break;
         default: console.log("why can you get this case?"); break;
     }
     function showGame2048Record(_page, _isReloadNav = true) {
@@ -309,6 +312,7 @@ function settings(type, _isInitialization = false, _aboutSentence, _helpSentence
 
 
 function selectGame(self, type = 1) {
+    if (!isLogin) return alertInfo("Please login to change the enter game.", "Error");
     selectGameType = type ? type : selectGameType;
     if (!type && selectGameType !== "") window.open(`./codeContent/html/${selectGameType}.html`, "_self");
     if (type) buttonDown(self);
@@ -350,7 +354,7 @@ function register() {
     _allUsers[_username] = btoa(_password);
     localStorage.setItem("allUsers", JSON.stringify(_allUsers));
     ["game2048", "labyrinth", "mineClearance", "klotski"].forEach((elem) => {
-        localStorage.setItem(`${_username}-${elem}-1`, JSON.stringify({ "gameInfo": { "totalTimes": 0, "totalPages": 1, "defaultWidth": null, "curreentShowedPage": 1 }, "record": { "times0": { "this one isn't a record": "undefined" } } }));
+        localStorage.setItem(`${_username}-${elem}-1`, JSON.stringify({ "gameInfo": { "totalTimes": 0, "totalPages": 1, "defaultWidth": null, "currentShowedPage": 1 }, "record": { "times0": { "this one isn't a record": "undefined" } } }));
     });
     localStorage.setItem(`${_username}-info`, JSON.stringify({ "language": "English", "theme": "light" }));
     document.querySelector("#password").value = "";
@@ -363,6 +367,7 @@ function logout() {
     let _allUsers = JSON.parse(localStorage.getItem("allUsers"));
     _allUsers["_currentUser"] = "undefined";
     localStorage.setItem("allUsers", JSON.stringify(_allUsers));
+    partsSwitch()
     document.querySelector("#login").style.display = "block";
     document.querySelector("#hello").style.display = "none";
     isLogin = false;
@@ -379,6 +384,7 @@ function deleteAccount() {
     delete _allUsers[JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]];
     _allUsers["_currentUser"] = "undefined";
     localStorage.setItem("allUsers", JSON.stringify(_allUsers));
+    partsSwitch()
     document.querySelector("#login").style.display = "block";
     document.querySelector("#hello").style.display = "none";
     isLogin = false;
