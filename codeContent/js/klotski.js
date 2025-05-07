@@ -66,14 +66,14 @@ window.addEventListener("click", (event) => {
             currentWhitePoint[1] = X;
             //isOver
             for (let m = 0; m < boxWidth ** 2; m++) {
-                if (dataArray[Math.floor(m / boxWidth)][m % boxWidth] != m) break;
-                if (m = boxWidth ** 2 - 1) {
-                    alertInfo("You have reached the end point!");
+                if (m == (boxWidth ** 2) - 1) {
+                    alertInfo("You got success!");
                     infoT();
                     isStart = false;
                     restart();
                     return;
                 }
+                if (dataArray[Math.floor(m / boxWidth)][m % boxWidth] != m + 1) break;
             }
         }
     }
@@ -88,7 +88,7 @@ class ValueError extends Error {
 function initialCreate(_width) {
     _width = parseInt(_width);
     try {
-        if (_width > 10 || _width < 4) {
+        if (_width > 10 || _width < 2) {
             alertInfo("Width must be between 5 and 10.", "Error");
             throw new ValueError("Width must be between 5 and 10.")
         }
@@ -191,7 +191,6 @@ function timerFunc() {
         sec = 0;
         secElement.textContent = sec;
         minElement.textContent = ++min;
-        gameScore -= 2;
     }
 }
 timer = setInterval(timerFunc, 1000);
