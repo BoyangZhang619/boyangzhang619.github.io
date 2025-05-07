@@ -56,7 +56,7 @@ function recordChanged(_type, _isUseNavOnly = false, ...infoArr) {
     if (_isUseNavOnly) return recordNavCompute(...infoArr);
     recordGameType = _type;
     if (!isLogin) return alertInfo("Please login to get your record.", "Error");
-    _currentShowedPage=JSON.parse(localStorage.getItem(JSON.parse(localStorage.getItem("allUsers"))["_currentUser"] + "-"+_type+"-1")).gameInfo.currentShowedPage;
+    _currentShowedPage = JSON.parse(localStorage.getItem(JSON.parse(localStorage.getItem("allUsers"))["_currentUser"] + "-" + _type + "-1")).gameInfo.currentShowedPage;
     switch (_type) {
         case "game2048": showGame2048Record(_currentShowedPage); break;
         case "labyrinth": showLabyrinthRecord(_currentShowedPage); break;
@@ -279,7 +279,10 @@ function settings(type, _isInitialization = false, _aboutSentence, _helpSentence
     document.querySelectorAll("#main>main>div[id$=Content]").forEach((elem) => {
         elem.style.display = "none";
     });
-    if (!_isInitialization) document.querySelector(`#${type}Content`).style.display = "block";
+    if (!_isInitialization) {
+        document.querySelector(`#${type}Content`).style.display = "block";
+        if (type) buttonDown(type);
+    }
     switch (type) {
         case "record": record(); break;
         case "account": account(); break;
@@ -288,6 +291,14 @@ function settings(type, _isInitialization = false, _aboutSentence, _helpSentence
         case "about": about(); break;
         case "help": help(); break;
         default: console.log("why can you get this case?"); break;
+    }
+    function buttonDown(type) {
+        console.log(type)
+        if (type === null || type === "other") return;
+        document.querySelectorAll("#aside li").forEach((elem) => {
+            elem.style.boxShadow = "2px 2px 10px 1px rgba(86, 66, 50, 0.685)";
+        });
+        document.querySelector("#setting-"+type).style.boxShadow = ".5px .5px 3px 1px rgba(86, 66, 50, 0.877)";
     }
     function record() {
         document.querySelector("#recordContent").innerHTML = `<h1 class="interpElem">Record</h1><hr/>${["game2048", "labyrinth", "mineClearance", "klotski"].map(recordGameType => `<div class="recordChoice interpElem" onclick='recordChanged("${recordGameType}")'>${recordGameType}</div>`).join("")}`;
