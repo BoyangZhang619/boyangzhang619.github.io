@@ -70,7 +70,7 @@ window.addEventListener("click", (event) => {
                     alertInfo("You got success!");
                     infoT();
                     isStart = false;
-                    restart();
+                    restart(true);
                     return;
                 }
                 if (dataArray[Math.floor(m / boxWidth)][m % boxWidth] != m + 1) break;
@@ -126,14 +126,62 @@ function initialCreate(_width) {
                 document.querySelector("#box").appendChild(row);
                 break;
             }
-            do {
-                _isContinue = false;
-                dataArray[i][j] = Math.ceil((Math.random() * (_width ** 2 - 1))).toFixed(0);
-                for (let m = 0; m < i * _width + j; m++)if (dataArray[Math.floor(m / _width)][m % _width] == dataArray[i][j]) _isContinue = true;
-            } while (_isContinue)
         }
         document.querySelector("#box").appendChild(row);
     }
+    do {
+        _isContinueA = false;
+        for (let i = 0; i < _width; i++) {
+            for (let j = 0; j < _width; j++) {
+                if (i === _width - 1 && j === _width - 1) {
+                    dataArray[i][j] = "";
+                    break;
+                } else {
+                    do {
+                        _isContinueB = false;
+                        dataArray[i][j] = Math.ceil(Math.random() * (_width ** 2 - 1)).toString();
+                        for (let m = 0; m < i * _width + j; m++) {
+                            if (dataArray[Math.floor(m / _width)][m % _width] === dataArray[i][j]) {
+                                _isContinueB = true;
+                                break;
+                            }
+                        }
+                    } while (_isContinueB);
+                }
+            }
+        }
+        dataArray[_width - 1][_width - 1] = "";
+        //judge sentence
+        const flatArr = [];
+        for (let i = 0; i < _width; i++) {
+            for (let j = 0; j < _width; j++) {
+                if (i === _width - 1 && j === _width - 1) continue; // 跳过空格
+                flatArr.push(parseInt(dataArray[i][j], 10)); // 转为数字类型
+            }
+        }
+
+        // 2. 计算逆序数
+        let inversions = 0;
+        for (let m = 0; m < flatArr.length; m++) {
+            for (let n = m + 1; n < flatArr.length; n++) {
+                if (flatArr[m] > flatArr[n]) inversions++;
+            }
+        }
+
+        // 3. 判断奇偶性规则
+        let isSolvable;
+        if (_width % 2 === 1) {
+            // 奇数阶：逆序数必须为偶数
+            isSolvable = (inversions % 2 === 0);
+        } else {
+            // 偶数阶：逆序数奇偶性 + 空格行奇偶性 = 偶数
+            const emptyRowFromBottom = 1; // 空格固定在第1行（从下往上数）
+            isSolvable = (inversions % 2 + emptyRowFromBottom % 2) % 2 === 0;
+        }
+
+        // 4. 若不可解则继续循环
+        _isContinueA = !isSolvable;
+    } while (_isContinueA)
     for (let m = 0; m < _width ** 2 - 1; m++) document.querySelector(`#cell-${Math.floor(m / _width)}-${m % _width}`).textContent = dataArray[Math.floor(m / _width)][m % _width];
     document.querySelector("#boxWHnum").disabled = false;
     pageStyleFunc(_width);
@@ -149,8 +197,8 @@ function pageStyleFunc(_width) {
     }
 }
 
-function restart() {
-    infoT(false)
+function restart(_isWin = false) {
+    infoT(_isWin)
     document.querySelector("#box").innerHTML = ""; // Clear the previous klotski
     initialCreate(boxWidth);
 }
@@ -174,7 +222,7 @@ function infoT(_isover = true) {
         "iS": 1,//is start
         "iO": _isover ? "WIN" : "FAIL",//is over 
         "dT": new Date().toLocaleString(),//date time
-        // "dA": JSON.stringify(dataArray),//data array//too much data
+        "dA": JSON.stringify(dataArray),//data array
     }
     _currentUserGameRecord.record[`times${_times}`] = _currentTime;
     localStorage.setItem((JSON.parse(localStorage.getItem("allUsers"))["_currentUser"] + "-klotski-" + _gameInfo.gameInfo.totalPages), JSON.stringify(_currentUserGameRecord));

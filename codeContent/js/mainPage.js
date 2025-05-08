@@ -171,7 +171,7 @@ function recordChanged(_type, _isUseNavOnly = false, ...infoArr) {
             <div>Time<hr/><strong>${_klotskiRecord.record[recordTypeKey].t}</strong></div>
             <div>Width<hr/><strong>${_klotskiRecord.record[recordTypeKey].w}</strong></div>
             <div>Result<hr/><strong>${_klotskiRecord.record[recordTypeKey].iO}</strong></div>
-            <div>Data<hr/><div id="recordListDateSearch" onclick="alertInfo('Write time: ${_klotskiRecord.record[recordTypeKey].dT}')">click</div></div>
+            <div>Data<hr/><div id="recordListDateSearch" onclick="alertInfo('Write time: ${_klotskiRecord.record[recordTypeKey].dT}\\nFinal array:${_klotskiRecord.record[recordTypeKey].dA}')">click</div></div>
             </li>`;
         }
         _temporaryString += `<li class="recordListChoice interpElem" style="line-height:15vh" onclick="selectGame(null,'klotski');selectGame(null,0);">let's play more!</li></ul>`;
