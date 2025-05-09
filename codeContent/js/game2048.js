@@ -1,4 +1,5 @@
 window.onload = () => {
+    document.querySelector("#themeBlock").style.display =  JSON.parse(localStorage.getItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-info`)).theme == "light" ? "none":"block";
     for (i = 0; i < 16; i++) document.querySelector("#box2048").innerHTML += "<li></li>";
     liElements = document.querySelectorAll("#box2048>li");
     mainTagElement = document.querySelector("#main");
@@ -261,7 +262,7 @@ function pageStyleFunc() {
 }
 
 function restart() {
-    infoT(false)
+    if(isStart)infoT(false)
     for (i = 0, dataArray = []; i < 4; dataArray[i] = ["", "", "", ""], i++);
     [Math.floor(Math.random() * 16), Math.floor(Math.random() * 16)].forEach(position => dataArray[Math.floor(position / 4)][position % 4] = Math.ceil(Math.random() * 10) * 2 % 4 + 2);
     console.log("restart:dataArray", dataArray);

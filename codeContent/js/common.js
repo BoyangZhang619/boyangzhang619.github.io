@@ -1,5 +1,4 @@
 console.log("The storage space has been used up to " + getLocalStorageSize() + "/5242880 bytes.(" + (getLocalStorageSize() / 5242880).toFixed(5) + ")");
-if (window.location.search.includes("?")) infoTransfer = JSON.parse(decodeURIComponent(window.location.search.replace("?", "")));
 gameIntroContent = {
     "game2048": "Genre: Number puzzle/Strategy game\n\nGameplay: Slide numbered tiles on a 4x4 grid to combine matching numbers (e.g., 2+2=4, 4+4=8). The goal is to create the tile numbered 2048 before the grid fills up.\n\nKey Feature: Simple controls (swipe or arrow keys) with addictive, brain-teasing strategy.",
     "klotski": "Genre: Sliding block puzzle\n\nOrigin: Inspired by the ancient Chinese legend of Cao Cao escaping a trap.\n\nGameplay: Move irregular wooden blocks within a confined space to slide the largest block (representing Cao Cao) to the exit.\n\nKey Feature: Requires spatial reasoning and patience, with hundreds of challenging variations.",

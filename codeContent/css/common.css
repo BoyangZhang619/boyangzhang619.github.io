@@ -154,7 +154,18 @@ html {
     transition: all 0.2s 0s linear;
     box-shadow: .5px .5px 3px 1px rgba(86, 66, 50, 0.877);
 }
-
+#themeBlock{
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1001;
+    background-color: rgba(0, 0, 0, 0.8);
+    transition: all 0.2s 0s linear;
+    pointer-events: none;
+}
 /* scrollbar */
 ::-webkit-scrollbar {
     width: 0;

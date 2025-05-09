@@ -1,6 +1,5 @@
 window.onload = () => {
-    // boxWidth = 10;// means 25 blocks in a row and 25 blocks in a column
-    // minesCount = 16;// means 49 mines in total
+    document.querySelector("#themeBlock").style.display =  JSON.parse(localStorage.getItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-info`)).theme == "light" ? "none":"block";
     [boxWidth, minesCount] = (JSON.parse(localStorage.getItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-mineClearance-1`)).gameInfo.defaultWidth && JSON.parse(localStorage.getItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-mineClearance-1`)).gameInfo.defaultWidth.split(",")) || [10, 16]
     boxWidth = +boxWidth;
     minesCount = +minesCount
@@ -329,7 +328,7 @@ function infoT(_isover = true) {
 }
 
 function restart() {
-    infoT(false)
+    if(isStart)infoT(false)
     initialCreate(null, `${boxWidth},${minesCount}`);
 }
 

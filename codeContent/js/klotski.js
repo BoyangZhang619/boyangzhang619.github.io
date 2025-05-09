@@ -1,4 +1,5 @@
 window.onload = () => {
+    document.querySelector("#themeBlock").style.display =  JSON.parse(localStorage.getItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-info`)).theme == "light" ? "none":"block";
     boxWidth = +JSON.parse(localStorage.getItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-klotski-1`)).gameInfo.defaultWidth || 10;
     minElement = document.querySelectorAll(".showDiv")[0].children[0];
     secElement = document.querySelectorAll(".showDiv")[0].children[2];
@@ -155,32 +156,17 @@ function initialCreate(_width) {
         const flatArr = [];
         for (let i = 0; i < _width; i++) {
             for (let j = 0; j < _width; j++) {
-                if (i === _width - 1 && j === _width - 1) continue; // 跳过空格
-                flatArr.push(parseInt(dataArray[i][j], 10)); // 转为数字类型
+                if (i === _width - 1 && j === _width - 1) continue;
+                flatArr.push(parseInt(dataArray[i][j], 10));
             }
         }
-
-        // 2. 计算逆序数
         let inversions = 0;
         for (let m = 0; m < flatArr.length; m++) {
             for (let n = m + 1; n < flatArr.length; n++) {
                 if (flatArr[m] > flatArr[n]) inversions++;
             }
         }
-
-        // 3. 判断奇偶性规则
-        let isSolvable;
-        if (_width % 2 === 1) {
-            // 奇数阶：逆序数必须为偶数
-            isSolvable = (inversions % 2 === 0);
-        } else {
-            // 偶数阶：逆序数奇偶性 + 空格行奇偶性 = 偶数
-            const emptyRowFromBottom = 1; // 空格固定在第1行（从下往上数）
-            isSolvable = (inversions % 2 + emptyRowFromBottom % 2) % 2 === 0;
-        }
-
-        // 4. 若不可解则继续循环
-        _isContinueA = !isSolvable;
+        _isContinueA = !(inversions % 2 === 0);
     } while (_isContinueA)
     for (let m = 0; m < _width ** 2 - 1; m++) document.querySelector(`#cell-${Math.floor(m / _width)}-${m % _width}`).textContent = dataArray[Math.floor(m / _width)][m % _width];
     document.querySelector("#boxWHnum").disabled = false;
@@ -198,7 +184,7 @@ function pageStyleFunc(_width) {
 }
 
 function restart(_isWin = false) {
-    infoT(_isWin)
+    if(isStart)infoT(_isWin)
     document.querySelector("#box").innerHTML = ""; // Clear the previous klotski
     initialCreate(boxWidth);
 }

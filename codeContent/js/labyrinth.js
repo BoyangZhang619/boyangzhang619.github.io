@@ -1,4 +1,5 @@
 window.onload = () => {
+    document.querySelector("#themeBlock").style.display =  JSON.parse(localStorage.getItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-info`)).theme == "light" ? "none":"block";
     boxWidth = JSON.parse(localStorage.getItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-labyrinth-1`)).gameInfo.defaultWidth || 29;// means 29 blocks in a row and 29 blocks in a column
     creatingBoxIndex = 0;
     isStart = false;
@@ -338,7 +339,7 @@ function dyeingFunction([paramA, paramB], _direction) {
 }
 
 function restart() {
-    infoT(false)
+    if(isStart)infoT(false)
     document.querySelector("#box").innerHTML = ""; // Clear the previous labyrinth
     initialCreate(boxWidth);
 }

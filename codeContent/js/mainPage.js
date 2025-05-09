@@ -247,8 +247,8 @@ function themeChanged(type) {
     if (!isLogin) return alertInfo("Please login to change the theme.", "Error");
     let _userInfo = JSON.parse(localStorage.getItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-info`));
     _userInfo.theme = type;
+    document.querySelector("#themeBlock").style.display = type == "light" ? "none":"block";
     localStorage.setItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-info`, JSON.stringify(_userInfo));
-    // there will be a theme change function in the future
     console.log(`theme is changed to ${type},however, there is no theme change function now`);
 }
 
