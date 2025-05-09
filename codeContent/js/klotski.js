@@ -1,5 +1,5 @@
 window.onload = () => {
-    document.querySelector("#themeBlock").style.display =  JSON.parse(localStorage.getItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-info`)).theme == "light" ? "none":"block";
+    if (JSON.parse(localStorage.getItem("allUsers"))["_currentUser"] !== "undefined") document.querySelector("#themeBlock").style.display = JSON.parse(localStorage.getItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-info`)).theme == "light" ? "none" : "block";
     boxWidth = +JSON.parse(localStorage.getItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-klotski-1`)).gameInfo.defaultWidth || 10;
     minElement = document.querySelectorAll(".showDiv")[0].children[0];
     secElement = document.querySelectorAll(".showDiv")[0].children[2];
@@ -184,7 +184,7 @@ function pageStyleFunc(_width) {
 }
 
 function restart(_isWin = false) {
-    if(isStart)infoT(_isWin)
+    if (isStart) infoT(_isWin)
     document.querySelector("#box").innerHTML = ""; // Clear the previous klotski
     initialCreate(boxWidth);
 }

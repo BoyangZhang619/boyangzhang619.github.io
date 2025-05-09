@@ -1,5 +1,5 @@
 window.onload = () => {
-    document.querySelector("#themeBlock").style.display =  JSON.parse(localStorage.getItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-info`)).theme == "light" ? "none":"block";
+    if (JSON.parse(localStorage.getItem("allUsers"))["_currentUser"] !== "undefined") document.querySelector("#themeBlock").style.display = JSON.parse(localStorage.getItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-info`)).theme == "light" ? "none" : "block";
     [boxWidth, minesCount] = (JSON.parse(localStorage.getItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-mineClearance-1`)).gameInfo.defaultWidth && JSON.parse(localStorage.getItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-mineClearance-1`)).gameInfo.defaultWidth.split(",")) || [10, 16]
     boxWidth = +boxWidth;
     minesCount = +minesCount
@@ -328,7 +328,7 @@ function infoT(_isover = true) {
 }
 
 function restart() {
-    if(isStart)infoT(false)
+    if (isStart) infoT(false)
     initialCreate(null, `${boxWidth},${minesCount}`);
 }
 
