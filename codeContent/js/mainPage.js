@@ -14,6 +14,7 @@ window.onload = function () {
         isLogin = true;
         document.querySelector("#hello").textContent = `Hello, ${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}`;
         document.querySelector("#hello").style.display = "block";
+        document.querySelector("#themeBlock").style.display = JSON.parse(localStorage.getItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-info`)).theme == "light" ? "none" : "block";
         // JSON.parse(localStorage.getItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-${}`)).gameInfo.totalTimes
     } else {
         document.querySelector("#login").style.display = "block";
@@ -247,7 +248,7 @@ function themeChanged(type) {
     if (!isLogin) return alertInfo("Please login to change the theme.", "Error");
     let _userInfo = JSON.parse(localStorage.getItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-info`));
     _userInfo.theme = type;
-    document.querySelector("#themeBlock").style.display = type == "light" ? "none":"block";
+    document.querySelector("#themeBlock").style.display = type == "light" ? "none" : "block";
     localStorage.setItem(`${JSON.parse(localStorage.getItem("allUsers"))["_currentUser"]}-info`, JSON.stringify(_userInfo));
     console.log(`theme is changed to ${type},however, there is no theme change function now`);
 }
@@ -298,7 +299,7 @@ function settings(type, _isInitialization = false, _aboutSentence, _helpSentence
         document.querySelectorAll("#aside li").forEach((elem) => {
             elem.style.boxShadow = "2px 2px 10px 1px rgba(86, 66, 50, 0.685)";
         });
-        document.querySelector("#setting-"+type).style.boxShadow = ".5px .5px 3px 1px rgba(86, 66, 50, 0.877)";
+        document.querySelector("#setting-" + type).style.boxShadow = ".5px .5px 3px 1px rgba(86, 66, 50, 0.877)";
     }
     function record() {
         document.querySelector("#recordContent").innerHTML = `<h1 class="interpElem">Record</h1><hr/>${["game2048", "labyrinth", "mineClearance", "klotski"].map(recordGameType => `<div class="recordChoice interpElem" onclick='recordChanged("${recordGameType}")'>${recordGameType}</div>`).join("")}`;
