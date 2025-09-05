@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Webgame-2048</title>
+	<link type="text/css" rel="stylesheet" href="../css/common.css" />
+	<link type="text/css" rel="stylesheet" href="../css/game2048.css" />
+	<link rel="icon" href="../../../imageContent/icon.jpg" type="image/x-icon">
+</head>
+
+<body translate="no">
+	<header id="header">
+		<h2 class="interpElem">Game2048</h2>
+	</header>
+	<main id="main">
+		<main>
+			<div id="box">
+				<ul id="box2048"></ul>
+			</div>
+		</main>
+		<aside id="aside">
+			<h2 id="time" class="interpElem">Time</h2>
+			<div class="showDiv">
+				<span>0</span>
+				<span class="interpElem">min(s)|</span>
+				<span>0</span>
+				<span class="interpElem">sec(s)</span>
+			</div>
+			<h2 id="step" class="interpElem">Steps</h2>
+			<div class="showDiv">
+				<span>0</span>
+				<span class="interpElem">step(s)</span>
+			</div>
+			<div id="admin">
+				<div id="restart" class="interpElem" onclick="restart()">Restart</div>
+				<div id="pause" class="interpElem" onclick="pause()">Pause/Resume</div>
+				<div id="intro" class="interpElem" onclick="gameIntro('game2048')">Game Intro</div>
+				<div id="back" class="interpElem" onclick="back()">Back</div>
+			</div>
+		</aside>
+	</main>
+	<div id="screenBlock">
+		<div id="alertInfo">
+			<div id="info">
+				<h2>Alert</h2>
+				<p></p>
+			</div>
+			<div id="determine">OK</div>
+		</div>
+	</div>
+    <div id="themeBlock"></div>
+	<script src="../js/game2048.js"></script>
+	<script src="../js/common.js"></script>
+</body>
+
+</html>

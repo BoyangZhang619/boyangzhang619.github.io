@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intelligent webgame</title>
+    <link rel="stylesheet" href="./css/common.css">
+    <link rel="stylesheet" href="./css/mainPage.css">
+    <link rel="icon" href="../../imageContent/icon.jpg" type="image/x-icon">
+</head>
+
+<body translate="no">
+    <header id="header">
+        <h2 class="interpElem">The Webpage of Intelligent Game</h2><!-- interpElem means interpretableElement -->
+        <div id="setting" onclick="partsSwitch()">≡</div>
+    </header>
+    <main id="main">
+        <main>
+            <div id="login">
+                <h2 class="interpElem">LOGIN</h2>
+                <form method="post" action="">
+                    <!-- actually it can't post to backend,because i haven't learned that yet,so that all the data are stored in local-->
+                    <div>
+                        <label for="username" class="interpElem">Username:</label>
+                        <input type="text" id="username" name="username" required placeholder="Enter your username">
+                    </div>
+                    <div>
+                        <label for="password" class="interpElem">Password:&nbsp;</label>
+                        <input type="password" id="password" name="password" required placeholder="Enter your password">
+                    </div>
+                    <div>
+                        <button type="submit" class="interpElem" onclick="login()">Login</button>
+                        <button type="button" class="interpElem" onclick="register()">Reg</button>
+                    </div>
+                </form>
+            </div>
+            <div id="hello"></div>
+            <div id="recordContent"></div>
+            <div id="accountContent"></div>
+            <div id="languageContent"></div>
+            <div id="themeContent"></div>
+            <div id="otherContent"></div>
+            <div id="aboutContent"></div>
+            <div id="helpContent"></div>
+        </main>
+        <aside id="aside">
+            <div id="selectGamePart">
+                <div id="choose" class="interpElem">SELECT GAME</div>
+                <ul id="ulSelectGame">
+                    <li class="interpElem" onclick='selectGame(this,"game2048")'>2048</li>
+                    <li class="interpElem" onclick='selectGame(this,"labyrinth")'>labyrinth</li>
+                    <li class="interpElem" onclick='selectGame(this,"mineClearance")'>mineClearance</li>
+                    <li class="interpElem" onclick='selectGame(this,"klotski")'>klotski</li>
+                </ul>
+                <div id="submit" class="interpElem" onclick="selectGame(this,0)">ENTER</div>
+            </div>
+            <div id="settingPart"><!-- settingPart hidden by default -->
+                <div id="settingTitle" class="interpElem">SETTING</div>
+                <ul id="ulSetting">
+                    <li class="interpElem" id="setting-record" onclick='settings("record")'>record</li>
+                    <li class="interpElem" id="setting-account" onclick='settings("account")'>account</li>
+                    <li class="interpElem" id="setting-language" onclick='settings("language")'>language</li>
+                    <li class="interpElem" id="setting-theme" onclick='settings("theme")'>theme</li>
+                    <li class="interpElem" id="setting-other" onclick='settings("other")'>other</li>
+                    <li class="interpElem" id="setting-about" onclick='settings("about")'>about</li>
+                    <li class="interpElem" id="setting-help" onclick='settings("help")'>help</li>
+                </ul>
+            </div>
+        </aside>
+    </main>
+    <div id="screenBlock">
+        <div id="alertInfo">
+            <div id="info">
+                <h2>Alert</h2>
+                <p></p>
+            </div>
+            <div id="determine">OK</div>
+        </div>
+    </div>
+    <div id="themeBlock"></div>
+    <!-- special chars ≡⋯⋮⨉ -->
+    <script src="./js/mainPage.js"></script>
+    <script src="./js/common.js"></script>
+</body>
+
+</html>
+<!-- i'm delight that you're looking my code.i cant tell who you're,but i think you definitely possess the enthusiasm for coding at least.-->
+<!-- editor:Boyang Zhang -->

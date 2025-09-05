@@ -4,21 +4,19 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Webgame-2048</title>
+	<title>Webgame-klotski</title>
+	<link type="text/css" rel="stylesheet" href="../css/klotski.css" />
 	<link type="text/css" rel="stylesheet" href="../css/common.css" />
-	<link type="text/css" rel="stylesheet" href="../css/game2048.css" />
-	<link rel="icon" href="../../imageContent/icon.jpg" type="image/x-icon">
+	<link rel="icon" href="../../../imageContent/icon.jpg" type="image/x-icon">
 </head>
 
 <body translate="no">
 	<header id="header">
-		<h2 class="interpElem">Game2048</h2>
+		<h2>klotski</h2>
 	</header>
 	<main id="main">
 		<main>
-			<div id="box">
-				<ul id="box2048"></ul>
-			</div>
+			<div id="box"></div>
 		</main>
 		<aside id="aside">
 			<h2 id="time" class="interpElem">Time</h2>
@@ -34,10 +32,13 @@
 				<span class="interpElem">step(s)</span>
 			</div>
 			<div id="admin">
-				<div id="restart" class="interpElem" onclick="restart()">Restart</div>
-				<div id="pause" class="interpElem" onclick="pause()">Pause/Resume</div>
-				<div id="intro" class="interpElem" onclick="gameIntro('game2048')">Game Intro</div>
-				<div id="back" class="interpElem" onclick="back()">Back</div>
+				<input id="boxWHnum" type="text" placeholder="wid">
+				<input id="boxWH" type="button" value="Set"
+					onclick="initialCreate(+document.querySelector('#boxWHnum').value)">
+				<div id="restart" onclick="restart()">Restart</div>
+				<div id="pause" onclick="pause()">Pause/Resume</div>
+				<div id="intro" onclick="intro('klotski')">Game Intro</div>
+				<div id="back" onclick="back()">Back</div>
 			</div>
 		</aside>
 	</main>
@@ -51,8 +52,8 @@
 		</div>
 	</div>
     <div id="themeBlock"></div>
-	<script src="../js/game2048.js"></script>
 	<script src="../js/common.js"></script>
+	<script src="../js/klotski.js"></script>
 </body>
 
 </html>

@@ -15,7 +15,7 @@ function gameIntro(type) {
     alertInfo(gameIntroContent[type]);
 }
 function back() {
-    window.open(`../../index.html`, "_self");
+    window.open(`../littleGameMainPage.html`, "_self");
 }
 function getLocalStorageSize() {
     let total = 0;

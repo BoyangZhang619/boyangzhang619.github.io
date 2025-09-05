@@ -170,6 +170,7 @@
 #accountContent,
 #languageContent,
 #themeContent,
+#otherContent,
 #aboutContent,
 #helpContent {
     display: none;
@@ -184,6 +185,7 @@
 #accountContent>h1,
 #languageContent>h1,
 #themeContent>h1,
+#otherContent>h1,
 #aboutContent>h1,
 #helpContent>h1 {
     text-align: center;
@@ -192,6 +194,7 @@
 }
 
 #aboutContent>p,
+#otherContent>p,
 #helpContent>p {
     text-align: left;
     text-indent: 2em;
@@ -202,7 +205,8 @@
 #recordContent>div,
 #accountContent>div,
 #languageContent>div,
-#themeContent>div {
+#themeContent>div,
+#otherContent>div {
     margin: 3.75vh auto;
     width: 30vw;
     height: 7.5vh;
@@ -219,7 +223,8 @@
 #recordContent>div:hover,
 #accountContent>div:hover,
 #languageContent>div:hover,
-#themeContent>div:hover {
+#themeContent>div:hover,
+#otherContent>div:hover {
     transition: all 0.2s 0s linear;
     box-shadow: .5px .5px 3px 1px rgba(86, 66, 50, 0.877);
 }

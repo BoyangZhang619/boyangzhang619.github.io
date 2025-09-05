@@ -274,9 +274,10 @@ function partsSwitch() {
     }
 }
 
-function settings(type, _isInitialization = false, _aboutSentence, _helpSentence) {
+function settings(type, _isInitialization = false, _aboutSentence, _helpSentence, _otherSentence) {
     _aboutSentence = _aboutSentence || "This is a simple webpage.The only one creater is me, who is a student in SZPU university. I am learning web development and this is my first project. I hope you like it!";
     _helpSentence = _helpSentence || "This is a simple webpage.If you have any question about this webpage,please enter <a href='http://chat.deepseek.com' target='_blank'>this page</a>.";
+    _otherSentence = _otherSentence || "There are some webpage for other things might be useful or funny before my truemainpage getting run.";
     document.querySelectorAll("#main>main>div[id$=Content]").forEach((elem) => {
         elem.style.display = "none";
     });
@@ -291,6 +292,7 @@ function settings(type, _isInitialization = false, _aboutSentence, _helpSentence
         case "theme": theme(); break;
         case "about": about(); break;
         case "help": help(); break;
+        case "other": other();break;
         default: console.log("why can you get this case?"); break;
     }
     function buttonDown(type) {
@@ -319,6 +321,9 @@ function settings(type, _isInitialization = false, _aboutSentence, _helpSentence
     function help() {
         document.querySelector("#helpContent").innerHTML = `<h1 class="interpElem">help</h1><hr/><p class="interpElem">${_helpSentence}</p>`;
     }
+    function other() {
+        document.querySelector("#otherContent").innerHTML = `<h1 class="interpElem">Other</h1><hr/><p class="interpElem">${_helpSentence}</p>${["FontTransform"].map(otherType => `<div class="otherChoice interpElem" onclick='otherChanged("${otherType}")'>${otherType}</div>`).join("")}`;
+    }
     return console.log(`${type} function is called`);
 }
 
@@ -326,7 +331,7 @@ function settings(type, _isInitialization = false, _aboutSentence, _helpSentence
 function selectGame(self, type = 1) {
     if (!isLogin) return alertInfo("Please login to change the enter game.", "Error");
     selectGameType = type ? type : selectGameType;
-    if (!type && selectGameType !== "") window.open(`./codeContent/html/${selectGameType}.html`, "_self");
+    if (!type && selectGameType !== "") window.open(`./html/${selectGameType}.html`, "_self");
     if (type) buttonDown(self);
     function buttonDown(self) {
         if (self === null) return;
