@@ -4,6 +4,16 @@
         <title>truemainpage</title>
     </head>
     <body>
-        <a href="./codeContent/little-game-webpage/littleGameMainPage.html">there is nothing but my little game page,u can enter it by click me</a>
+        <!-- <a href="./codeContent/little-game-webpage/littleGameMainPage.html">there is nothing but my little game page,u can enter it by click me</a> -->
+        <br/>
+        now,the creator of this webpage is in military training<br/>下面是ZBY进行的军训的进度,不嘻嘻
+        <br/>
+        <progress value="70" max="100" style="width: 50vw"></progress><p></p>
+
     </body>
+    <script>
+        document.querySelector("progress").value = new Date().getTime() > new Date("2025-09-21 12:00:00").getTime() ? 100 : Math.floor((new Date().getTime() - new Date("2025-09-08 00:00:00").getTime()) / (new Date("2025-09-21 12:00:00").getTime() - new Date("2025-09-08 00:00:00").getTime()) * 100);
+        document.querySelector("p").innerText = `军训进度: ${document.querySelector("progress").value}%`;
+        // document.querySelector("progress").max = 100;
+    </script>
 </html>
