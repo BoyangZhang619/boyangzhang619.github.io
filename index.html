@@ -1,19 +1,32 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>truemainpage</title>
-    </head>
-    <body>
-        <!-- <a href="./codeContent/little-game-webpage/littleGameMainPage.html">there is nothing but my little game page,u can enter it by click me</a> -->
-        <br/>
-        now,the creator of this webpage is in military training<br/>下面是ZBY进行的军训的进度,不嘻嘻
-        <br/>
-        <progress value="70" max="100" style="width: 50vw"></progress><p></p>
 
-    </body>
-    <script>
-        document.querySelector("progress").value = new Date().getTime() > new Date("2025-09-21 12:00:00").getTime() ? 100 : Math.floor((new Date().getTime() - new Date("2025-09-08 00:00:00").getTime()) / (new Date("2025-09-21 12:00:00").getTime() - new Date("2025-09-08 00:00:00").getTime()) * 100);
-        document.querySelector("p").innerText = `军训进度: ${document.querySelector("progress").value}%`;
-        // document.querySelector("progress").max = 100;
-    </script>
+<head>
+    <title>truemainpage</title>
+</head>
+
+<body style="margin: 0;">
+    <!-- <a href="./codeContent/little-game-webpage/littleGameMainPage.html">there is nothing but my little game page,u can enter it by click me</a> -->'
+    <main style="margin:0; padding: 0;width: 100vw;height: 50vh;transform: translateY(50%);">
+        now, i, the creator of this webpage is in military training,and i was pretty upset while i wrote the
+        sentence<br />所以这下面就是可怜的ZBY正在进行的军训的进度,不嘻嘻
+        <br />
+        <progress value="70" max="100" style="width: 100vw;height: 2vh;border-radius: 0px;"></progress>
+        <p></p>
+
+    </main>
+    <br />
+
+</body>
+<script>
+    militaryTrainingStartDate = new Date("2025-09-08 00:00:00");
+    militaryTrainingEndDate = new Date("2025-09-21 12:00:00");
+    function reLoad() {
+        document.querySelector("p").innerText = `军训进度: ${Math.floor((new Date().getTime() - militaryTrainingStartDate.getTime()) / (militaryTrainingEndDate.getTime() - militaryTrainingStartDate.getTime()) * 1000000000) / 10000000}%`;
+        document.querySelector("progress").value = parseFloat(document.querySelector("p").innerText.split("%")[0].split(" ")[1]);
+    }
+    reLoad();
+    setInterval(reLoad, 0);
+</script>
+
 </html>
