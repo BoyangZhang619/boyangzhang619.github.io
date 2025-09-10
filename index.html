@@ -3,16 +3,49 @@
 
 <head>
     <title>truemainpage</title>
+    <style>
+        main {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 50vh;
+            /* height: 7.5vh; */
+            line-height: 5vh;
+            font-size: 5vh;
+            /* transform: translateY(50%); */
+        }
+
+        /* progress {
+            width: 100vw;
+            height: 5vh;
+        } */
+        p,progress{
+            text-align: center;
+            border-radius: 0px;
+            margin: 0;
+            padding: 0;
+            position: fixed;
+            bottom: 0;
+            width: 100vw;
+            height: 7.5vh;
+            line-height: 7.5vh;
+            font-size: 7.5vh;
+            color: rgba(0, 0, 0, 0.5);
+        }
+        p{
+            z-index: 100;
+        }
+    </style>
 </head>
 
 <body style="margin: 0;">
-    <!-- <a href="./codeContent/little-game-webpage/littleGameMainPage.html">there is nothing but my little game page,u can enter it by click me</a> -->'
-    <main style="margin:0; padding: 0;width: 100vw;height: 50vh;transform: translateY(50%);">
+    <!-- <a href="./codeContent/little-game-webpage/littleGameMainPage.html">there is nothing but my little game page,u can enter it by click me</a> -->
+    <main>
         now, i, the creator of this webpage is in military training,and i was pretty upset while i wrote the
         sentence<br />所以这下面就是可怜的ZBY正在进行的军训的进度,不嘻嘻
         <br />
-        <progress value="70" max="100" style="width: 100vw;height: 2vh;border-radius: 0px;"></progress>
         <p></p>
+        <progress value="70" max="100"></progress>
 
     </main>
     <br />
@@ -22,11 +55,11 @@
     militaryTrainingStartDate = new Date("2025-09-08 00:00:00");
     militaryTrainingEndDate = new Date("2025-09-21 12:00:00");
     function reLoad() {
-        document.querySelector("p").innerText = `军训进度: ${Math.floor((new Date().getTime() - militaryTrainingStartDate.getTime()) / (militaryTrainingEndDate.getTime() - militaryTrainingStartDate.getTime()) * 1000000000) / 10000000}%`;
-        document.querySelector("progress").value = parseFloat(document.querySelector("p").innerText.split("%")[0].split(" ")[1]);
+        document.querySelector("p").innerText = `${Math.floor((new Date().getTime() - militaryTrainingStartDate.getTime()) / (militaryTrainingEndDate.getTime() - militaryTrainingStartDate.getTime()) * 1000000000) / 10000000}%`;
+        document.querySelector("progress").value = parseFloat(document.querySelector("p").innerText.split("%")[0]);
     }
     reLoad();
-    setInterval(reLoad, 0);
+    // setInterval(reLoad, 0);
 </script>
 
 </html>
