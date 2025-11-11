@@ -17,7 +17,7 @@
     
     const newItem = { id: uid, text: text };
 
-    await fetch(`https://api.github.com/repos/BoyangZhang619/text-storage/dispatches`, {
+    await fetch(`https://soft-haze-72a6.boyangzhang246.workers.dev`, {
         method: "POST",
         headers: { "Content-Type": "application/json", "Accept": "application/vnd.github.everest-preview+json" },
         body: JSON.stringify({
