@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>𝙃𝙖𝙥𝙥𝙮 𝘽𝙞𝙧𝙩𝙝𝙙𝙖𝙮~~~</title>
+</head>
+<body>
+<input type="text" id="uid">
+<input type="text" id="text">
+  <div onclick="addData()"></div>
+  <div onclick="loadData()"></div>
+      <script>
+        async function addData() {
+    const uid = document.getElementById("uid").value;
+    const text = document.getElementById("text").value;
+    
+    const newItem = { id: uid, text: text };
+
+    await fetch(`https://api.github.com/repos/BoyangZhang619/text-storage/dispatches`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/vnd.github.everest-preview+json" },
+        body: JSON.stringify({
+            event_type: "update_data",
+            client_payload: { new_item: newItem }
+        })
+    });
+
+    alert("提交成功（等待几秒同步）");
+}
+      async function loadData() {
+    const res = await fetch("https://raw.githubusercontent.com/BoyangZhang619/text-storage/main/data.json");
+    const data = await res.json();
+    document.getElementById("result").textContent = JSON.stringify(data, null, 2);
+}
+
+      </script>
+</body>
+</html>
