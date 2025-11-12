@@ -375,7 +375,7 @@
 
         <label style="display:block; margin-bottom:10px; font-size:0.9em; color:#1E90FF;">
           <input type="checkbox" id="showOnBoard" checked>
-          Show this message on the board 💌
+          是否在下面展示 💌
         </label>
         <button class="btn" id="sendBtn">送出祝福</button>
 
@@ -393,6 +393,25 @@
   </div>
 
   <script>
+    console.log("blq是619，没有别的意思，望莫混淆");
+    const cakeText = `
+           i i i i i i
+           | | | | | |
+      ╔═════════╗
+      ║       @   @      ║
+      ║         ^        ║
+      ╚═════════╝
+      ╔═════════╗
+      ║       ~~~~       ║
+      ║        ***       ║
+      ╚═════════╝
+      ╔═════════╗
+      ║       *****      ║
+      ║       *****      ║
+      ╚═════════╝
+`;
+
+    console.log(cakeText);
     (() => {
       const WORKER_URL = "https://soft-haze-72a6.boyangzhang246.workers.dev";
       const msgsEl = document.getElementById('msgs');
@@ -422,7 +441,7 @@
           const totalCount = getData["totalCount"];
           data = getData["messages"];
           // console.log(data, totalCount);
-          document.querySelector("small").textContent = `非匿名留言会显示在下方（含匿名共 ${totalCount} 条）`;
+          document.querySelector("small").textContent = `选择显示留言会显示在下方（含不显示共 ${totalCount} 条）`;
           renderMsgs(data);
         } catch (e) {
           // console.warn(e);
