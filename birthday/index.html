@@ -192,6 +192,7 @@
       color: #87CEFA;
       font-size: 22px;
     }
+
     .vertical-texts.three {
       right: auto;
       left: 150px;
@@ -372,7 +373,7 @@
 
       <div class="side" aria-live="polite">
         <h1>送出一份祝福 🎂</h1>
-        <p class="lead">留下你的name和一句话，它将存至云端，随后一个宇宙无敌超级善良zby会偷偷地去看<strong>o.O</strong></p>
+        <p class="lead">留下你的name和一句话，它将存至云端，随后一个宇宙超级无敌善良zby会偷偷地去看<strong>o.O</strong></p>
 
         <div class="field">
           <label for="uid">你的名字(若匿名空着就好)</label>
@@ -453,8 +454,8 @@
         setTimeout(() => { n.style.opacity = '0.9'; }, 10);
       }
 
-      // ===== LeanCloud: 保存留言 =====
-      async function sendDataToLC(uid, textArray) {
+      // ===== 保存到 LeanCloud 的函数 =====
+      async function sendDataToLC(uid, textArray, ip = null) {
         const msg = new MessageClass();
         msg.set('uid', uid);
         msg.set('text', JSON.stringify(textArray));
@@ -522,7 +523,7 @@
         ));
       }
 
-      // ===== 发送留言（整合原逻辑） =====
+      // ===== 发送留言（整合原逻辑 + 获取 IP） =====
       async function sendData() {
         const uid = Date.now().toString();
         const showOnBoard = document.getElementById("showOnBoard").checked;
@@ -531,10 +532,9 @@
         let text = document.querySelector("#text").value;
         if (!text) { alert('请填写一段留言'); return; }
         const textArray = [nameInput, text, showOnBoard];
-
         sendBtn.disabled = true;
         sendBtn.textContent = '发送中...';
-
+        console.log('Sending message:', { uid, text: textArray });
         try {
           await sendDataToLC(uid, textArray);
           showNotice('已发送 — 感谢你的祝福 🎉', true);
@@ -571,7 +571,7 @@
       fetchAndRender();
 
     })();
-// ===== 原 Worker 版本（已弃用） =====至于你能看到这坨代码，说明你有兴趣了解以前的实现方式。但是呢worker在中国大陆没有vpn的速度极慢，甚至无法访问，所以就弃用了。
+    // ===== 原 Worker 版本（已弃用） =====至于你能看到这坨代码，说明你有兴趣了解以前的实现方式。但是呢worker在中国大陆没有vpn的速度极慢，甚至无法访问，所以就弃用了。
     // (() => {
     //   const WORKER_URL = "https://soft-haze-72a6.boyangzhang246.workers.dev";
     //   const msgsEl = document.getElementById('msgs');
