@@ -1,35 +1,508 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="zh-CN">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>𝙃𝙖𝙥𝙥𝙮 𝘽𝙞𝙧𝙩𝙝𝙙𝙖𝙮~~~</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>生日快乐 — Cake Page</title>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&family=Inter:wght@300;400;600&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #E6F0FF;
+      /* 浅蓝背景 */
+      --panel: #fff;
+      /* 面板仍然白色 */
+      --accent: #87CEFA;
+      /* 浅蓝渐变主色 */
+      --accent-2: #1E90FF;
+      /* 深蓝渐变次色 */
+      --muted: #5B6B8C;
+      /* 深灰蓝文字 */
+      --shadow: 0 8px 30px rgba(70, 130, 180, 0.12);
+      /* 蓝色阴影 */
+    }
+
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, 'Baloo 2', sans-serif;
+      background: linear-gradient(180deg, var(--bg) 0%, #FFF 60%);
+      color: #3b2b36
+    }
+
+    .frame {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+      box-sizing: border-box;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* cute border decorations */
+    .frame::before,
+    .frame::after {
+      content: "";
+      position: absolute;
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: var(--shadow);
+      transform: rotate(12deg);
+      opacity: 0.95;
+    }
+
+    .frame::before {
+      left: 18px;
+      top: 18px
+    }
+
+    .frame::after {
+      right: 18px;
+      bottom: 18px;
+      transform: rotate(-10deg)
+    }
+
+    /* scattered small shapes */
+    .spark {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border-radius: 4px;
+      background: var(--accent-2);
+      box-shadow: 0 6px 14px rgba(255, 166, 121, 0.12);
+      transform: rotate(18deg);
+      opacity: 0.95;
+    }
+
+    .spark.s1 {
+      left: 6%;
+      top: 12%
+    }
+
+    .spark.s2 {
+      right: 8%;
+      top: 18%
+    }
+
+    .spark.s3 {
+      left: 10%;
+      bottom: 14%
+    }
+
+    .spark.s4 {
+      right: 12%;
+      bottom: 8%
+    }
+
+    /* main card */
+    .card {
+      width: 100%;
+      max-width: 1100px;
+      background: var(--panel);
+      border-radius: 20px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 24px;
+      align-items: center;
+    }
+
+    /* left: cake area */
+    .cake-area {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: 16px;
+    }
+
+    /* big cake */
+    .cake-wrap {
+      width: min(78vw, 520px);
+      max-width: 520px;
+      aspect-ratio: 1/0.9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    /* Add a soft spotlight */
+    .spot {
+      position: absolute;
+      width: 86%;
+      height: 56%;
+      left: 7%;
+      top: 18%;
+      filter: blur(36px);
+      background: radial-gradient(closest-side, rgba(255, 203, 220, 0.55), rgba(255, 255, 255, 0));
+      z-index: 0;
+    }
+
+    /* right: controls */
+    .side {
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    h1 {
+      font-family: 'Baloo 2', cursive;
+      font-size: 28px;
+      margin: 0;
+      color: #1E90FF;
+      letter-spacing: 0.6px;
+    }
+
+    p.lead {
+      margin: 6px 0 18px;
+      color: var(--muted);
+      font-size: 14px
+    }
+
+    /* vertical playful texts */
+    .vertical-texts {
+      position: absolute;
+      left: 8px;
+      top: 40px;
+      writing-mode: vertical-rl;
+      transform: rotate(8deg);
+      font-weight: 700;
+      color: #87CEFA;
+      font-family: 'Baloo 2';
+      letter-spacing: 1px;
+      text-shadow: 0 2px 6px rgba(255, 127, 176, 0.14);
+      font-size: 18px;
+    }
+
+    .vertical-texts.two {
+      right: 14px;
+      left: auto;
+      top: 80px;
+      transform: rotate(-6deg);
+      color: #87CEFA;
+    }
+
+    /* input styles */
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px
+    }
+
+    label {
+      font-size: 12px;
+      color: var(--muted)
+    }
+
+    input[type="text"],
+    #text {
+      border-radius: 12px;
+      border: 1px solid rgba(100, 80, 100, 0.08);
+      padding: 10px 12px;
+      font-size: 14px;
+      outline: none;
+      box-shadow: inset 0 -2px 6px rgba(0, 0, 0, 0.03);
+      resize: vertical;
+    }
+
+    #text {
+      min-height: 80px;
+      max-height: 180px
+    }
+
+    .btn {
+      margin-top: 6px;
+      background: linear-gradient(180deg, #87CEFA, #1E90FF);
+      color: white;
+      padding: 10px 14px;
+      border-radius: 12px;
+      border: none;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 8px 18px rgba(255, 111, 153, 0.18);
+    }
+
+    .btn:active {
+      transform: translateY(1px)
+    }
+
+    /* cute list (recent messages preview) */
+    .msgs {
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 280px;
+      overflow: auto;
+      padding-right: 6px;
+    }
+
+    .msg {
+      background: linear-gradient(180deg, #fff6fb, #fff);
+      border-radius: 10px;
+      padding: 10px;
+      font-size: 13px;
+      box-shadow: 0 4px 12px rgba(150, 100, 140, 0.06);
+    }
+
+    .msg small {
+      color: var(--muted);
+      display: block;
+      font-size: 11px;
+      margin-top: 6px
+    }
+
+    /* responsive */
+    @media (max-width:900px) {
+      .card {
+        grid-template-columns: 1fr;
+        padding: 18px
+      }
+
+      .vertical-texts {
+        display: none
+      }
+
+      .cake-wrap {
+        width: 86vw
+      }
+    }
+  </style>
 </head>
+
 <body>
-<input type="text" id="uid">
-<input type="text" id="text">
-  <div onclick="addData()">addData</div>
-  <div onclick="loadData()">loadData</div>
-      <script>
-        async function addData() {
-  const uid = document.getElementById("uid").value;
-  const text = document.getElementById("text").value;
+  <div class="frame" role="main" aria-label="生日页面">
+    <div class="spark s1"></div>
+    <div class="spark s2"></div>
+    <div class="spark s3"></div>
+    <div class="spark s4"></div>
 
-  const res = await fetch("https://soft-haze-72a6.boyangzhang246.workers.dev", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ uid, text })
-  });
+    <div class="card" id="card">
+      <div class="cake-area">
+        <div class="vertical-texts">祝你生日快乐</div>
+        <div class="vertical-texts two">愿望成真</div>
 
-  console.log(await res.json());
-}
+        <div class="cake-wrap" aria-hidden="false">
+          <div class="spot"></div>
 
-async function loadData() {
-  const res = await fetch("https://soft-haze-72a6.boyangzhang246.workers.dev");
-  const data = await res.json();
-  console.log(data);
-}
+          <!-- SVG 大蛋糕（可直接缩放） -->
+          <svg viewBox="0 0 800 720" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" role="img"
+            aria-label="大蛋糕">
+            <defs>
+              <linearGradient id="icing" x1="0" x2="1">
+                <stop offset="0" stop-color="#e6f0ff" />
+                <stop offset="1" stop-color="#87cefa" />
+              </linearGradient>
+              <linearGradient id="cakegrad" x1="0" x2="1">
+                <stop offset="0" stop-color="#87cefa" />
+                <stop offset="1" stop-color="#1e90ff" />
+              </linearGradient>
+              <filter id="soft" x="-50%" y="-50%" width="200%" height="200%">
+                <feDropShadow dx="0" dy="6" stdDeviation="12" flood-color="#4682b4" flood-opacity="0.12" />
+              </filter>
+            </defs>
 
-      </script>
+            <ellipse cx="400" cy="620" rx="280" ry="42" fill="#d9e6ff" opacity="0.9" />
+
+            <g filter="url(#soft)">
+              <rect x="140" y="300" rx="48" ry="48" width="520" height="260" fill="url(#cakegrad)" />
+            </g>
+
+            <path
+              d="M140 340 C170 300 220 360 270 345 C330 330 360 380 420 360 C480 340 520 390 590 360 C640 337 700 360 660 420 L140 420 Z"
+              fill="url(#icing)" />
+
+            <ellipse cx="400" cy="300" rx="240" ry="60" fill="#f0f8ff" />
+
+            <g id="candles" transform="translate(0,0)">
+              <g transform="translate(310,210)">
+                <rect x="0" y="0" width="16" height="80" rx="6" fill="#87cefa" />
+                <rect x="-8" y="-14" width="32" height="14" rx="8" fill="#e6f0ff" />
+                <path d="M8 -22 C10 -28 6 -34 8 -40 C10 -34 14 -28 12 -22 Z" fill="#ffd66b" />
+              </g>
+              <g transform="translate(380,200)">
+                <rect x="0" y="0" width="16" height="90" rx="6" fill="#1e90ff" />
+                <rect x="-8" y="-14" width="32" height="14" rx="8" fill="#e6f0ff" />
+                <path d="M8 -22 C10 -28 6 -34 8 -40 C10 -34 14 -28 12 -22 Z" fill="#ffd66b" />
+              </g>
+              <g transform="translate(450,210)">
+                <rect x="0" y="0" width="16" height="80" rx="6" fill="#9be6ff" />
+                <rect x="-8" y="-14" width="32" height="14" rx="8" fill="#e6f0ff" />
+                <path d="M8 -22 C10 -28 6 -34 8 -40 C10 -34 14 -28 12 -22 Z" fill="#ffd66b" />
+              </g>
+            </g>
+
+            <g>
+              <rect x="260" y="360" width="6" height="14" rx="2" fill="#87cefa" transform="rotate(20 263 367)" />
+              <rect x="320" y="380" width="6" height="14" rx="2" fill="#1e90ff" transform="rotate(-10 323 387)" />
+              <rect x="420" y="360" width="6" height="14" rx="2" fill="#9be6ff" transform="rotate(30 423 367)" />
+              <rect x="540" y="390" width="6" height="14" rx="2" fill="#d0ebff" transform="rotate(-20 543 397)" />
+            </g>
+
+            <g transform="translate(320,380)">
+              <ellipse cx="80" cy="28" rx="12" ry="8" fill="#3b5b8c" opacity="0.9" />
+              <ellipse cx="150" cy="28" rx="12" ry="8" fill="#3b5b8c" opacity="0.9" />
+              <path d="M90 48 C110 62 130 62 150 48" stroke="#4682b4" stroke-width="6" stroke-linecap="round"
+                fill="none" />
+            </g>
+          </svg>
+
+        </div>
+      </div>
+
+      <div class="side" aria-live="polite">
+        <h1>送出一份祝福 🎂</h1>
+        <p class="lead">留下你的name和一句话，它将存至云端，收到后会在仓库记录~</p>
+
+        <div class="field">
+          <label for="uid">你的名字(若匿名空着就好)</label>
+          <input id="uid" type="text" placeholder="哈基米">
+        </div>
+
+        <div class="field">
+          <label for="text">祝福或留言</label>
+          <input type="text" id="text" placeholder="生日快乐🎂..."></input>
+        </div>
+
+        <label style="display:block; margin-bottom:10px; font-size:0.9em; color:#1E90FF;">
+          <input type="checkbox" id="showOnBoard" checked>
+          Show this message on the board 💌
+        </label>
+        <button class="btn" id="sendBtn">送出祝福</button>
+
+        <div style="display:flex;gap:10px;align-items:center;margin-top:12px">
+          <button id="refreshBtn"
+            style="background:#fff;border:1px solid rgba(120,80,120,0.06);padding:8px 10px;border-radius:10px;cursor:pointer">刷新留言</button>
+          <small style="color:var(--muted)">留言会显示在下方</small>
+        </div>
+
+        <div class="msgs" id="msgs" aria-atomic="true" style="margin-top:12px">
+          <!-- messages loaded here -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      const WORKER_URL = "https://soft-haze-72a6.boyangzhang246.workers.dev";
+      const msgsEl = document.getElementById('msgs');
+      const sendBtn = document.getElementById('sendBtn');
+      const refreshBtn = document.getElementById('refreshBtn');
+
+      function showNotice(text, ok = true) {
+        const n = document.createElement('div');
+        n.textContent = text;
+        n.style.padding = '8px';
+        n.style.borderRadius = '8px';
+        n.style.margin = '6px 0';
+        n.style.fontSize = '13px';
+        n.style.background = ok ? 'linear-gradient(90deg,#eafff8,#f1fff7)' : 'linear-gradient(90deg,#fff0f6,#ffeef6)';
+        n.style.color = ok ? '#11664a' : '#8a2b4a';
+        msgsEl.prepend(n);
+        setTimeout(() => { n.style.opacity = '0.9'; }, 10);
+      }
+
+      async function fetchAll(showOnBoardOnly = true) {
+        try {
+          const res = await fetch(`${WORKER_URL}?showOnBoard=${showOnBoardOnly}`, { method: 'GET' });
+          // console.log('Fetched messages:', res);
+          if (!res.ok) throw new Error('fetch error ' + res.status);
+          const getData = await res.json();
+          // console.log('Fetched messages:', getData);
+          const totalCount = getData["totalCount"];
+          data = getData["messages"];
+          // console.log(data, totalCount);
+          document.querySelector("small").textContent = `非匿名留言会显示在下方（含匿名共 ${totalCount} 条）`;
+          renderMsgs(data);
+        } catch (e) {
+          // console.warn(e);
+          showNotice('无法读取留言（Worker/网络问题）', false);
+        }
+      }
+
+
+      function renderMsgs(items) {
+        msgsEl.innerHTML = '';
+        if (!items || items.length === 0) {
+          msgsEl.innerHTML = '<div class="msg">还没有留言，做第一个祝福吧！</div>';
+          return;
+        }
+        // 最近在上方
+        items.slice().reverse().slice(0, 40).forEach(it => {
+          // if (it.text[2] === false) return;
+          // console.log('Rendering message:', it);
+          const d = document.createElement('div');
+          d.className = 'msg';
+          d.innerHTML = `<strong>${escapeHtml(it.text[0] || '(匿名)')}</strong><div style="margin-top:6px">${escapeHtml(it.text[1] || '')}</div><small>${escapeHtml((new Date(parseInt(it.id))).toLocaleString() || '')}</small>`;
+          msgsEl.appendChild(d);
+        });
+      }
+
+      function escapeHtml(s) {
+        if (!s) return '';
+        return s.replace(/[&<>"']/g, (m) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
+      }
+
+      async function sendData() {
+        const uid = (new Date).getTime().toString();
+        const showOnBoard = document.getElementById("showOnBoard").checked;
+        let nameInput = document.querySelector("#uid").value || '匿名';
+        nameInput = nameInput.trim();
+        nameInput = nameInput === "" ? "匿名" : nameInput;
+        let text = document.querySelector("#text").value;
+        if (!text) { alert('请填写一段留言'); return; }
+        text = [nameInput, text, showOnBoard];
+
+        sendBtn.disabled = true;
+        sendBtn.textContent = '发送中...';
+
+        try {
+          const payload = { uid, text };
+          // console.log('Sending payload:', JSON.stringify(payload));
+          const res = await fetch(WORKER_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          if (!res.ok) throw new Error('提交失败 ' + res.status);
+          const j = await res.json();
+          if (j && j.status === 'ok') {
+            showNotice('已发送 — 感谢你的祝福 🎉', true);
+            // 清空
+            document.getElementById('text').value = '';
+            // 拉取最新留言
+            await new Promise(r => setTimeout(r, 800));
+            await fetchAll();
+          } else {
+            showNotice('服务器响应异常', false);
+          }
+        } catch (err) {
+          // console.error(err);
+          showNotice('发送失败（请检查网络或 Worker）', false);
+        } finally {
+          sendBtn.disabled = false;
+          sendBtn.textContent = '送出祝福';
+        }
+      }
+
+      sendBtn.addEventListener('click', sendData);
+      refreshBtn.addEventListener('click', fetchAll);
+
+      // 初次加载
+      fetchAll();
+
+    })();
+  </script>
 </body>
+
 </html>
