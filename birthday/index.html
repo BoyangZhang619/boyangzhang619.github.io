@@ -12,26 +12,22 @@
   <div onclick="loadData()">loadData</div>
       <script>
         async function addData() {
-    const uid = document.getElementById("uid").value;
-    const text = document.getElementById("text").value;
-    
-    const newItem = { id: uid, text: text };
+  const uid = document.getElementById("uid").value;
+  const text = document.getElementById("text").value;
 
-    await fetch(`https://soft-haze-72a6.boyangzhang246.workers.dev`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "Accept": "application/vnd.github.everest-preview+json" },
-        body: JSON.stringify({
-            event_type: "update_data",
-            client_payload: { new_item: newItem }
-        })
-    });
+  const res = await fetch("https://soft-haze-72a6.boyangzhang246.workers.dev", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ uid, text })
+  });
 
-    alert("提交成功（等待几秒同步）");
+  console.log(await res.json());
 }
-      async function loadData() {
-    const res = await fetch("https://raw.githubusercontent.com/BoyangZhang619/text-storage/main/data.json");
-    const data = await res.json();
-    document.getElementById("result").textContent = JSON.stringify(data, null, 2);
+
+async function loadData() {
+  const res = await fetch("https://soft-haze-72a6.boyangzhang246.workers.dev");
+  const data = await res.json();
+  console.log(data);
 }
 
       </script>
