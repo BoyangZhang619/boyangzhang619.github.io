@@ -4,7 +4,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>生日快乐 — Cake Page</title>
+  <title>𝙬𝙤𝙬,𝙞𝙩 𝙞𝙨 𝙢𝙮 𝙗𝙞𝙧𝙩𝙝𝙙𝙖𝙮!!!</title>
+  <script src="./av.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&family=Inter:wght@300;400;600&display=swap"
     rel="stylesheet">
   <style>
@@ -142,7 +143,7 @@
       left: 7%;
       top: 18%;
       filter: blur(36px);
-      background: radial-gradient(closest-side, rgba(255, 203, 220, 0.55), rgba(255, 255, 255, 0));
+      background: radial-gradient(closest-side, rgba(150, 193, 215, 0.55), rgba(255, 255, 255, 0));
       z-index: 0;
     }
 
@@ -171,24 +172,33 @@
     /* vertical playful texts */
     .vertical-texts {
       position: absolute;
-      left: 8px;
+      left: 30px;
       top: 40px;
       writing-mode: vertical-rl;
-      transform: rotate(8deg);
+      transform: rotate(30deg);
       font-weight: 700;
       color: #87CEFA;
       font-family: 'Baloo 2';
       letter-spacing: 1px;
-      text-shadow: 0 2px 6px rgba(255, 127, 176, 0.14);
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.14);
       font-size: 18px;
     }
 
     .vertical-texts.two {
-      right: 14px;
+      right: 24px;
       left: auto;
       top: 80px;
-      transform: rotate(-6deg);
+      transform: rotate(-32deg);
       color: #87CEFA;
+      font-size: 22px;
+    }
+    .vertical-texts.three {
+      right: auto;
+      left: 150px;
+      top: 35px;
+      transform: rotate(-250deg);
+      color: #87CEFA;
+      font-size: 28px;
     }
 
     /* input styles */
@@ -228,7 +238,7 @@
       border: none;
       font-weight: 700;
       cursor: pointer;
-      box-shadow: 0 8px 18px rgba(255, 111, 153, 0.18);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
     }
 
     .btn:active {
@@ -247,11 +257,11 @@
     }
 
     .msg {
-      background: linear-gradient(180deg, #fff6fb, #fff);
+      background: linear-gradient(180deg, #d4f5ff, #fff);
       border-radius: 10px;
       padding: 10px;
       font-size: 13px;
-      box-shadow: 0 4px 12px rgba(150, 100, 140, 0.06);
+      box-shadow: 0 4px 12px rgba(100, 141, 150, 0.06);
     }
 
     .msg small {
@@ -288,8 +298,9 @@
 
     <div class="card" id="card">
       <div class="cake-area">
-        <div class="vertical-texts">祝你生日快乐</div>
-        <div class="vertical-texts two">愿望成真</div>
+        <div class="vertical-texts">祝我自己生日快乐</div>
+        <div class="vertical-texts two">祝世上程序少些bug</div>
+        <div class="vertical-texts three">嘻嘻</div>
 
         <div class="cake-wrap" aria-hidden="false">
           <div class="spot"></div>
@@ -361,7 +372,7 @@
 
       <div class="side" aria-live="polite">
         <h1>送出一份祝福 🎂</h1>
-        <p class="lead">留下你的name和一句话，它将存至云端，收到后会在仓库记录~</p>
+        <p class="lead">留下你的name和一句话，它将存至云端，随后一个宇宙无敌超级善良zby会偷偷地去看<strong>o.O</strong></p>
 
         <div class="field">
           <label for="uid">你的名字(若匿名空着就好)</label>
@@ -375,7 +386,7 @@
 
         <label style="display:block; margin-bottom:10px; font-size:0.9em; color:#1E90FF;">
           <input type="checkbox" id="showOnBoard" checked>
-          是否在下面展示 💌
+          是否在下面展示(所有人可见) 💌
         </label>
         <button class="btn" id="sendBtn">送出祝福</button>
 
@@ -413,11 +424,20 @@
 
     console.log(cakeText);
     (() => {
-      const WORKER_URL = "https://soft-haze-72a6.boyangzhang246.workers.dev";
+      // ===== LeanCloud 初始化 =====
+      const APP_ID = "6pjrbSoLAkuqR8FEi18GRiv4-gzGzoHsz";
+      const APP_KEY = "lwa2ISSpOdRZ15vYIQIlqG34";
+      const SERVER_URL = "https://6pjrbsol.lc-cn-n1-shared.com";
+      AV.init({ appId: APP_ID, appKey: APP_KEY, serverURL: SERVER_URL });
+
+      const MessageClass = AV.Object.extend('Message');
+
+      // ===== DOM 元素 =====
       const msgsEl = document.getElementById('msgs');
       const sendBtn = document.getElementById('sendBtn');
       const refreshBtn = document.getElementById('refreshBtn');
 
+      // ===== 提示函数 =====
       function showNotice(text, ok = true) {
         const n = document.createElement('div');
         n.textContent = text;
@@ -425,102 +445,242 @@
         n.style.borderRadius = '8px';
         n.style.margin = '6px 0';
         n.style.fontSize = '13px';
-        n.style.background = ok ? 'linear-gradient(90deg,#eafff8,#f1fff7)' : 'linear-gradient(90deg,#fff0f6,#ffeef6)';
+        n.style.background = ok
+          ? 'linear-gradient(90deg,#eafff8,#f1fff7)'
+          : 'linear-gradient(90deg,#fff0f6,#ffeef6)';
         n.style.color = ok ? '#11664a' : '#8a2b4a';
         msgsEl.prepend(n);
         setTimeout(() => { n.style.opacity = '0.9'; }, 10);
       }
 
-      async function fetchAll(showOnBoardOnly = true) {
-        try {
-          const res = await fetch(`${WORKER_URL}?showOnBoard=${showOnBoardOnly}`, { method: 'GET' });
-          // console.log('Fetched messages:', res);
-          if (!res.ok) throw new Error('fetch error ' + res.status);
-          const getData = await res.json();
-          // console.log('Fetched messages:', getData);
-          const totalCount = getData["totalCount"];
-          data = getData["messages"];
-          // console.log(data, totalCount);
-          document.querySelector("small").textContent = `选择显示留言会显示在下方（含不显示共 ${totalCount} 条）`;
-          renderMsgs(data);
-        } catch (e) {
-          // console.warn(e);
-          showNotice('无法读取留言（Worker/网络问题）', false);
-        }
+      // ===== LeanCloud: 保存留言 =====
+      async function sendDataToLC(uid, textArray) {
+        const msg = new MessageClass();
+        msg.set('uid', uid);
+        msg.set('text', JSON.stringify(textArray));
+        msg.set('name', textArray[0]);
+        msg.set('message', textArray[1]);
+        msg.set('showOnBoard', !!textArray[2]);
+
+        // ACL：公开读、禁止公开写
+        const acl = new AV.ACL();
+        acl.setPublicReadAccess(true);
+        acl.setPublicWriteAccess(false);
+        msg.setACL(acl);
+
+        return msg.save();
       }
 
+      // ===== LeanCloud: 拉取留言 =====
+      async function fetchAllFromLC(showOnBoardOnly = true) {
+        const query = new AV.Query('Message');
+        if (showOnBoardOnly) query.equalTo('showOnBoard', true);
+        query.descending('createdAt');
+        query.limit(1000);
 
+        const results = await query.find();
+        const messages = results.map(obj => ({
+          id: obj.get('uid') || obj.id,
+          text: obj.get('text') || [
+            obj.get('name') || '(匿名)',
+            obj.get('message') || '',
+            !!obj.get('showOnBoard')
+          ],
+          createdAt: obj.createdAt
+        }));
+        // console.log('Fetched messages:', messages);
+        const totalQuery = new AV.Query('Message');
+        const totalCount = await totalQuery.count();
+        return { messages, totalCount };
+      }
+
+      // ===== 渲染留言 =====
       function renderMsgs(items) {
         msgsEl.innerHTML = '';
         if (!items || items.length === 0) {
           msgsEl.innerHTML = '<div class="msg">还没有留言，做第一个祝福吧！</div>';
           return;
         }
-        // 最近在上方
-        items.slice().reverse().slice(0, 40).forEach(it => {
-          // if (it.text[2] === false) return;
-          // console.log('Rendering message:', it);
+        items.slice(0, 40).forEach(it => {
           const d = document.createElement('div');
           d.className = 'msg';
-          d.innerHTML = `<strong>${escapeHtml(it.text[0] || '(哈基米)')}</strong><div style="margin-top:6px">${escapeHtml(it.text[1] || '')}</div><small>${escapeHtml((new Date(parseInt(it.id))).toLocaleString() || '')}</small>`;
+          it.text = JSON.parse(it.text);
+          // console.log('Rendering message:', it);
+          d.innerHTML = `
+        <strong>${escapeHtml(it.text[0] || '哈基米')}</strong>
+        <div style="margin-top:6px">${escapeHtml(it.text[1] || '')}</div>
+        <small>${new Date(it.createdAt).toLocaleString()}</small>
+      `;
           msgsEl.appendChild(d);
         });
       }
 
       function escapeHtml(s) {
         if (!s) return '';
-        return s.replace(/[&<>"']/g, (m) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
+        return s.replace(/[&<>"']/g, m => (
+          { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]
+        ));
       }
 
+      // ===== 发送留言（整合原逻辑） =====
       async function sendData() {
-        const uid = (new Date).getTime().toString();
+        const uid = Date.now().toString();
         const showOnBoard = document.getElementById("showOnBoard").checked;
-        let nameInput = document.querySelector("#uid").value || '哈基米';
-        nameInput = nameInput.trim();
-        nameInput = nameInput === "" ? "哈基米" : nameInput;
+        let nameInput = (document.querySelector("#uid").value || '哈基米').trim();
+        if (nameInput === "") nameInput = "哈基米";
         let text = document.querySelector("#text").value;
         if (!text) { alert('请填写一段留言'); return; }
-        text = [nameInput, text, showOnBoard];
+        const textArray = [nameInput, text, showOnBoard];
 
         sendBtn.disabled = true;
         sendBtn.textContent = '发送中...';
 
         try {
-          const payload = { uid, text };
-          // console.log('Sending payload:', JSON.stringify(payload));
-          const res = await fetch(WORKER_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-          });
-          if (!res.ok) throw new Error('提交失败 ' + res.status);
-          const j = await res.json();
-          if (j && j.status === 'ok') {
-            showNotice('已发送 — 感谢你的祝福 🎉', true);
-            // 清空
-            document.getElementById('text').value = '';
-            // 拉取最新留言
-            await new Promise(r => setTimeout(r, 800));
-            await fetchAll();
-          } else {
-            showNotice('服务器响应异常', false);
-          }
-        } catch (err) {
-          // console.error(err);
-          showNotice('发送失败（请检查网络或 Worker）', false);
+          await sendDataToLC(uid, textArray);
+          showNotice('已发送 — 感谢你的祝福 🎉', true);
+          document.getElementById('text').value = '';
+          await new Promise(r => setTimeout(r, 500));
+          await fetchAndRender();
+        } catch (e) {
+          showNotice('发送失败（LeanCloud 问题）', false);
+          console.error(e);
         } finally {
           sendBtn.disabled = false;
           sendBtn.textContent = '送出祝福';
         }
       }
 
-      sendBtn.addEventListener('click', sendData);
-      refreshBtn.addEventListener('click', fetchAll);
+      // ===== 拉取并渲染（整合原逻辑） =====
+      async function fetchAndRender() {
+        try {
+          const { messages, totalCount } = await fetchAllFromLC(true);
+          document.querySelector("small").textContent =
+            `选择显示留言会显示在下方（含不显示共 ${totalCount} 条）`;
+          renderMsgs(messages);
+        } catch (e) {
+          showNotice('无法读取留言（LeanCloud/网络问题）', false);
+          console.error(e);
+        }
+      }
 
-      // 初次加载
-      fetchAll();
+      // ===== 按钮绑定 =====
+      sendBtn.addEventListener('click', sendData);
+      refreshBtn.addEventListener('click', fetchAndRender);
+
+      // ===== 页面初次加载 =====
+      fetchAndRender();
 
     })();
+// ===== 原 Worker 版本（已弃用） =====至于你能看到这坨代码，说明你有兴趣了解以前的实现方式。但是呢worker在中国大陆没有vpn的速度极慢，甚至无法访问，所以就弃用了。
+    // (() => {
+    //   const WORKER_URL = "https://soft-haze-72a6.boyangzhang246.workers.dev";
+    //   const msgsEl = document.getElementById('msgs');
+    //   const sendBtn = document.getElementById('sendBtn');
+    //   const refreshBtn = document.getElementById('refreshBtn');
+
+    //   function showNotice(text, ok = true) {
+    //     const n = document.createElement('div');
+    //     n.textContent = text;
+    //     n.style.padding = '8px';
+    //     n.style.borderRadius = '8px';
+    //     n.style.margin = '6px 0';
+    //     n.style.fontSize = '13px';
+    //     n.style.background = ok ? 'linear-gradient(90deg,#eafff8,#f1fff7)' : 'linear-gradient(90deg,#fff0f6,#ffeef6)';
+    //     n.style.color = ok ? '#11664a' : '#8a2b4a';
+    //     msgsEl.prepend(n);
+    //     setTimeout(() => { n.style.opacity = '0.9'; }, 10);
+    //   }
+
+    //   async function fetchAll(showOnBoardOnly = true) {
+    //     try {
+    //       const res = await fetch(`${WORKER_URL}?showOnBoard=${showOnBoardOnly}`, { method: 'GET' });
+    //       // console.log('Fetched messages:', res);
+    //       if (!res.ok) throw new Error('fetch error ' + res.status);
+    //       const getData = await res.json();
+    //       // console.log('Fetched messages:', getData);
+    //       const totalCount = getData["totalCount"];
+    //       data = getData["messages"];
+    //       // console.log(data, totalCount);
+    //       document.querySelector("small").textContent = `选择显示留言会显示在下方（含不显示共 ${totalCount} 条）`;
+    //       renderMsgs(data);
+    //     } catch (e) {
+    //       // console.warn(e);
+    //       showNotice('无法读取留言（Worker/网络问题）', false);
+    //     }
+    //   }
+
+
+    //   function renderMsgs(items) {
+    //     msgsEl.innerHTML = '';
+    //     if (!items || items.length === 0) {
+    //       msgsEl.innerHTML = '<div class="msg">还没有留言，做第一个祝福吧！</div>';
+    //       return;
+    //     }
+    //     // 最近在上方
+    //     items.slice().reverse().slice(0, 40).forEach(it => {
+    //       // if (it.text[2] === false) return;
+    //       // console.log('Rendering message:', it);
+    //       const d = document.createElement('div');
+    //       d.className = 'msg';
+    //       d.innerHTML = `<strong>${escapeHtml(it.text[0] || '(哈基米)')}</strong><div style="margin-top:6px">${escapeHtml(it.text[1] || '')}</div><small>${escapeHtml((new Date(parseInt(it.id))).toLocaleString() || '')}</small>`;
+    //       msgsEl.appendChild(d);
+    //     });
+    //   }
+
+    //   function escapeHtml(s) {
+    //     if (!s) return '';
+    //     return s.replace(/[&<>"']/g, (m) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
+    //   }
+
+    //   async function sendData() {
+    //     const uid = (new Date).getTime().toString();
+    //     const showOnBoard = document.getElementById("showOnBoard").checked;
+    //     let nameInput = document.querySelector("#uid").value || '哈基米';
+    //     nameInput = nameInput.trim();
+    //     nameInput = nameInput === "" ? "哈基米" : nameInput;
+    //     let text = document.querySelector("#text").value;
+    //     if (!text) { alert('请填写一段留言'); return; }
+    //     text = [nameInput, text, showOnBoard];
+
+    //     sendBtn.disabled = true;
+    //     sendBtn.textContent = '发送中...';
+
+    //     try {
+    //       const payload = { uid, text };
+    //       // console.log('Sending payload:', JSON.stringify(payload));
+    //       const res = await fetch(WORKER_URL, {
+    //         method: 'POST',
+    //         headers: { 'Content-Type': 'application/json' },
+    //         body: JSON.stringify(payload)
+    //       });
+    //       if (!res.ok) throw new Error('提交失败 ' + res.status);
+    //       const j = await res.json();
+    //       if (j && j.status === 'ok') {
+    //         showNotice('已发送 — 感谢你的祝福 🎉', true);
+    //         // 清空
+    //         document.getElementById('text').value = '';
+    //         // 拉取最新留言
+    //         await new Promise(r => setTimeout(r, 800));
+    //         await fetchAll();
+    //       } else {
+    //         showNotice('服务器响应异常', false);
+    //       }
+    //     } catch (err) {
+    //       // console.error(err);
+    //       showNotice('发送失败（请检查网络或 Worker）', false);
+    //     } finally {
+    //       sendBtn.disabled = false;
+    //       sendBtn.textContent = '送出祝福';
+    //     }
+    //   }
+
+    //   sendBtn.addEventListener('click', sendData);
+    //   refreshBtn.addEventListener('click', fetchAll);
+
+    //   // 初次加载
+    //   fetchAll();
+
+    // })();
   </script>
 </body>
 
