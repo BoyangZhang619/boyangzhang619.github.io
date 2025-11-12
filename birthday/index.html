@@ -462,7 +462,7 @@
           // console.log('Rendering message:', it);
           const d = document.createElement('div');
           d.className = 'msg';
-          d.innerHTML = `<strong>${escapeHtml(it.text[0] || '(匿名)')}</strong><div style="margin-top:6px">${escapeHtml(it.text[1] || '')}</div><small>${escapeHtml((new Date(parseInt(it.id))).toLocaleString() || '')}</small>`;
+          d.innerHTML = `<strong>${escapeHtml(it.text[0] || '(哈基米)')}</strong><div style="margin-top:6px">${escapeHtml(it.text[1] || '')}</div><small>${escapeHtml((new Date(parseInt(it.id))).toLocaleString() || '')}</small>`;
           msgsEl.appendChild(d);
         });
       }
@@ -475,9 +475,9 @@
       async function sendData() {
         const uid = (new Date).getTime().toString();
         const showOnBoard = document.getElementById("showOnBoard").checked;
-        let nameInput = document.querySelector("#uid").value || '匿名';
+        let nameInput = document.querySelector("#uid").value || '哈基米';
         nameInput = nameInput.trim();
-        nameInput = nameInput === "" ? "匿名" : nameInput;
+        nameInput = nameInput === "" ? "哈基米" : nameInput;
         let text = document.querySelector("#text").value;
         if (!text) { alert('请填写一段留言'); return; }
         text = [nameInput, text, showOnBoard];
