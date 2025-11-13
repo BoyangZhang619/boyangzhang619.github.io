@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>𝙬𝙤𝙬,𝙞𝙩 𝙞𝙨 𝙢𝙮 𝙗𝙞𝙧𝙩𝙝𝙙𝙖𝙮!!!</title>
+  <title>𝙬𝙤𝙬,𝐓𝐨𝐝𝐚𝐲 𝒊𝒔 𝓶𝔂 𝚋𝚒𝚛𝚝𝚑𝚍𝚊𝚢!!!</title>
   <script src="./av.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&family=Inter:wght@300;400;600&display=swap"
     rel="stylesheet">
@@ -255,6 +255,8 @@
       max-height: 280px;
       overflow: auto;
       padding-right: 6px;
+      word-wrap: break-word;
+      white-space: normal;
     }
 
     .msg {
@@ -382,7 +384,7 @@
 
         <div class="field">
           <label for="text">祝福或留言</label>
-          <input type="text" id="text" placeholder="生日快乐🎂..."></input>
+          <textarea type="text" id="text" placeholder="生日快乐🎂..."></textarea>
         </div>
 
         <label style="display:block; margin-bottom:10px; font-size:0.9em; color:#1E90FF;">
@@ -393,8 +395,8 @@
 
         <div style="display:flex;gap:10px;align-items:center;margin-top:12px">
           <button id="refreshBtn"
-            style="background:#fff;border:1px solid rgba(120,80,120,0.06);padding:8px 10px;border-radius:10px;cursor:pointer">刷新留言</button>
-          <small style="color:var(--muted)">留言会显示在下方</small>
+            style="background:#fff;border:1px solid rgba(120,80,120,0.06);padding:8px 10px;border-radius:10px;cursor:pointer">刷新</button>
+          <small style="color:var(--muted)">选择显示留言会显示在下方（留言总数去码里找吧）</small>
         </div>
 
         <div class="msgs" id="msgs" aria-atomic="true" style="margin-top:12px">
@@ -424,10 +426,10 @@
 `;
 
     console.log(cakeText);
-    (() => {
+    (() => { //细节箭头函数封装
       // ===== LeanCloud 初始化 =====
       const APP_ID = "6pjrbSoLAkuqR8FEi18GRiv4-gzGzoHsz";
-      const APP_KEY = "lwa2ISSpOdRZ15vYIQIlqG34";
+      const APP_KEY = "lwa2ISSpOdRZ15vYIQIlqG34";// 这些id和key都公开了，没记错的话我的leanCloud的那个app的Class权限设的是所有人，如果你想篡改，我也不阻止你啦~（worker不会暴露这些的，哎，这防火墙怎么这么坏啊）
       const SERVER_URL = "https://6pjrbsol.lc-cn-n1-shared.com";
       AV.init({ appId: APP_ID, appKey: APP_KEY, serverURL: SERVER_URL });
 
@@ -531,10 +533,11 @@
         if (nameInput === "") nameInput = "哈基米";
         let text = document.querySelector("#text").value;
         if (!text) { alert('请填写一段留言'); return; }
+        if (text.length > 1000) alert('我是彩蛋：留言过长可能会被截断哦~');
         const textArray = [nameInput, text, showOnBoard];
         sendBtn.disabled = true;
         sendBtn.textContent = '发送中...';
-        console.log('Sending message:', { uid, text: textArray });
+        // console.log('Sending message:', { uid, text: textArray });
         try {
           await sendDataToLC(uid, textArray);
           showNotice('已发送 — 感谢你的祝福 🎉', true);
@@ -554,8 +557,9 @@
       async function fetchAndRender() {
         try {
           const { messages, totalCount } = await fetchAllFromLC(true);
-          document.querySelector("small").textContent =
-            `选择显示留言会显示在下方（含不显示共 ${totalCount} 条）`;
+          // document.querySelector("small").textContent =
+          //   `选择显示留言会显示在下方（含不显示共 ${totalCount} 条）`;
+          // 本来这个功能是我自己加上去的，但是后来觉得没必要展示总数了，毕竟总数可以去码里看（逃
           renderMsgs(messages);
         } catch (e) {
           showNotice('无法读取留言（LeanCloud/网络问题）', false);
@@ -571,7 +575,7 @@
       fetchAndRender();
 
     })();
-    // ===== 原 Worker 版本（已弃用） =====至于你能看到这坨代码，说明你有兴趣了解以前的实现方式。但是呢worker在中国大陆没有vpn的速度极慢，甚至无法访问，所以就弃用了。
+    // ===== 原 Worker 版本（已弃用） =====至于你能看到这坨代码，说明你你能看到这坨代码。但是呢worker和github在中国大陆没有vpn的速度极慢，甚至无法访问，所以我就弃用了(看到这句话的你知道当时搞完发现关掉梯子连不到后端有多绝望吗)。（对了，其实这些代码几乎全是AI写的，我只负责需求整理与部分重写，错误修改和相对优化）
     // (() => {
     //   const WORKER_URL = "https://soft-haze-72a6.boyangzhang246.workers.dev";
     //   const msgsEl = document.getElementById('msgs');
