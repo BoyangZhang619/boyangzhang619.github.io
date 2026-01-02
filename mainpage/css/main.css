@@ -1,0 +1,302 @@
+:root {
+    /* 主题色 - 可通过JS动态修改 */
+    --primary-color: #333;
+    --bg-color: #fafafa;
+    --card-bg: #ffffff;
+    --card-hover-bg: #f5f5f5;
+    --border-color: #eaeaea;
+    --text-color: #333;
+    --text-secondary: #666;
+    --accent-color: #4a90d9;
+    
+    /* 阴影 */
+    --shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    --shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.12);
+    
+    /* 过渡动画 */
+    --transition-duration: 0.3s;
+    --transition: all var(--transition-duration) ease;
+    
+    /* 圆角 */
+    --border-radius: 12px;
+    --border-radius-sm: 6px;
+    --border-radius-tag: 4px;
+    
+    /* 字体 */
+    --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --header-size: 2rem;
+    --header-size-mobile: 1.6rem;
+    --title-size: 1.1rem;
+    --desc-size: 0.85rem;
+    --tag-size: 0.75rem;
+    --badge-size: 0.7rem;
+    
+    /* 布局 */
+    --container-max-width: 600px;
+    --container-padding: 40px 20px;
+    --container-padding-mobile: 24px 16px;
+    --card-padding: 20px 24px;
+    --card-padding-mobile: 16px 18px;
+    --card-gap: 12px;
+    --icon-size: 48px;
+    --icon-size-mobile: 40px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    min-height: 100vh;
+    padding: var(--container-padding);
+}
+
+.container {
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.header h1 {
+    font-size: var(--header-size);
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 8px;
+}
+
+.header p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+/* 加载状态 */
+.loading {
+    text-align: center;
+    padding: 40px;
+    color: var(--text-secondary);
+}
+
+.loading::after {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--border-color);
+    border-top-color: var(--accent-color);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin-left: 10px;
+    vertical-align: middle;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.nav-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--card-gap);
+}
+
+.nav-item {
+    display: flex;
+    align-items: flex-start;
+    padding: var(--card-padding);
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    color: var(--text-color);
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.nav-item:hover {
+    background: var(--card-hover-bg);
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+}
+
+.nav-icon {
+    width: var(--icon-size);
+    height: var(--icon-size);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-color);
+    border-radius: 10px;
+    margin-right: 16px;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.nav-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.nav-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+    flex-wrap: wrap;
+}
+
+.nav-title {
+    font-size: var(--title-size);
+    font-weight: 500;
+}
+
+/* 徽章样式 */
+.nav-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    font-size: var(--badge-size);
+    font-weight: 500;
+    border-radius: var(--border-radius-tag);
+    background: var(--accent-color);
+    color: #fff;
+    transition: background 0.2s;
+}
+
+.nav-badge.new {
+    background: #52c41a;
+}
+
+.nav-badge.hot {
+    background: #ff4d4f;
+}
+
+.nav-badge.update {
+    background: #faad14;
+    color: #333;
+}
+
+.nav-desc {
+    font-size: var(--desc-size);
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
+/* 标签样式 */
+.nav-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+}
+
+.nav-tag {
+    display: inline-block;
+    padding: 2px 8px;
+    font-size: var(--tag-size);
+    background: var(--bg-color);
+    color: var(--text-secondary);
+    border-radius: var(--border-radius-tag);
+    border: 1px solid var(--border-color);
+}
+
+/* 更新时间 */
+.nav-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 8px;
+    font-size: var(--tag-size);
+    color: var(--text-secondary);
+}
+
+.nav-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.nav-arrow {
+    color: var(--text-secondary);
+    font-size: 1.2rem;
+    transition: var(--transition);
+    align-self: center;
+    margin-left: 8px;
+}
+
+.nav-item:hover .nav-arrow {
+    transform: translateX(4px);
+}
+
+.footer {
+    text-align: center;
+    margin-top: 60px;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+}
+
+/* 状态样式 */
+.nav-item[data-status="inactive"] {
+    opacity: 0.6;
+    pointer-events: auto;
+    cursor: not-allowed;
+    background: repeating-linear-gradient(135deg, #eee, #eee 10px, #fafafa 10px, #fafafa 20px);
+    box-shadow: none;
+    border-style: dashed;
+    position: relative;
+}
+
+.nav-item[data-status="inactive"]::after {
+    content: attr(data-banmsg);
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: var(--tag-size);
+    color: #ff4d4f;
+    background: #fff;
+    padding: 2px 6px;
+    border-radius: var(--border-radius-tag);
+    font-weight: bold;
+    z-index: 2;
+}
+
+/* 响应式 */
+@media (max-width: 480px) {
+    body {
+        padding: var(--container-padding-mobile);
+    }
+
+    .header h1 {
+        font-size: var(--header-size-mobile);
+    }
+
+    .nav-item {
+        padding: var(--card-padding-mobile);
+    }
+
+    .nav-icon {
+        width: var(--icon-size-mobile);
+        height: var(--icon-size-mobile);
+        font-size: 1.2rem;
+    }
+
+    .nav-tags {
+        gap: 4px;
+    }
+
+    .nav-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+}

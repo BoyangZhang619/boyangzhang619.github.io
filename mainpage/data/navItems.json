@@ -1,0 +1,60 @@
+{
+    "items": [
+        {
+            "id": "little-games",
+            "href": "https://zbyblq.xin/Little_game_of_webpage/",
+            "icon": "🎮",
+            "title": "小游戏合集",
+            "desc": "2048、华容道、迷宫、扫雷等趣味小游戏",
+            "tags": ["游戏", "休闲", "益智"],
+            "badge": "might NEW",
+            "badgeColor": "G",
+            "status": "active",
+            "createTime": "2026-01-01",
+            "updateTime": "2026-01-02"
+        },
+        {
+            "id": "cny-blessing",
+            "href": "https://zbyblq.xin/happyDays/",
+            "icon": "🧧",
+            "title": "春节祝福生成器",
+            "desc": "选择春节元素，AI为你生成专属新年祝福语，支持中英日韩多语言<br/>tip:因为我使用的是国外的vercel(懒得改了)，所以你能进页面但是无法生成祝福，建议科学上网使用",
+            "tags": ["AI", "春节", "祝福", "生成器"],
+            "badge": "NEW YEAR",
+            "badgeColor": "R",
+            "status": "active",
+            "updateTime": "2026-01-02"
+        },
+        {
+            "id": "future-feature",
+            "href": "https://zbyblq.xin/birthday/",
+            "icon": "🎂",
+            "title": "zby的生日",
+            "desc": "嘻嘻嘻~这是我的生日哦~,不过已经过了啦啦啦啦啦啦啦啦~~~",
+            "tags": ["生日", "祝福", "分享"],
+            "badge": "BAN",
+            "badgeColor": "#888888",
+            "status": "inactive",
+            "banMsg": "等今年的吧~",
+            "updateTime": "2025-11-18"
+        },
+        {
+            "id": "eft-tool",
+            "href": "./eft/index.html",
+            "icon": "🔤",
+            "title": "英文字体转换工具",
+            "desc": "输入英文，点击样式即可一键转换特殊字体，支持多种花体/粗体/斜体等Unicode样式。",
+            "tags": ["工具", "英文字体", "Unicode"],
+            "badge": "not NEW",
+            "badgeColor": "#444",
+            "status": "active",
+            "updateTime": "2026-01-02"
+        }
+    ],
+    "settings": {
+        "showTags": true,
+        "showBadge": true,
+        "showUpdateTime": true,
+        "maxTagsDisplay": 3
+    }
+}

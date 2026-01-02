@@ -1,0 +1,35 @@
+{
+    "theme": {
+        "primaryColor": "#333",
+        "bgColor": "#fafafa",
+        "cardBg": "#ffffff",
+        "cardHoverBg": "#f5f5f5",
+        "borderColor": "#eaeaea",
+        "textColor": "#333",
+        "textSecondary": "#666",
+        "shadow": "0 2px 8px rgba(0, 0, 0, 0.08)",
+        "shadowHover": "0 4px 16px rgba(0, 0, 0, 0.12)",
+        "transitionDuration": "0.3s",
+        "borderRadius": "12px",
+        "accentColor": "#4a90d9"
+    },
+    "typography": {
+        "fontFamily": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
+        "headerSize": "2rem",
+        "headerSizeMobile": "1.6rem",
+        "titleSize": "1.1rem",
+        "descSize": "0.85rem",
+        "tagSize": "0.75rem",
+        "badgeSize": "0.7rem"
+    },
+    "layout": {
+        "containerMaxWidth": "600px",
+        "containerPadding": "40px 20px",
+        "containerPaddingMobile": "24px 16px",
+        "cardPadding": "20px 24px",
+        "cardPaddingMobile": "16px 18px",
+        "cardGap": "12px",
+        "iconSize": "48px",
+        "iconSizeMobile": "40px"
+    }
+}

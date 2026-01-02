@@ -1,14 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>imthemainpage</title>
+    <title>导航主页</title>
+    <link rel="icon" href="./imageContent/icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="./mainpage/css/main.css">
 </head>
 <body>
-    你好，再见<br/>
-    <a href="http://zbyblq.xin/Little_game_of_webpage">点这句话去小游戏网页</a>
-    你好，再见
-    <!-- <script>(()=>{location.href="./birthday/index.html"})()</script> -->
+    <div class="container">
+        <header class="header">
+            <h1>🏠 导航主页</h1>
+            <p>欢迎访问，选择你想去的地方</p>
+        </header>
+
+        <nav class="nav-list" id="navList">
+            <!-- 导航项由JS动态加载 -->
+            <div class="loading">加载中</div>
+        </nav>
+
+        <footer class="footer">
+            <p>© 2026 zby</p>
+        </footer>
+    </div>
+
+    <script src="./mainpage/js/main.js"></script>
 </body>
 </html>
