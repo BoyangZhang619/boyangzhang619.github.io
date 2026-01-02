@@ -289,11 +289,108 @@ const NavSystem = {
 };
 
 // ============================================
+// 深色/浅色主题切换系统
+// ============================================
+const ThemeToggle = {
+    STORAGE_KEY: 'theme-mode',
+    
+    init() {
+        console.log('🔍 [ThemeToggle] 开始初始化...');
+        
+        this.btn = document.getElementById('themeToggle');
+        console.log('🔍 [ThemeToggle] 按钮元素:', this.btn);
+        
+        if (!this.btn) {
+            console.error('❌ [ThemeToggle] 找不到 #themeToggle 按钮!');
+            return;
+        }
+        
+        // 读取保存的主题或跟随系统
+        this.loadSavedTheme();
+        
+        // 绑定点击事件
+        this.btn.addEventListener('click', () => {
+            console.log('🔍 [ThemeToggle] 按钮被点击');
+            this.toggle();
+        });
+        
+        // 监听系统主题变化
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            if (!localStorage.getItem(this.STORAGE_KEY)) {
+                this.setTheme(e.matches ? 'dark' : 'light', false);
+            }
+        });
+        
+        console.log('🎨 主题切换系统初始化完成');
+    },
+    
+    loadSavedTheme() {
+        const saved = localStorage.getItem(this.STORAGE_KEY);
+        console.log('🔍 [ThemeToggle] localStorage 保存的主题:', saved);
+        
+        if (saved) {
+            this.setTheme(saved, false);
+        } else {
+            // 跟随系统主题
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            console.log('🔍 [ThemeToggle] 系统偏好深色模式:', prefersDark);
+            this.setTheme(prefersDark ? 'dark' : 'light', false);
+        }
+    },
+    
+    toggle() {
+        const current = document.documentElement.getAttribute('data-theme');
+        const next = current === 'dark' ? 'light' : 'dark';
+        console.log('🔍 [ThemeToggle] 切换主题:', current, '->', next);
+        this.setTheme(next, true);
+    },
+    
+    setTheme(theme, save = true) {
+        console.log('🔍 [ThemeToggle] setTheme 被调用, theme =', theme);
+        
+        document.documentElement.setAttribute('data-theme', theme);
+        
+        // 验证是否设置成功
+        const actualTheme = document.documentElement.getAttribute('data-theme');
+        console.log('🔍 [ThemeToggle] 实际设置的 data-theme:', actualTheme);
+        
+        // 检查 CSS 变量是否生效
+        const bgColor = getComputedStyle(document.body).backgroundColor;
+        console.log('🔍 [ThemeToggle] 当前 body 背景色:', bgColor);
+        
+        const cssVarBgColor = getComputedStyle(document.documentElement).getPropertyValue('--bg-color');
+        console.log('🔍 [ThemeToggle] CSS 变量 --bg-color:', cssVarBgColor);
+        
+        // 同步光标深色模式
+        if (window.MagicCursor) {
+            MagicCursor.setDarkMode(theme === 'dark');
+        }
+        
+        // 保存到本地存储
+        if (save) {
+            localStorage.setItem(this.STORAGE_KEY, theme);
+        }
+    },
+    
+    // 获取当前主题
+    getTheme() {
+        return document.documentElement.getAttribute('data-theme') || 'light';
+    },
+    
+    // 判断是否深色模式
+    isDark() {
+        return this.getTheme() === 'dark';
+    }
+};
+
+// ============================================
 // 页面加载完成后初始化
 // ============================================
 document.addEventListener('DOMContentLoaded', () => {
     NavSystem.init();
+    ThemeToggle.init();
 });
 
 // 导出到全局，方便外部调用
 window.NavSystem = NavSystem;
+window.ThemeToggle = ThemeToggle;

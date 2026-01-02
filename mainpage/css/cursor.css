@@ -1,0 +1,157 @@
+/* ============================================
+   魔法光标样式 - 独立模块
+   可在任意页面引入使用
+   ============================================ */
+
+/* 隐藏默认光标 */
+.cursor-enabled,
+.cursor-enabled * {
+    cursor: none !important;
+}
+
+.cursor-wrapper {
+    pointer-events: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+}
+
+/* 主光标 - 发光小圆点 */
+.cursor-main {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10002;
+    background: linear-gradient(135deg, #a78bfa, #818cf8);
+    box-shadow: 
+        0 0 10px rgba(167, 139, 250, 0.8),
+        0 0 20px rgba(129, 140, 248, 0.5),
+        0 0 30px rgba(167, 139, 250, 0.3);
+    animation: cursorDotPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes cursorDotPulse {
+    0%, 100% { 
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+    50% { 
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 0.8;
+    }
+}
+
+/* 跟随的圆环 - 渐变边框 + 旋转 */
+.cursor-trail {
+    position: fixed;
+    width: 40px;
+    height: 40px;
+    border: 2px solid transparent;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    background: 
+        linear-gradient(#fff, #fff) padding-box,
+        linear-gradient(135deg, #667eea, #764ba2, #f093fb, #f5576c) border-box;
+    animation: cursorTrailRotate 3s linear infinite, cursorTrailPulse 2s ease-in-out infinite;
+    z-index: 10001;
+}
+
+/* 深色背景适配 */
+.cursor-dark .cursor-trail {
+    background: 
+        linear-gradient(#1a1a2e, #1a1a2e) padding-box,
+        linear-gradient(135deg, #667eea, #764ba2, #f093fb, #f5576c) border-box;
+}
+
+/* 粒子效果 */
+.cursor-particle {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    animation: cursorParticleFade 0.8s ease-out forwards;
+}
+
+@keyframes cursorTrailRotate {
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes cursorTrailPulse {
+    0%, 100% { 
+        opacity: 0.6;
+        box-shadow: 0 0 10px rgba(118, 75, 162, 0.3);
+    }
+    50% { 
+        opacity: 1;
+        box-shadow: 0 0 20px rgba(118, 75, 162, 0.6), 0 0 40px rgba(240, 147, 251, 0.3);
+    }
+}
+
+@keyframes cursorParticleFade {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0);
+    }
+}
+
+/* 悬停在可点击元素时 */
+.cursor-hover .cursor-main {
+    width: 10px;
+    height: 10px;
+    background: linear-gradient(135deg, #34d399, #10b981);
+    box-shadow: 
+        0 0 12px rgba(52, 211, 153, 0.9),
+        0 0 24px rgba(16, 185, 129, 0.6),
+        0 0 36px rgba(52, 211, 153, 0.4);
+    animation: cursorDotPulse 0.8s ease-in-out infinite;
+}
+
+.cursor-hover .cursor-trail {
+    width: 55px;
+    height: 55px;
+    border-width: 3px;
+    background: 
+        linear-gradient(#fff, #fff) padding-box,
+        linear-gradient(135deg, #34d399, #10b981, #a78bfa) border-box;
+    animation: cursorTrailRotate 1.5s linear infinite, cursorTrailPulse 1s ease-in-out infinite;
+}
+
+.cursor-dark.cursor-hover .cursor-trail {
+    background: 
+        linear-gradient(#1a1a2e, #1a1a2e) padding-box,
+        linear-gradient(135deg, #34d399, #10b981, #a78bfa) border-box;
+}
+
+/* 点击效果 */
+.cursor-click .cursor-main {
+    animation: cursorClickBurst 0.15s ease-out;
+}
+
+.cursor-click .cursor-trail {
+    animation: cursorClickRipple 0.3s ease-out;
+}
+
+@keyframes cursorClickBurst {
+    0% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-50%, -50%) scale(1.5); }
+    100% { transform: translate(-50%, -50%) scale(1); }
+}
+
+@keyframes cursorClickRipple {
+    0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0.3; }
+}
+
+/* 隐藏光标（移出窗口时） */
+.cursor-hidden .cursor-main,
+.cursor-hidden .cursor-trail {
+    opacity: 0;
+    transition: opacity 0.2s;
+}

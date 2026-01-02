@@ -42,6 +42,20 @@
     --icon-size-mobile: 40px;
 }
 
+/* 深色主题 - 使用 html 选择器确保优先级 */
+html[data-theme="dark"] {
+    --primary-color: #e0e0e0 !important;
+    --bg-color: #1a1a2e !important;
+    --card-bg: #16213e !important;
+    --card-hover-bg: #1f2b4d !important;
+    --border-color: #2a3a5c !important;
+    --text-color: #e0e0e0 !important;
+    --text-secondary: #a0a0a0 !important;
+    --accent-color: #667eea !important;
+    --shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+    --shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.4) !important;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -54,11 +68,69 @@ body {
     color: var(--text-color);
     min-height: 100vh;
     padding: var(--container-padding);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    overflow-x: hidden;
 }
 
 .container {
     max-width: var(--container-max-width);
     margin: 0 auto;
+    position: relative;
+}
+
+/* 主题切换按钮 */
+.theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: none;
+    background: var(--card-bg);
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    transition: all 0.3s ease;
+    z-index: 100;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.1) rotate(15deg);
+    box-shadow: var(--shadow-hover);
+}
+
+.theme-toggle:active {
+    transform: scale(0.95);
+}
+
+.theme-toggle .icon-sun,
+.theme-toggle .icon-moon {
+    position: absolute;
+    transition: all 0.3s ease;
+}
+
+.theme-toggle .icon-sun {
+    opacity: 1;
+    transform: rotate(0deg);
+}
+
+.theme-toggle .icon-moon {
+    opacity: 0;
+    transform: rotate(-90deg);
+}
+
+[data-theme="dark"] .theme-toggle .icon-sun {
+    opacity: 0;
+    transform: rotate(90deg);
+}
+
+[data-theme="dark"] .theme-toggle .icon-moon {
+    opacity: 1;
+    transform: rotate(0deg);
 }
 
 .header {
@@ -118,7 +190,7 @@ body {
     text-decoration: none;
     color: var(--text-color);
     box-shadow: var(--shadow);
-    transition: var(--transition);
+    transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
 }
@@ -140,6 +212,7 @@ body {
     margin-right: 16px;
     font-size: 1.5rem;
     flex-shrink: 0;
+    transition: background-color 0.3s ease;
 }
 
 .nav-content {
@@ -250,7 +323,11 @@ body {
     opacity: 0.6;
     pointer-events: auto;
     cursor: not-allowed;
-    background: repeating-linear-gradient(135deg, #eee, #eee 10px, #fafafa 10px, #fafafa 20px);
+    background: repeating-linear-gradient(135deg, 
+        var(--card-hover-bg), 
+        var(--card-hover-bg) 10px, 
+        var(--card-bg) 10px, 
+        var(--card-bg) 20px);
     box-shadow: none;
     border-style: dashed;
     position: relative;
@@ -263,7 +340,7 @@ body {
     right: 10px;
     font-size: var(--tag-size);
     color: #ff4d4f;
-    background: #fff;
+    background: var(--card-bg);
     padding: 2px 6px;
     border-radius: var(--border-radius-tag);
     font-weight: bold;
