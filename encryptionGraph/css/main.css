@@ -1,0 +1,247 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: #4f1787;
+    --primary-dark: #180161;
+    --accent: #eb3678;
+    --accent-orange: #fb773c;
+    --bg: #f8f9fa;
+    --card-bg: #fff;
+    --text: #333;
+    --text-secondary: #666;
+    --shadow: 0 4px 20px rgba(0,0,0,0.1);
+    --radius: 12px;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 30px 24px;
+    text-align: center;
+}
+
+.header {
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    font-size: 1.8rem;
+    color: var(--primary);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.header h1::before {
+    content: '🍅';
+}
+
+.description {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    padding: 12px 16px;
+    background: #f5f5f5;
+    border-radius: 8px;
+    text-align: left;
+}
+
+/* 按钮组 */
+.button-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin: 24px 0;
+}
+
+.btn {
+    min-width: 100px;
+    height: 44px;
+    line-height: 44px;
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 0 20px;
+    border: none;
+    border-radius: 22px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.btn-upload {
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+    color: #fff;
+}
+
+.btn-encrypt {
+    background: linear-gradient(135deg, var(--primary), #6b21a8);
+    color: #fff;
+}
+
+.btn-decrypt {
+    background: linear-gradient(135deg, var(--accent), #f472b6);
+    color: #fff;
+}
+
+.btn-restore {
+    background: linear-gradient(135deg, var(--accent-orange), #fbbf24);
+    color: #fff;
+}
+
+.btn-download {
+    background: linear-gradient(135deg, #10b981, #34d399);
+    color: #fff;
+}
+
+.btn-download:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.file-input {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* 图片展示区 */
+.image-container {
+    margin-top: 20px;
+    min-height: 200px;
+    border: 2px dashed #ddd;
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fafafa;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    position: relative;
+}
+
+.image-container.has-image {
+    border-style: solid;
+    border-color: var(--primary);
+    background: #fff;
+}
+
+.image-container .placeholder {
+    color: #aaa;
+    font-size: 0.9rem;
+}
+
+#display-img {
+    max-width: 100%;
+    max-height: 60vh;
+    display: none;
+    border-radius: 8px;
+}
+
+/* 加载动画 */
+.loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.9);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 10;
+}
+
+.loading-overlay.active {
+    display: flex;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #eee;
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.loading-text {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+/* 提示信息 */
+.tip {
+    margin-top: 16px;
+    font-size: 0.75rem;
+    color: #999;
+}
+
+/* 响应式 */
+@media (max-width: 480px) {
+    body {
+        padding: 12px;
+    }
+    
+    .container {
+        padding: 20px 16px;
+    }
+    
+    .header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .button-group {
+        gap: 8px;
+    }
+    
+    .btn {
+        min-width: 80px;
+        height: 40px;
+        line-height: 40px;
+        padding: 0 16px;
+        font-size: 0.9rem;
+    }
+}

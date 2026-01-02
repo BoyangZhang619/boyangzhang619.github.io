@@ -49,6 +49,18 @@
             "badgeColor": "#444",
             "status": "active",
             "updateTime": "2026-01-02"
+        },
+        {
+            "id": "encryption-graph",
+            "href": "./encryptionGraph/index.html",
+            "icon": "🍅",
+            "title": "小番茄图片混淆",
+            "desc": "基于空间填充曲线的图片混淆工具，混淆后压缩仍保持色彩，支持混淆/解混淆/还原操作",
+            "tags": ["工具", "图片", "加密"],
+            "badge": "NEW",
+            "badgeColor": "O",
+            "status": "active",
+            "updateTime": "2026-01-02"
         }
     ],
     "settings": {

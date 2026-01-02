@@ -1,0 +1,54 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小番茄图片混淆</title>
+    <link rel="stylesheet" href="./css/main.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>小番茄图片混淆</h1>
+        </header>
+        
+        <p class="description">
+            <strong>🍅 小番茄图片混淆</strong> 是一款基于 <em>Gilbert 空间填充曲线</em> 的图片混淆工具。<br><br>
+            <strong>📌 工作原理：</strong>利用希尔伯特曲线的变体将二维图像像素重新排列，使图片视觉上完全混乱，但保留像素间的空间相关性。<br><br>
+            <strong>✨ 特点：</strong><br>
+            • 混淆后的图片即使被压缩，色彩仍能保持完整<br>
+            • 可逆操作：混淆后可完美还原原图<br>
+            • 纯前端处理，图片不会上传到任何服务器<br><br>
+            <strong>📝 使用说明：</strong><br>
+            1. 选择图片 → 2. 点击混淆 → 3. 下载保存<br>
+            4. 解混淆时选择混淆后的图片，点击解混淆即可还原<br><br>
+            <em style="color:#888;">输出格式：JPEG，质量 0.95。仅供技术交流使用。</em>
+        </p>
+        
+        <div class="button-group">
+            <label class="btn btn-upload">
+                📁 选择图片
+                <input type="file" accept="image/*" id="ipt" class="file-input">
+            </label>
+            <button id="enc" class="btn btn-encrypt">🔒 混淆</button>
+            <button id="dec" class="btn btn-decrypt">🔓 解混淆</button>
+            <button id="re" class="btn btn-restore">↩️ 还原</button>
+            <button id="download" class="btn btn-download">💾 下载</button>
+        </div>
+        
+        <div class="image-container">
+            <span class="placeholder">选择图片后将在此显示</span>
+            <img id="display-img" alt="处理后的图片">
+            <div class="loading-overlay">
+                <div class="spinner"></div>
+                <span class="loading-text">处理中...</span>
+            </div>
+        </div>
+        
+        <p class="tip">💡 提示：可以右键图片另存为保存处理结果</p>
+    </div>
+    
+    <script src="./js/main.js"></script>
+</body>
+</html>
