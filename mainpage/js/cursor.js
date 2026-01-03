@@ -26,39 +26,59 @@ const MagicCursor = {
         enableParticles: true,
         darkMode: false
     },
+
+    // 检测是否应启用魔法光标（在触摸设备上禁用）
+    shouldEnable() {
+        try {
+            // 触摸支持或粗指针设备视为移动端/触摸设备
+            const isTouch = 'ontouchstart' in window || (navigator.maxTouchPoints && navigator.maxTouchPoints > 0);
+            const isCoarse = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+            return !(isTouch || isCoarse);
+        } catch (e) {
+            return true;
+        }
+    },
     
     // 初始化
     init(options = {}) {
         // 合并配置
         this.options = { ...this.options, ...options };
-        
+
+        // 如果设备是触摸设备或粗指针设备，则不启用光标以免干扰移动端体验
+        if (!this.shouldEnable()) {
+            console.log('✨ 魔法光标已在触摸/移动设备上禁用');
+            // 添加标记以便样式或其他脚本识别
+            document.documentElement.classList.add('cursor-disabled-mobile');
+            return;
+        }
+
         // 创建光标DOM
         this.createCursorElements();
-        
+
         // 获取DOM引用
         this.cursor.main = document.querySelector('.cursor-main');
         this.cursor.trail = document.querySelector('.cursor-trail');
         this.cursor.wrapper = document.querySelector('.cursor-wrapper');
-        
+
         if (!this.cursor.main) {
             console.warn('⚠️ 光标元素创建失败');
             return;
         }
-        
+
         // 添加启用标记
         document.body.classList.add('cursor-enabled');
-        
+
         // 深色模式
         if (this.options.darkMode) {
             this.cursor.wrapper.classList.add('cursor-dark');
         }
-        
+
         // 绑定事件
         this.bindEvents();
-        
+
         // 启动动画
         this.animate();
-        
+
         console.log('✨ 魔法光标已启用');
     },
     
@@ -222,9 +242,13 @@ const MagicCursor = {
 
 // 自动初始化（页面加载完成后）
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => MagicCursor.init());
+    document.addEventListener('DOMContentLoaded', () => {
+        if (MagicCursor.shouldEnable()) MagicCursor.init();
+        else console.log('✨ 魔法光标在移动/触摸设备上已自动禁用');
+    });
 } else {
-    MagicCursor.init();
+    if (MagicCursor.shouldEnable()) MagicCursor.init();
+    else console.log('✨ 魔法光标在移动/触摸设备上已自动禁用');
 }
 
 // 导出到全局
