@@ -73,6 +73,18 @@
             "badgeColor": "G",
             "status": "active",
             "updateTime": "2026-01-03"
+        },
+        {
+            "id": "piano-keys",
+            "href": "./playPiano/index.html",
+            "icon": "🎹",
+            "title": "Piano Keys",
+            "desc": "基于 Web Audio API 的在线钢琴，支持键盘演奏、多种音色切换、预设曲目播放",
+            "tags": ["音乐", "钢琴", "互动"],
+            "badge": "INTERESTING",
+            "badgeColor": "P",
+            "status": "active",
+            "updateTime": "2026-01-04"
         }
     ],
     "settings": {
