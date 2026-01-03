@@ -27,7 +27,7 @@
         },
         {
             "id": "future-feature",
-            "href": "https://zbyblq.xin/birthday/",
+            "href": "./birthday/index.html",
             "icon": "🎂",
             "title": "zby的生日",
             "desc": "嘻嘻嘻~这是我的生日哦~,不过已经过了啦啦啦啦啦啦啦啦~~~",
@@ -61,6 +61,18 @@
             "badgeColor": "O",
             "status": "active",
             "updateTime": "2026-01-02"
+        },
+        {
+            "id": "btree-visual",
+            "href": "./btree/index.html",
+            "icon": "🌳",
+            "title": "二叉树可视化",
+            "desc": "输入层序遍历数组，自动生成可视化二叉树，支持保存为图片",
+            "tags": ["工具", "数据结构", "可视化"],
+            "badge": "NEW",
+            "badgeColor": "G",
+            "status": "active",
+            "updateTime": "2026-01-03"
         }
     ],
     "settings": {

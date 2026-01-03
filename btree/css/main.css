@@ -1,0 +1,335 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: #6366f1;
+    --primary-dark: #4f46e5;
+    --primary-light: #a5b4fc;
+    --accent: #f59e0b;
+    --bg: #0f172a;
+    --card-bg: #1e293b;
+    --card-bg-light: #334155;
+    --text: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --border: #475569;
+    --shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    --radius: 16px;
+    --node-color: linear-gradient(135deg, #6366f1, #8b5cf6);
+    --node-text: #fff;
+    --line-color: #64748b;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    background-image: 
+        radial-gradient(at 20% 80%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+        radial-gradient(at 80% 20%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+        radial-gradient(at 50% 50%, rgba(245, 158, 11, 0.05) 0%, transparent 50%);
+    min-height: 100vh;
+    padding: 30px 20px;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 40px;
+    border: 1px solid var(--border);
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.header h1 {
+    font-size: 2.2rem;
+    background: linear-gradient(135deg, var(--primary-light), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.description {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin-bottom: 24px;
+    padding: 16px 20px;
+    background: var(--card-bg-light);
+    border-radius: 12px;
+    border-left: 4px solid var(--primary);
+}
+
+.description code {
+    background: rgba(99, 102, 241, 0.2);
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-family: 'Fira Code', 'Consolas', monospace;
+    font-size: 0.9em;
+    color: var(--primary-light);
+}
+
+/* 输入区域 */
+.input-area {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.tree-input {
+    flex: 1;
+    min-width: 250px;
+    padding: 14px 18px;
+    font-size: 1rem;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    outline: none;
+    transition: all 0.3s ease;
+    font-family: 'Fira Code', 'Consolas', monospace;
+    background: var(--card-bg-light);
+    color: var(--text);
+}
+
+.tree-input::placeholder {
+    color: var(--text-secondary);
+}
+
+.tree-input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
+}
+
+.btn {
+    padding: 14px 28px;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.btn:active {
+    transform: translateY(-1px);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff;
+}
+
+.btn-primary:hover {
+    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+}
+
+.btn-secondary {
+    background: var(--card-bg-light);
+    color: var(--text);
+    border: 2px solid var(--border);
+}
+
+.btn-secondary:hover {
+    background: var(--border);
+    border-color: var(--text-secondary);
+}
+
+.btn-save {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: #fff;
+}
+
+.btn-save:hover {
+    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+}
+
+.btn-save:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* 示例按钮 */
+.examples {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.examples-label {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.example-btn {
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    color: var(--text-secondary);
+}
+
+.example-btn:hover {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+}
+
+/* 树容器 */
+.tree-container {
+    position: relative;
+    min-height: 350px;
+    background: 
+        linear-gradient(rgba(30, 41, 59, 0.8), rgba(30, 41, 59, 0.8)),
+        repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(71, 85, 105, 0.1) 40px, rgba(71, 85, 105, 0.1) 41px),
+        repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(71, 85, 105, 0.1) 40px, rgba(71, 85, 105, 0.1) 41px);
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: auto;
+    margin-bottom: 20px;
+}
+
+.tree-container.has-tree {
+    border-style: solid;
+    border-color: var(--primary);
+    background: 
+        linear-gradient(rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.95)),
+        repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(99, 102, 241, 0.05) 40px, rgba(99, 102, 241, 0.05) 41px),
+        repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(99, 102, 241, 0.05) 40px, rgba(99, 102, 241, 0.05) 41px);
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.tree-container .placeholder {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.tree-container .placeholder::before {
+    content: '🌳';
+    font-size: 3rem;
+    opacity: 0.5;
+}
+
+.tree-container.has-tree .placeholder {
+    display: none;
+}
+
+#treeCanvas {
+    display: none;
+}
+
+.tree-container.has-tree #treeCanvas {
+    display: block;
+}
+
+/* 信息面板 */
+.info-panel {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    padding: 20px;
+    background: var(--card-bg-light);
+    border-radius: 12px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border);
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.info-label {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+}
+
+.info-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--primary-light), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* 提示 */
+.tip {
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    opacity: 0.8;
+}
+
+/* 响应式 */
+@media (max-width: 600px) {
+    body {
+        padding: 15px;
+    }
+    
+    .container {
+        padding: 24px 18px;
+    }
+    
+    .header h1 {
+        font-size: 1.7rem;
+    }
+    
+    .input-area {
+        flex-direction: column;
+    }
+    
+    .tree-input {
+        width: 100%;
+    }
+    
+    .btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .info-panel {
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+    
+    .info-item {
+        min-width: 80px;
+    }
+}

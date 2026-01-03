@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>二叉树可视化</title>
+    <link rel="stylesheet" href="./css/main.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>二叉树可视化</h1>
+        </header>
+        
+        <p class="description">
+            输入层序遍历数组，自动生成可视化二叉树。<br>
+            使用 <code>null</code> 表示空节点，例如：<code>[1, 2, 3, null, 4, 5]</code>
+        </p>
+        
+        <div class="input-area">
+            <input type="text" id="treeInput" class="tree-input" 
+                   placeholder="输入层序遍历数组，如：[1, 2, 3, null, 4, 5]"
+                   value="[1, 2, 3, 4, 5, 6, 7]">
+            <button id="generateBtn" class="btn btn-primary">✨ 生成</button>
+            <button id="saveBtn" class="btn btn-save" disabled>💾 保存</button>
+            <button id="clearBtn" class="btn btn-secondary">清空</button>
+        </div>
+        
+        <div class="examples">
+            <span class="examples-label">快速示例：</span>
+            <button class="example-btn" data-value="[1, 2, 3, 4, 5, 6, 7]">完全二叉树</button>
+            <button class="example-btn" data-value="[3, 9, 20, null, null, 15, 7]">LeetCode 104</button>
+            <button class="example-btn" data-value="[1, 2, null, 3, null, 4, null, 5]">左倾斜</button>
+            <button class="example-btn" data-value="[1, null, 2, null, 3, null, 4]">右倾斜</button>
+            <button class="example-btn" data-value="[5, 3, 7, 2, 4, 6, 8, 1]">BST</button>
+        </div>
+        
+        <div class="tree-container" id="treeContainer">
+            <div class="placeholder">输入数组后点击生成查看结果</div>
+            <canvas id="treeCanvas"></canvas>
+        </div>
+        
+        <div class="info-panel" id="infoPanel">
+            <div class="info-item">
+                <span class="info-label">节点数</span>
+                <span class="info-value" id="nodeCount">0</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">树高度</span>
+                <span class="info-value" id="treeHeight">0</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">叶子节点</span>
+                <span class="info-value" id="leafCount">0</span>
+            </div>
+        </div>
+        
+        <p class="tip">💡 提示：按 Enter 键快速生成，支持数字和字符串节点</p>
+    </div>
+    
+    <script src="./js/main.js"></script>
+</body>
+</html>
