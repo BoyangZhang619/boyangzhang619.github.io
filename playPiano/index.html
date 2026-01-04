@@ -15,7 +15,22 @@
 
         <div class="piano-wrapper">
             <div class="piano" id="piano">
-                <!-- 一个八度的琴键结构 (C4 - B4) -->
+                <!-- 5个八度: C2 - C7 -->
+                <div class="octave" data-octave="2">
+                    <div class="key white" data-note="C2"><span>!</span></div>
+                    <div class="key black" data-note="C#2"><span>@</span></div>
+                    <div class="key white" data-note="D2"><span>#</span></div>
+                    <div class="key black" data-note="D#2"><span>$</span></div>
+                    <div class="key white" data-note="E2"><span>%</span></div>
+                    <div class="key white" data-note="F2"><span>^</span></div>
+                    <div class="key black" data-note="F#2"><span>&</span></div>
+                    <div class="key white" data-note="G2"><span>*</span></div>
+                    <div class="key black" data-note="G#2"><span>(</span></div>
+                    <div class="key white" data-note="A2"><span>)</span></div>
+                    <div class="key black" data-note="A#2"><span>_</span></div>
+                    <div class="key white" data-note="B2"><span>+</span></div>
+                </div>
+
                 <div class="octave" data-octave="3">
                     <div class="key white" data-note="C3"><span>Z</span></div>
                     <div class="key black" data-note="C#3"><span>S</span></div>
@@ -52,6 +67,32 @@
                     <div class="key white" data-note="D5"><span>O</span></div>
                     <div class="key black" data-note="D#5"><span>0</span></div>
                     <div class="key white" data-note="E5"><span>P</span></div>
+                    <div class="key white" data-note="F5"><span>[</span></div>
+                    <div class="key black" data-note="F#5"><span>=</span></div>
+                    <div class="key white" data-note="G5"><span>]</span></div>
+                    <div class="key black" data-note="G#5"><span>\</span></div>
+                    <div class="key white" data-note="A5"><span>A</span></div>
+                    <div class="key black" data-note="A#5"><span>L</span></div>
+                    <div class="key white" data-note="B5"><span>F</span></div>
+                </div>
+
+                <div class="octave" data-octave="6">
+                    <div class="key white" data-note="C6"><span>1</span></div>
+                    <div class="key black" data-note="C#6"><span>4</span></div>
+                    <div class="key white" data-note="D6"><span>8</span></div>
+                    <div class="key black" data-note="D#6"><span>-</span></div>
+                    <div class="key white" data-note="E6"><span>K</span></div>
+                    <div class="key white" data-note="F6"><span>;</span></div>
+                    <div class="key black" data-note="F#6"><span>'</span></div>
+                    <div class="key white" data-note="G6"><span>,</span></div>
+                    <div class="key black" data-note="G#6"><span>.</span></div>
+                    <div class="key white" data-note="A6"><span>/</span></div>
+                    <div class="key black" data-note="A#6"></div>
+                    <div class="key white" data-note="B6"></div>
+                </div>
+
+                <div class="octave" data-octave="7">
+                    <div class="key white" data-note="C7"></div>
                 </div>
             </div>
         </div>
@@ -76,12 +117,15 @@
                 <div class="tips-modal" id="tipsModal">
                     <div class="tips-content">
                         <button class="tips-close" id="tipsClose">×</button>
-                        <h3>💡 使用提示</h3>
-                        <ul>
+                        <h3 id="tipsTitle">💡 使用提示</h3>
+                        <ul id="tipsList">
                             <li>点击琴键播放音符</li>
                             <li>按住琴键持续发声，松开停止</li>
-                            <li>白键: Z X C V B N M / Q W E R T Y U I O P</li>
-                            <li>黑键: S D G H J / 2 3 5 6 7 9 0</li>
+                            <li>C2八度(Shift): ! @ # $ % ^ & * ( ) _ +</li>
+                            <li>C3八度: Z S X D C V G B H N J M</li>
+                            <li>C4八度: Q 2 W 3 E R 5 T 6 Y 7 U</li>
+                            <li>C5八度: I 9 O 0 P [ = ] \ A L F</li>
+                            <li>C6八度: 1 4 8 - K ; ' , . /</li>
                         </ul>
                     </div>
                 </div>
@@ -148,15 +192,57 @@
         </footer>
     </div>
 
+    <!-- 旋转提示 -->
+    <div class="rotate-hint" id="rotateHint">
+        <div class="rotate-hint-icon">📱</div>
+        <div class="rotate-hint-text">建议横屏使用</div>
+        <div class="rotate-hint-sub">旋转手机以获得更好的演奏体验</div>
+        <button class="rotate-hint-dismiss" id="rotateHintDismiss">继续使用竖屏</button>
+    </div>
+
     <script src="js/main.js"></script>
     <script>
         // ========== 提示弹窗控制 ==========
         const helpBtn = document.getElementById('helpBtn');
         const tipsModal = document.getElementById('tipsModal');
         const tipsClose = document.getElementById('tipsClose');
+        const tipsTitle = document.getElementById('tipsTitle');
+        const tipsList = document.getElementById('tipsList');
+
+        // 默认提示内容
+        const defaultTipsContent = {
+            title: '💡 使用提示',
+            items: [
+                '点击琴键播放音符',
+                '按住琴键持续发声，松开停止',
+                'C2八度(Shift): ! @ # $ % ^ & * ( ) _ +',
+                'C3八度: Z S X D C V G B H N J M',
+                'C4八度: Q 2 W 3 E R 5 T 6 Y 7 U',
+                'C5八度: I 9 O 0 P [ = ] \\ A L F',
+                'C6八度: 1 4 8 - K ; \' , . /'
+            ]
+        };
+
+        // 宽度不足提示内容
+        const widthWarningContent = {
+            title: '⚠️ 页面宽度不足',
+            items: [
+                '当前窗口宽度无法完整显示所有琴键',
+                '可以横向滚动钢琴区域查看更多琴键',
+                '建议将浏览器窗口调宽或使用全屏模式',
+                '推荐宽度: 1300px 以上'
+            ]
+        };
+
+        // 显示提示弹窗
+        function showTips(content) {
+            tipsTitle.textContent = content.title;
+            tipsList.innerHTML = content.items.map(item => `<li>${item}</li>`).join('');
+            tipsModal.classList.add('show');
+        }
 
         helpBtn.addEventListener('click', () => {
-            tipsModal.classList.add('show');
+            showTips(defaultTipsContent);
         });
 
         tipsClose.addEventListener('click', () => {
@@ -169,6 +255,46 @@
             }
         });
 
+        // ========== 页面宽度检测 ==========
+        const pianoElement = document.getElementById('piano');
+        let widthWarningShown = false;
+        let lastWidthSufficient = true;
+
+        function checkPianoWidth() {
+            const pianoWidth = pianoElement.scrollWidth;
+            const viewportWidth = window.innerWidth;
+            const isWidthSufficient = viewportWidth >= pianoWidth + 80; // 加上边距
+
+            // 只在宽度从足够变为不足时显示警告（且之前没显示过或状态变化了）
+            if (!isWidthSufficient && lastWidthSufficient && !widthWarningShown) {
+                // 延迟显示，避免页面加载时立即弹出
+                setTimeout(() => {
+                    if (!tipsModal.classList.contains('show')) {
+                        showTips(widthWarningContent);
+                        widthWarningShown = true;
+                    }
+                }, 500);
+            }
+
+            lastWidthSufficient = isWidthSufficient;
+        }
+
+        // 初始检测（延迟执行等待DOM完全渲染）
+        setTimeout(checkPianoWidth, 1000);
+
+        // 监听窗口大小变化
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                // 重置警告状态，允许再次显示
+                if (lastWidthSufficient) {
+                    widthWarningShown = false;
+                }
+                checkPianoWidth();
+            }, 300);
+        });
+
         // ========== 音色选择控制 ==========
         const toneSelect = document.getElementById('toneSelect');
 
@@ -179,23 +305,49 @@
                 || (navigator.maxTouchPoints > 0);
         }
 
+        const rotateHint = document.getElementById('rotateHint');
+        const rotateHintDismiss = document.getElementById('rotateHintDismiss');
+        let forcePortrait = false;
+
         function checkOrientation() {
             const isMobile = isMobileDevice();
             const isPortrait = window.innerHeight > window.innerWidth;
             
-            if (isMobile && isPortrait) {
+            if (isMobile && isPortrait && !forcePortrait) {
                 document.body.classList.add('mobile-portrait');
             } else {
                 document.body.classList.remove('mobile-portrait');
             }
         }
 
+        // 用户选择继续使用竖屏
+        rotateHintDismiss.addEventListener('click', () => {
+            forcePortrait = true;
+            document.body.classList.add('force-portrait');
+            document.body.classList.remove('mobile-portrait');
+        });
+
         // 初始检测
         checkOrientation();
 
         // 监听窗口大小变化和方向变化
-        window.addEventListener('resize', checkOrientation);
-        window.addEventListener('orientationchange', checkOrientation);
+        window.addEventListener('resize', () => {
+            // 如果转到横屏，重置 forcePortrait
+            if (window.innerWidth > window.innerHeight) {
+                forcePortrait = false;
+                document.body.classList.remove('force-portrait');
+            }
+            checkOrientation();
+        });
+        window.addEventListener('orientationchange', () => {
+            setTimeout(() => {
+                if (window.innerWidth > window.innerHeight) {
+                    forcePortrait = false;
+                    document.body.classList.remove('force-portrait');
+                }
+                checkOrientation();
+            }, 100);
+        });
 
         // ========== 钢琴引擎初始化 ==========
         // 初始化钢琴引擎
@@ -208,14 +360,21 @@
 
         // 键盘映射表
         const keyMap = {
+            // 最低八度 (C2 - B2) - 使用 Shift+字母 或功能键
+            '!': 'C2', '@': 'C#2', '#': 'D2', '$': 'D#2', '%': 'E2',
+            '^': 'F2', '&': 'F#2', '*': 'G2', '(': 'G#2', ')': 'A2', '_': 'A#2', '+': 'B2',
             // 低八度 (C3 - B3)
             'z': 'C3', 's': 'C#3', 'x': 'D3', 'd': 'D#3', 'c': 'E3',
             'v': 'F3', 'g': 'F#3', 'b': 'G3', 'h': 'G#3', 'n': 'A3', 'j': 'A#3', 'm': 'B3',
             // 中八度 (C4 - B4)
             'q': 'C4', '2': 'C#4', 'w': 'D4', '3': 'D#4', 'e': 'E4',
             'r': 'F4', '5': 'F#4', 't': 'G4', '6': 'G#4', 'y': 'A4', '7': 'A#4', 'u': 'B4',
-            // 高八度 (C5 - E5)
-            'i': 'C5', '9': 'C#5', 'o': 'D5', '0': 'D#5', 'p': 'E5'
+            // 高八度 (C5 - B5)
+            'i': 'C5', '9': 'C#5', 'o': 'D5', '0': 'D#5', 'p': 'E5',
+            '[': 'F5', '=': 'F#5', ']': 'G5', '\\': 'G#5', 'a': 'A5', 'l': 'A#5', 'f': 'B5',
+            // 更高八度 (C6 - B6)
+            '1': 'C6', '4': 'C#6', '8': 'D6', '-': 'D#6', 'k': 'E6',
+            ';': 'F6', "'": 'F#6', ',': 'G6', '.': 'G#6', '/': 'A6'
         };
 
         // 反向映射: 音符 -> 按键

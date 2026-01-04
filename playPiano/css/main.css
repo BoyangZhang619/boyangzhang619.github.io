@@ -16,7 +16,7 @@ body {
 
 /* ========== 容器布局 ========== */
 .container {
-    max-width: 1200px;
+    max-width: 100vw;
     margin: 0 auto;
     padding: 15px 20px;
     height: 100vh;
@@ -67,6 +67,9 @@ body {
         inset 0 1px 0 rgba(255, 255, 255, 0.1);
     animation: fadeInUp 0.8s ease;
     flex-shrink: 0;
+    overflow-x: auto;
+    max-width: 100%;
+    -webkit-overflow-scrolling: touch;
 }
 
 .piano {
@@ -76,6 +79,7 @@ body {
     padding: 15px 10px 10px;
     border-radius: 8px;
     box-shadow: inset 0 -5px 15px rgba(0, 0, 0, 0.3);
+    min-width: max-content;
 }
 
 .octave {
@@ -104,8 +108,8 @@ body {
 
 /* ========== 白键样式 ========== */
 .key.white {
-    width: 50px;
-    height: 200px;
+    width: 42px;
+    height: 180px;
     background: linear-gradient(180deg, #fff 0%, #f5f5f5 85%, #e8e8e8 100%);
     border: 1px solid #ccc;
     border-radius: 0 0 6px 6px;
@@ -134,12 +138,12 @@ body {
 
 /* ========== 黑键样式 ========== */
 .key.black {
-    width: 32px;
-    height: 120px;
+    width: 26px;
+    height: 110px;
     background: linear-gradient(180deg, #333 0%, #1a1a1a 60%, #0d0d0d 100%);
     border-radius: 0 0 4px 4px;
-    margin-left: -16px;
-    margin-right: -16px;
+    margin-left: -13px;
+    margin-right: -13px;
     box-shadow: 
         0 5px 10px rgba(0, 0, 0, 0.5),
         inset 0 -3px 5px rgba(255, 255, 255, 0.05),
@@ -157,13 +161,13 @@ body {
         0 2px 5px rgba(0, 0, 0, 0.5),
         inset 0 2px 5px rgba(0, 0, 0, 0.3);
     transform: translateY(2px);
-    height: 118px;
+    height: 108px;
 }
 
 .key.black span {
     color: #999;
-    font-size: 10px;
-    bottom: 10px;
+    font-size: 9px;
+    bottom: 8px;
 }
 
 /* ========== 控制面板 ========== */
@@ -701,59 +705,33 @@ body {
 }
 
 /* ========== 响应式设计 ========== */
-@media (max-width: 900px) {
-    .piano-wrapper {
-        padding: 20px;
-        overflow-x: auto;
-    }
-
+@media (max-width: 1200px) {
     .key.white {
-        width: 40px;
+        width: 36px;
         height: 160px;
     }
 
     .key.black {
-        width: 26px;
-        height: 100px;
-        margin-left: -13px;
-        margin-right: -13px;
+        width: 22px;
+        height: 95px;
+        margin-left: -11px;
+        margin-right: -11px;
     }
 
     .key.black.pressed {
-        height: 98px;
+        height: 93px;
     }
 
-    .header h1 {
-        font-size: 2rem;
+    .key span {
+        font-size: 10px;
     }
 }
 
-@media (max-width: 600px) {
-    .controls {
-        flex-direction: column;
-        align-items: center;
-        gap: 20px;
-    }
-
-    .left-panel {
-        flex-direction: row;
-        align-items: center;
-        gap: 15px;
-    }
-
-    .right-panel {
-        width: 100%;
-        max-width: 300px;
-    }
-
-    .sheet-list {
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
-    .sheet-item {
-        padding: 8px 12px;
+@media (max-width: 900px) {
+    .piano-wrapper {
+        padding: 15px 10px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
     }
 
     .key.white {
@@ -762,10 +740,10 @@ body {
     }
 
     .key.black {
-        width: 22px;
+        width: 20px;
         height: 85px;
-        margin-left: -11px;
-        margin-right: -11px;
+        margin-left: -10px;
+        margin-right: -10px;
     }
 
     .key.black.pressed {
@@ -776,162 +754,192 @@ body {
         font-size: 9px;
     }
 
-    .key.black span {
-        font-size: 8px;
+    .header h1 {
+        font-size: 1.8rem;
     }
 }
 
-/* ========== 手机竖屏模式 - 整体旋转90度 ========== */
-body.mobile-portrait {
-    overflow: hidden;
-    height: 100vw;
-    width: 100vh;
+@media (max-width: 600px) {
+    .container {
+        padding: 10px;
+        min-height: 100vh;
+        height: auto;
+    }
+
+    .header {
+        padding: 10px 0;
+    }
+
+    .header h1 {
+        font-size: 1.5rem;
+    }
+
+    .subtitle {
+        font-size: 0.8rem;
+    }
+
+    .piano-wrapper {
+        padding: 10px 5px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .piano {
+        justify-content: flex-start;
+        min-width: max-content;
+    }
+
+    .key.white {
+        width: 28px;
+        height: 120px;
+    }
+
+    .key.black {
+        width: 18px;
+        height: 72px;
+        margin-left: -9px;
+        margin-right: -9px;
+    }
+
+    .key.black.pressed {
+        height: 70px;
+    }
+
+    .key span {
+        font-size: 7px;
+        bottom: 6px;
+    }
+
+    .key.black span {
+        font-size: 6px;
+        bottom: 4px;
+    }
+
+    /* 控制面板改为垂直布局 */
+    .controls {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        height: auto;
+        padding: 10px;
+    }
+
+    /* 左侧面板改为水平一排 */
+    .left-panel {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: auto;
+        gap: 8px;
+    }
+
+    .info-box {
+        padding: 6px 12px;
+        flex: 0 0 auto;
+    }
+
+    .current-note {
+        font-size: 1.2rem;
+    }
+
+    .tone-selector {
+        padding: 6px 10px;
+        flex-direction: row;
+        gap: 6px;
+    }
+
+    .tone-label {
+        font-size: 0.75rem;
+    }
+
+    .tone-select {
+        font-size: 0.7rem;
+        padding: 4px 6px;
+    }
+
+    .help-btn {
+        padding: 6px 10px;
+        font-size: 0.7rem;
+    }
+
+    /* 中间面板 */
+    .center-panel {
+        flex: 0 0 auto;
+        width: 100%;
+        height: auto;
+    }
+
+    .sheet-display {
+        height: 100px;
+        max-height: 100px;
+    }
+
+    .sheet-controls {
+        gap: 8px;
+    }
+
+    .play-btn, .stop-btn, .notation-btn {
+        padding: 6px 12px;
+        font-size: 0.75rem;
+    }
+
+    /* 右侧面板 */
+    .right-panel {
+        width: 100%;
+        height: auto;
+    }
+
+    .panel-title {
+        font-size: 0.8rem;
+        margin-bottom: 8px;
+    }
+
+    .sheet-list {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 6px;
+        max-height: none;
+    }
+
+    .sheet-item {
+        padding: 6px 10px;
+        font-size: 0.7rem;
+    }
+
+    .sheet-icon {
+        font-size: 0.9rem;
+    }
+
+    .footer {
+        padding: 10px 0;
+        font-size: 0.7rem;
+    }
+
+    /* 提示弹窗 */
+    .tips-modal .tips-content {
+        width: 90%;
+        max-width: 300px;
+        padding: 15px;
+    }
+
+    .tips-content h3 {
+        font-size: 1rem;
+    }
+
+    .tips-content ul {
+        font-size: 0.8rem;
+    }
 }
 
-body.mobile-portrait .container {
-    transform: rotate(90deg);
-    transform-origin: top left;
-    width: 100vh;
-    height: auto;
-    min-height: 100vw;
-    position: absolute;
-    top: 0;
-    left: 100%;
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding: 10px 15px;
-    /* 第一屏是钢琴，其他内容滚动查看 */
-}
-
-/* 手机端钢琴占满第一屏 */
-body.mobile-portrait .piano-wrapper {
-    min-height: calc(100vw - 20px);
+/* ========== 手机竖屏模式 - 横屏提示 ========== */
+body.mobile-portrait .rotate-hint {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 15px;
-    margin: 0;
 }
 
-body.mobile-portrait .header {
-    margin-bottom: 10px;
-    padding-top: 5px;
-}
-
-body.mobile-portrait .header h1 {
-    font-size: 1.6rem;
-}
-
-body.mobile-portrait .subtitle {
-    font-size: 0.85rem;
-}
-
-body.mobile-portrait .piano {
-    justify-content: center;
-}
-
-body.mobile-portrait .key.white {
-    width: 32px;
-    height: 130px;
-}
-
-body.mobile-portrait .key.black {
-    width: 20px;
-    height: 80px;
-    margin-left: -10px;
-    margin-right: -10px;
-}
-
-body.mobile-portrait .key.black.pressed {
-    height: 78px;
-}
-
-body.mobile-portrait .key span {
-    font-size: 8px;
-    bottom: 8px;
-}
-
-body.mobile-portrait .key.black span {
-    font-size: 7px;
-    bottom: 5px;
-}
-
-/* 手机端控制面板 - 滚动区域 */
-body.mobile-portrait .controls {
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-    margin-top: 15px;
-    padding-bottom: 20px;
-    overflow: visible;
-    min-height: auto;
-}
-
-body.mobile-portrait .left-panel {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    width: auto;
-    gap: 10px;
-}
-
-body.mobile-portrait .info-box {
-    padding: 8px 15px;
-}
-
-body.mobile-portrait .current-note {
-    font-size: 1.5rem;
-}
-
-body.mobile-portrait .tone-selector {
-    padding: 8px 12px;
-}
-
-body.mobile-portrait .tone-label {
-    font-size: 0.8rem;
-}
-
-body.mobile-portrait .tone-select {
-    font-size: 0.7rem;
-    padding: 5px 8px;
-}
-
-body.mobile-portrait .help-btn {
-    padding: 6px 12px;
-    font-size: 0.75rem;
-}
-
-body.mobile-portrait .center-panel {
-    width: 100%;
-    max-width: none;
-}
-
-body.mobile-portrait .sheet-display {
-    max-height: 150px;
-}
-
-body.mobile-portrait .right-panel {
-    width: 100%;
-    max-width: 400px;
-}
-
-body.mobile-portrait .sheet-list {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 8px;
-}
-
-body.mobile-portrait .sheet-item {
-    padding: 8px 12px;
-}
-
-body.mobile-portrait .footer {
-    padding: 15px 0;
-    font-size: 0.75rem;
-}
-
-/* 旋转提示（可选显示） */
+/* 旋转提示 */
 .rotate-hint {
     display: none;
     position: fixed;
@@ -939,7 +947,7 @@ body.mobile-portrait .footer {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.9);
+    background: rgba(0, 0, 0, 0.95);
     z-index: 9999;
     justify-content: center;
     align-items: center;
@@ -949,23 +957,86 @@ body.mobile-portrait .footer {
     padding: 20px;
 }
 
-.rotate-hint.show {
-    display: flex;
-}
-
 .rotate-hint-icon {
     font-size: 4rem;
     margin-bottom: 20px;
     animation: rotatePhone 2s ease-in-out infinite;
 }
 
-.rotate-hint p {
+.rotate-hint-text {
     font-size: 1.2rem;
-    color: #a0a0a0;
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+.rotate-hint-sub {
+    font-size: 0.9rem;
+    color: #888;
+}
+
+.rotate-hint-dismiss {
+    margin-top: 30px;
+    padding: 10px 25px;
+    background: rgba(102, 126, 234, 0.3);
+    border: 1px solid rgba(102, 126, 234, 0.5);
+    color: #a0c0ff;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.rotate-hint-dismiss:hover {
+    background: rgba(102, 126, 234, 0.5);
 }
 
 @keyframes rotatePhone {
     0%, 100% { transform: rotate(0deg); }
     50% { transform: rotate(90deg); }
+}
+
+/* 如果用户选择继续使用竖屏 */
+body.mobile-portrait.force-portrait .rotate-hint {
+    display: none;
+}
+
+/* 超小屏幕额外优化 */
+@media (max-width: 380px) {
+    .key.white {
+        width: 24px;
+        height: 100px;
+    }
+
+    .key.black {
+        width: 15px;
+        height: 60px;
+        margin-left: -7.5px;
+        margin-right: -7.5px;
+    }
+
+    .key.black.pressed {
+        height: 58px;
+    }
+
+    .key span {
+        font-size: 6px;
+    }
+
+    .header h1 {
+        font-size: 1.3rem;
+    }
+
+    .left-panel {
+        gap: 5px;
+    }
+
+    .info-box, .tone-selector, .help-btn {
+        padding: 5px 8px;
+    }
+
+    .sheet-display {
+        height: 80px;
+        max-height: 80px;
+    }
 }
 
