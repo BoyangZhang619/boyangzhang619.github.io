@@ -765,8 +765,13 @@ const tipsClose = document.getElementById('tipsClose');
 const tipsTitle = document.getElementById('tipsTitle');
 const tipsList = document.getElementById('tipsList');
 
-// 默认提示内容
-const defaultTipsContent = {
+// 判断是否为手机屏幕
+function isMobileScreen() {
+    return window.innerWidth <= 600;
+}
+
+// 默认提示内容（桌面端 - 全部八度）
+const defaultTipsContentDesktop = {
     title: '💡 使用提示',
     items: [
         '点击琴键播放音符',
@@ -778,6 +783,23 @@ const defaultTipsContent = {
         'C6八度: 1 4 8 - K ; \' , . /'
     ]
 };
+
+// 默认提示内容（手机端 - 仅 C3 和 C4）
+const defaultTipsContentMobile = {
+    title: '💡 使用提示',
+    items: [
+        '点击琴键播放音符',
+        '按住琴键持续发声，松开停止',
+        'C3八度: Z S X D C V G B H N J M',
+        'C4八度: Q 2 W 3 E R 5 T 6 Y 7 U',
+        '📱 手机端仅显示 C3-C4 两个八度'
+    ]
+};
+
+// 获取当前适用的默认提示内容
+function getDefaultTipsContent() {
+    return isMobileScreen() ? defaultTipsContentMobile : defaultTipsContentDesktop;
+}
 
 // 宽度不足提示内容
 const widthWarningContent = {
@@ -798,7 +820,7 @@ function showTips(content) {
 }
 
 helpBtn.addEventListener('click', () => {
-    showTips(defaultTipsContent);
+    showTips(getDefaultTipsContent());
 });
 
 tipsClose.addEventListener('click', () => {
