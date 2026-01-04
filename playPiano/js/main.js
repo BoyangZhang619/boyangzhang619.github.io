@@ -765,9 +765,11 @@ const tipsClose = document.getElementById('tipsClose');
 const tipsTitle = document.getElementById('tipsTitle');
 const tipsList = document.getElementById('tipsList');
 
-// 判断是否为手机屏幕
+// 判断是否为手机设备（基于设备类型检测，非屏幕宽度）
 function isMobileScreen() {
-    return window.innerWidth <= 600;
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+        || ('ontouchstart' in window)
+        || (navigator.maxTouchPoints > 0);
 }
 
 // 默认提示内容（桌面端 - 全部八度）
@@ -876,13 +878,28 @@ window.addEventListener('resize', () => {
 // ========== 音色选择控制 ==========
 const toneSelect = document.getElementById('toneSelect');
 
-// ========== 手机竖屏检测 ==========
+// ========== 设备类型检测 ==========
 function isMobileDevice() {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
         || ('ontouchstart' in window)
         || (navigator.maxTouchPoints > 0);
 }
 
+// 检测并设置设备类型 (用于控制显示的八度数量)
+function setupDeviceType() {
+    if (isMobileDevice()) {
+        document.body.classList.add('mobile-device');
+        console.log('[Piano] Mobile device detected - showing C3 and C4 octaves only');
+    } else {
+        document.body.classList.remove('mobile-device');
+        console.log('[Piano] Desktop device detected - showing all octaves');
+    }
+}
+
+// 立即执行设备类型检测
+setupDeviceType();
+
+// ========== 手机竖屏检测 ==========
 const rotateHint = document.getElementById('rotateHint');
 const rotateHintDismiss = document.getElementById('rotateHintDismiss');
 let forcePortrait = false;

@@ -932,23 +932,23 @@ body {
     .tips-content ul {
         font-size: 0.8rem;
     }
+}
 
-    /* 手机端只显示 C3 和 C4 两个八度 */
-    .octave[data-octave="2"],
-    .octave[data-octave="5"],
-    .octave[data-octave="6"],
-    .octave[data-octave="7"] {
-        display: none;
-    }
+/* ========== 手机设备模式 - 仅显示 C3 和 C4 ========== */
+body.mobile-device .octave[data-octave="2"],
+body.mobile-device .octave[data-octave="5"],
+body.mobile-device .octave[data-octave="6"],
+body.mobile-device .octave[data-octave="7"] {
+    display: none;
+}
 
-    .piano {
-        min-width: auto;
-        justify-content: center;
-    }
+body.mobile-device .piano {
+    min-width: auto;
+    justify-content: center;
+}
 
-    .piano-wrapper {
-        overflow-x: hidden;
-    }
+body.mobile-device .piano-wrapper {
+    overflow-x: hidden;
 }
 
 /* ========== 手机竖屏模式 - 横屏提示 ========== */
