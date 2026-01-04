@@ -760,10 +760,16 @@ body {
 }
 
 @media (max-width: 600px) {
+    body {
+        overflow-y: auto;
+        height: auto;
+    }
+
     .container {
         padding: 10px;
         min-height: 100vh;
         height: auto;
+        overflow-y: visible;
     }
 
     .header {
@@ -949,6 +955,20 @@ body.mobile-device .piano {
 
 body.mobile-device .piano-wrapper {
     overflow-x: hidden;
+}
+
+/* 手机设备允许页面滚动 */
+body.mobile-device {
+    overflow-y: auto;
+    height: auto;
+    min-height: 100vh;
+}
+
+body.mobile-device .container {
+    height: auto;
+    min-height: 100vh;
+    overflow-y: visible;
+    padding-bottom: 20px;
 }
 
 /* ========== 手机竖屏模式 - 横屏提示 ========== */
