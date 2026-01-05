@@ -940,9 +940,8 @@ body {
     }
 }
 
-/* ========== 手机设备模式 - 仅显示 C3 和 C4 ========== */
+/* ========== 手机设备模式 - 仅显示 C3, C4 和 C5 ========== */
 body.mobile-device .octave[data-octave="2"],
-body.mobile-device .octave[data-octave="5"],
 body.mobile-device .octave[data-octave="6"],
 body.mobile-device .octave[data-octave="7"] {
     display: none;
