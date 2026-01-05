@@ -16,6 +16,13 @@ const NavSystem = {
         settings: null
     },
 
+    // ✅ 新增：状态
+    state: {
+        activeTag: 'ALL',     // 当前筛选标签：ALL 表示全部
+        tags: [],             // 所有可用标签
+        tagCounts: {}         // 各标签对应数量
+    },
+
     // 初始化
     async init() {
         try {
@@ -24,13 +31,18 @@ const NavSystem = {
                 this.loadTheme(),
                 this.loadNavItems()
             ]);
-            
+
             // 应用主题
             this.applyTheme();
-            
-            // 渲染导航项
+
+            // ✅ 新增：初始化 Tag（从数据里提取 + 读 URL）
+            this.buildTagsFromNavItems();
+            this.initTagFromURL();
+            this.renderTagFilter();
+
+            // 渲染导航项（会应用筛选）
             this.renderNavItems();
-            
+
             console.log('✅ 导航系统初始化完成');
         } catch (error) {
             console.error('❌ 初始化失败:', error);
@@ -113,7 +125,139 @@ const NavSystem = {
         }
     },
 
-    // 渲染导航项
+    // ============================================
+    // ✅ Tag 筛选（方案一）
+    // ============================================
+
+    // 从 navItems 里提取 tags，并统计数量
+    buildTagsFromNavItems() {
+        const items = this.data.navItems || [];
+        const tagCounts = {};
+
+        items.forEach(item => {
+            const tags = Array.isArray(item.tags) ? item.tags : [];
+            tags.forEach(t => {
+                const tag = String(t).trim();
+                if (!tag) return;
+                tagCounts[tag] = (tagCounts[tag] || 0) + 1;
+            });
+        });
+
+        // 稳定排序：数量多的在前，其次按字面排序
+        const tags = Object.keys(tagCounts).sort((a, b) => {
+            const diff = (tagCounts[b] || 0) - (tagCounts[a] || 0);
+            if (diff !== 0) return diff;
+            return a.localeCompare(b, 'zh-Hans-CN');
+        });
+
+        this.state.tags = tags;
+        this.state.tagCounts = tagCounts;
+    },
+
+    // 从 URL 读取 ?tag=
+    initTagFromURL() {
+        try {
+            const params = new URLSearchParams(window.location.search);
+            const tag = params.get('tag');
+            if (tag && this.state.tagCounts[tag]) {
+                this.state.activeTag = tag;
+            } else {
+                this.state.activeTag = 'ALL';
+            }
+        } catch (e) {
+            this.state.activeTag = 'ALL';
+        }
+    },
+
+    // 更新 URL（便于分享）
+    syncURLWithTag() {
+        try {
+            const url = new URL(window.location.href);
+            if (this.state.activeTag === 'ALL') {
+                url.searchParams.delete('tag');
+            } else {
+                url.searchParams.set('tag', this.state.activeTag);
+            }
+            window.history.replaceState({}, '', url.toString());
+        } catch (e) {}
+    },
+
+    // 渲染顶部筛选条
+    renderTagFilter() {
+        const wrap = document.getElementById('tagFilter');
+        if (!wrap) return;
+
+        // 没有任何 tag，就隐藏过滤条（不打扰）
+        if (!this.state.tags || this.state.tags.length === 0) {
+            wrap.innerHTML = '';
+            wrap.style.display = 'none';
+            return;
+        }
+
+        wrap.style.display = 'flex';
+
+        const totalCount = (this.data.navItems || []).length;
+
+        const chips = [];
+
+        // 全部
+        chips.push(this.createTagChip('ALL', '全部', totalCount));
+
+        // 动态标签
+        this.state.tags.forEach(tag => {
+            chips.push(this.createTagChip(tag, tag, this.state.tagCounts[tag] || 0));
+        });
+
+        wrap.innerHTML = '';
+        chips.forEach(chip => wrap.appendChild(chip));
+
+        // 初次渲染后，把当前激活的 chip 滚动到可见区域
+        const active = wrap.querySelector('.tag-chip.active');
+        if (active && active.scrollIntoView) {
+            active.scrollIntoView({ inline: 'center', block: 'nearest' });
+        }
+    },
+
+    // 创建 chip DOM
+    createTagChip(tagValue, label, count) {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'tag-chip' + (this.state.activeTag === tagValue ? ' active' : '');
+        btn.dataset.tag = tagValue;
+        btn.setAttribute('aria-pressed', this.state.activeTag === tagValue ? 'true' : 'false');
+
+        btn.innerHTML = `
+            <span class="tag-label">${label}</span>
+            <span class="tag-count">${count}</span>
+        `.trim();
+
+        btn.addEventListener('click', () => {
+            if (this.state.activeTag === tagValue) return;
+
+            this.state.activeTag = tagValue;
+            this.syncURLWithTag();
+
+            // 更新 active 样式
+            const wrap = document.getElementById('tagFilter');
+            if (wrap) {
+                wrap.querySelectorAll('.tag-chip').forEach(el => {
+                    const isActive = el.dataset.tag === tagValue;
+                    el.classList.toggle('active', isActive);
+                    el.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+                });
+            }
+
+            // 重新渲染列表
+            this.renderNavItems();
+        });
+
+        return btn;
+    },
+
+    // ============================================
+    // 渲染导航项（✅ 支持 Tag 过滤）
+    // ============================================
+
     renderNavItems() {
         const navList = document.getElementById('navList');
         if (!navList) return;
@@ -121,12 +265,29 @@ const NavSystem = {
         // 清空加载提示
         navList.innerHTML = '';
 
-        // 排序：active 在前，inactive 在后
-        const sortedItems = [...this.data.navItems].sort((a, b) => {
+        const items = [...(this.data.navItems || [])];
+
+        // ✅ 先过滤
+        const filtered = this.state.activeTag === 'ALL'
+            ? items
+            : items.filter(it => Array.isArray(it.tags) && it.tags.includes(this.state.activeTag));
+
+        // 排序：active 在前，inactive 在后（在过滤结果中保持你的规则）
+        const sortedItems = filtered.sort((a, b) => {
             const aActive = a.status !== 'inactive' ? 0 : 1;
             const bActive = b.status !== 'inactive' ? 0 : 1;
             return aActive - bActive;
         });
+
+        if (sortedItems.length === 0) {
+            navList.innerHTML = `
+                <div class="nav-empty">
+                    <div style="font-size:1.1rem; margin-bottom:6px;">这里还没有内容</div>
+                    <div>试试切换到「全部」或换一个标签看看 👀</div>
+                </div>
+            `;
+            return;
+        }
 
         // 渲染每个导航项
         sortedItems.forEach(item => {
@@ -257,13 +418,16 @@ const NavSystem = {
     // 【公共API接口】
     // ============================================
 
-    // 动态添加导航项
+    // 动态添加导航项（✅ 同步 tag 数据）
     addNavItem(config) {
         this.data.navItems.push(config);
-        const navList = document.getElementById('navList');
-        if (navList) {
-            navList.appendChild(this.createNavItem(config));
-        }
+
+        // 更新 tag 列表与筛选条
+        this.buildTagsFromNavItems();
+        this.renderTagFilter();
+
+        // 重新渲染（确保过滤正确）
+        this.renderNavItems();
     },
 
     // 更新主题
@@ -293,41 +457,41 @@ const NavSystem = {
 // ============================================
 const ThemeToggle = {
     STORAGE_KEY: 'theme-mode',
-    
+
     init() {
         console.log('🔍 [ThemeToggle] 开始初始化...');
-        
+
         this.btn = document.getElementById('themeToggle');
         console.log('🔍 [ThemeToggle] 按钮元素:', this.btn);
-        
+
         if (!this.btn) {
             console.error('❌ [ThemeToggle] 找不到 #themeToggle 按钮!');
             return;
         }
-        
+
         // 读取保存的主题或跟随系统
         this.loadSavedTheme();
-        
+
         // 绑定点击事件
         this.btn.addEventListener('click', () => {
             console.log('🔍 [ThemeToggle] 按钮被点击');
             this.toggle();
         });
-        
+
         // 监听系统主题变化
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
             if (!localStorage.getItem(this.STORAGE_KEY)) {
                 this.setTheme(e.matches ? 'dark' : 'light', false);
             }
         });
-        
+
         console.log('🎨 主题切换系统初始化完成');
     },
-    
+
     loadSavedTheme() {
         const saved = localStorage.getItem(this.STORAGE_KEY);
         console.log('🔍 [ThemeToggle] localStorage 保存的主题:', saved);
-        
+
         if (saved) {
             this.setTheme(saved, false);
         } else {
@@ -337,46 +501,46 @@ const ThemeToggle = {
             this.setTheme(prefersDark ? 'dark' : 'light', false);
         }
     },
-    
+
     toggle() {
         const current = document.documentElement.getAttribute('data-theme');
         const next = current === 'dark' ? 'light' : 'dark';
         console.log('🔍 [ThemeToggle] 切换主题:', current, '->', next);
         this.setTheme(next, true);
     },
-    
+
     setTheme(theme, save = true) {
         console.log('🔍 [ThemeToggle] setTheme 被调用, theme =', theme);
-        
+
         document.documentElement.setAttribute('data-theme', theme);
-        
+
         // 验证是否设置成功
         const actualTheme = document.documentElement.getAttribute('data-theme');
         console.log('🔍 [ThemeToggle] 实际设置的 data-theme:', actualTheme);
-        
+
         // 检查 CSS 变量是否生效
         const bgColor = getComputedStyle(document.body).backgroundColor;
         console.log('🔍 [ThemeToggle] 当前 body 背景色:', bgColor);
-        
+
         const cssVarBgColor = getComputedStyle(document.documentElement).getPropertyValue('--bg-color');
         console.log('🔍 [ThemeToggle] CSS 变量 --bg-color:', cssVarBgColor);
-        
+
         // 同步光标深色模式
         if (window.MagicCursor) {
             MagicCursor.setDarkMode(theme === 'dark');
         }
-        
+
         // 保存到本地存储
         if (save) {
             localStorage.setItem(this.STORAGE_KEY, theme);
         }
     },
-    
+
     // 获取当前主题
     getTheme() {
         return document.documentElement.getAttribute('data-theme') || 'light';
     },
-    
+
     // 判断是否深色模式
     isDark() {
         return this.getTheme() === 'dark';

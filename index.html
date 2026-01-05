@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <link rel="stylesheet" href="./mainpage/css/main.css">
     <link rel="stylesheet" href="./mainpage/css/cursor.css">
 </head>
+
 <body>
     <!-- 主题切换按钮 -->
     <button class="theme-toggle" id="themeToggle" title="切换主题">
@@ -20,6 +22,11 @@
             <h1>🏠 导航主页</h1>
             <p>欢迎访问，选择你想去的地方</p>
         </header>
+
+        <!-- ✅ 新增：Tag 筛选条（方案一） -->
+        <div class="tag-filter" id="tagFilter" aria-label="标签筛选">
+            <div class="tag-filter-skeleton">标签加载中…</div>
+        </div>
 
         <nav class="nav-list" id="navList">
             <!-- 导航项由JS动态加载 -->
@@ -34,4 +41,5 @@
     <script src="./mainpage/js/cursor.js"></script>
     <script src="./mainpage/js/main.js"></script>
 </body>
+
 </html>

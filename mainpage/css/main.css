@@ -8,20 +8,20 @@
     --text-color: #333;
     --text-secondary: #666;
     --accent-color: #4a90d9;
-    
+
     /* 阴影 */
     --shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     --shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.12);
-    
+
     /* 过渡动画 */
     --transition-duration: 0.3s;
     --transition: all var(--transition-duration) ease;
-    
+
     /* 圆角 */
     --border-radius: 12px;
     --border-radius-sm: 6px;
     --border-radius-tag: 4px;
-    
+
     /* 字体 */
     --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     --header-size: 2rem;
@@ -30,7 +30,7 @@
     --desc-size: 0.85rem;
     --tag-size: 0.75rem;
     --badge-size: 0.7rem;
-    
+
     /* 布局 */
     --container-max-width: 600px;
     --container-padding: 40px 20px;
@@ -171,7 +171,9 @@ body {
 }
 
 @keyframes spin {
-    to { transform: rotate(360deg); }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .nav-list {
@@ -323,11 +325,11 @@ body {
     opacity: 0.6;
     pointer-events: auto;
     cursor: not-allowed;
-    background: repeating-linear-gradient(135deg, 
-        var(--card-hover-bg), 
-        var(--card-hover-bg) 10px, 
-        var(--card-bg) 10px, 
-        var(--card-bg) 20px);
+    background: repeating-linear-gradient(135deg,
+            var(--card-hover-bg),
+            var(--card-hover-bg) 10px,
+            var(--card-bg) 10px,
+            var(--card-bg) 20px);
     box-shadow: none;
     border-style: dashed;
     position: relative;
@@ -375,5 +377,106 @@ body {
         flex-direction: column;
         align-items: flex-start;
         gap: 4px;
+    }
+}
+
+/* ============================================
+   Tag 筛选条（方案一）
+============================================ */
+
+.tag-filter {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    overflow-x: auto;
+    padding: 6px 2px;
+    margin: -12px 0 16px 0;
+    /* 贴近 header，但不拥挤 */
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+}
+
+.tag-filter::-webkit-scrollbar {
+    height: 6px;
+}
+
+.tag-filter::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 999px;
+}
+
+.tag-filter-skeleton {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    padding: 6px 0;
+}
+
+.tag-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--border-color);
+    background: var(--card-bg);
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: var(--transition);
+    user-select: none;
+    white-space: nowrap;
+}
+
+.tag-chip:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow);
+}
+
+.tag-chip.active {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    color: #fff;
+}
+
+.tag-chip .tag-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 6px;
+    border-radius: 999px;
+    border: 1px solid var(--border-color);
+    font-size: 0.75rem;
+    line-height: 18px;
+    opacity: 0.9;
+    background: var(--bg-color);
+}
+
+.tag-chip.active .tag-count {
+    border-color: rgba(255, 255, 255, 0.35);
+    background: rgba(255, 255, 255, 0.18);
+    color: #fff;
+}
+
+/* 空状态 */
+.nav-empty {
+    text-align: center;
+    padding: 40px 16px;
+    color: var(--text-secondary);
+    background: var(--card-bg);
+    border: 1px dashed var(--border-color);
+    border-radius: var(--border-radius);
+}
+
+/* 小屏：让筛选条更贴手 */
+@media (max-width: 480px) {
+    .tag-filter {
+        margin: -8px 0 14px 0;
+    }
+
+    .tag-chip {
+        padding: 6px 10px;
+        font-size: 0.82rem;
     }
 }
