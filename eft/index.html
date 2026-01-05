@@ -7,23 +7,47 @@
     <link rel="stylesheet" href="./css/main.css">
 </head>
 <body>
-    <main id="main">
-        <h1>🔤 英文字体转换</h1>
-        
-        <section class="input-section">
-            <input type="text" id="inputText" placeholder="输入英文文本...">
+    <main class="page">
+        <header class="hero">
+            <p class="eyebrow">Unicode Styles</p>
+            <h1>🔧 英文字体转换</h1>
+            <p class="lede">输入英文文本，选择一种 Unicode 样式，一键生成装饰字体。</p>
+        </header>
+
+        <section class="panel-grid">
+            <section class="panel input-panel">
+                <div class="panel-header">
+                    <div>
+                        <p class="label">输入文本</p>
+                        <p class="sub">支持多行，未选择样式时实时回显</p>
+                    </div>
+                </div>
+                <textarea id="inputText" placeholder="输入英文文本，换行也会被保留..." rows="5"></textarea>
+            </section>
+
+            <section class="panel result-panel">
+                <div class="panel-header">
+                    <div>
+                        <p class="label">转换结果</p>
+                        <p class="sub">长文本支持滚动查看</p>
+                    </div>
+                    <button id="copyBtn" class="ghost-btn" type="button">复制</button>
+                </div>
+                <div id="result" class="result-box" tabindex="0">转换结果将显示在这里</div>
+            </section>
         </section>
-        
-        <section class="result-section">
-            <div id="result">转换结果将显示在这里</div>
+
+        <section class="panel font-panel">
+            <div class="panel-header">
+                <div>
+                    <p class="label">选择样式</p>
+                    <p class="sub">点击任意卡片即可应用，滚动查看更多样式</p>
+                </div>
+            </div>
+            <ul id="fontList" class="font-grid"></ul>
         </section>
-        
-        <section class="font-list-section">
-            <div class="font-list-title">👇 点击选择字体样式</div>
-            <ul id="fontList"></ul>
-        </section>
-        
-        <p class="footer-tip">注：输出为英文字母在Unicode库中的特殊字体样式<br>部分设备可能无法完整显示所有样式</p>
+
+        <p class="footer-tip">提示：输出为英文字母在 Unicode 库中的特殊字体样式，部分设备可能无法完整显示所有样式。</p>
     </main>
     <script src="./js/main.js"></script>
 </body>
