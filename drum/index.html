@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Drum Pad | zby</title>
+  <link rel="stylesheet" href="./css/main.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header class="header">
+      <div>
+        <h1>🥁 Drum Pad</h1>
+        <p class="sub">纯 WebAudio 合成：Kick / Snare / Hat / Clap。支持键盘演奏 + 16 步编排。</p>
+      </div>
+      <div class="hint">
+        <span class="badge">按键：Q W E R / A S D F / Z X C V</span>
+        <span class="badge">Space：播放/暂停</span>
+      </div>
+    </header>
+
+    <section class="panel">
+      <div class="row">
+        <button id="btnAudio" class="btn primary" type="button">🔊 启用音频</button>
+
+        <label class="field">
+          <span class="label">BPM</span>
+          <input id="bpm" type="range" min="60" max="180" value="120" />
+          <span class="mini" id="bpmText">120</span>
+        </label>
+
+        <label class="field">
+          <span class="label">主音量</span>
+          <input id="master" type="range" min="0" max="100" value="70" />
+          <span class="mini" id="masterText">70</span>
+        </label>
+
+        <button id="btnClear" class="btn danger" type="button">🧹 清空 Pattern</button>
+      </div>
+
+      <div class="row small">
+        <label class="field">
+          <span class="label">Kick 低频</span>
+          <input id="kickTone" type="range" min="30" max="90" value="55" />
+          <span class="mini" id="kickToneText">55</span>
+        </label>
+        <label class="field">
+          <span class="label">Snare 噪声</span>
+          <input id="snareNoise" type="range" min="0" max="100" value="70" />
+          <span class="mini" id="snareNoiseText">70</span>
+        </label>
+        <label class="field">
+          <span class="label">Hat 亮度</span>
+          <input id="hatBright" type="range" min="0" max="100" value="75" />
+          <span class="mini" id="hatBrightText">75</span>
+        </label>
+        <label class="field">
+          <span class="label">空间感</span>
+          <input id="spaceFx" type="range" min="0" max="100" value="18" />
+          <span class="mini" id="spaceFxText">18</span>
+        </label>
+      </div>
+
+      <div class="row transport">
+        <button id="btnPlay" class="btn" type="button" disabled>▶ 播放</button>
+        <button id="btnStop" class="btn" type="button" disabled>⏹ 停止</button>
+        <button id="btnRec" class="btn" type="button" disabled>⏺ 录制</button>
+        <span class="divider"></span>
+        <span class="status" id="status">未启用音频</span>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="grid" id="padGrid" aria-label="鼓垫区域">
+        <!-- 由 JS 生成 -->
+      </div>
+      <div class="legend">
+        <span class="k">技巧：</span>
+        <span class="v">可以先开启音频 → 试敲几下 → 点击录制 → 敲出 1 小节 → 播放循环。</span>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="seq-head">
+        <div class="seq-title">🎛 16 步 Pattern（点击格子打点）</div>
+        <div class="seq-sub">每一行对应一种鼓；播放时会高亮当前步。</div>
+      </div>
+      <div id="sequencer" class="sequencer" aria-label="步进音序器">
+        <!-- 由 JS 生成 -->
+      </div>
+    </section>
+
+    <footer class="footer">© 2026 zby</footer>
+  </div>
+
+  <script src="./js/main.js"></script>
+</body>
+</html>

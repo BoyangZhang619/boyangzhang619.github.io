@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>图片转 ASCII | zby</title>
+  <link rel="stylesheet" href="./css/main.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header class="header">
+      <h1>🧩 图片转 ASCII</h1>
+      <p class="sub">上传一张图片，把它变成字符画。支持纯文本 / 彩色 ASCII。</p>
+    </header>
+
+    <section class="panel">
+      <div class="drop" id="drop">
+        <input id="fileInput" type="file" accept="image/*" hidden />
+        <div class="drop-inner">
+          <div class="drop-title">拖拽图片到这里</div>
+          <div class="drop-sub">或 <button class="link" id="pickBtn" type="button">点击选择文件</button></div>
+          <div class="drop-hint" id="fileHint">支持 PNG / JPG / WEBP 等</div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <div class="row">
+          <label class="field">
+            <span class="label">输出宽度（列）</span>
+            <input id="widthRange" type="range" min="40" max="240" value="120" />
+            <span class="mini" id="widthText">120</span>
+          </label>
+
+          <label class="field">
+            <span class="label">字体大小</span>
+            <input id="fontRange" type="range" min="8" max="18" value="10" />
+            <span class="mini" id="fontText">10</span>
+          </label>
+
+          <label class="field">
+            <span class="label">字符密度</span>
+            <select id="charsetSelect">
+              <option value="detailed">细密（推荐）</option>
+              <option value="simple">简洁</option>
+              <option value="blocks">方块</option>
+              <option value="binary">二值</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="row">
+          <label class="field">
+            <span class="label">亮度</span>
+            <input id="brightnessRange" type="range" min="-50" max="50" value="0" />
+            <span class="mini" id="brightnessText">0</span>
+          </label>
+
+          <label class="field">
+            <span class="label">对比度</span>
+            <input id="contrastRange" type="range" min="-50" max="50" value="0" />
+            <span class="mini" id="contrastText">0</span>
+          </label>
+
+          <label class="field checkbox">
+            <input id="invertChk" type="checkbox" />
+            <span>反相</span>
+          </label>
+
+          <label class="field checkbox">
+            <input id="colorChk" type="checkbox" checked />
+            <span>彩色 ASCII</span>
+          </label>
+        </div>
+
+        <div class="row buttons">
+          <button class="btn" id="btnExample" type="button">🖼️ 用示例图</button>
+          <button class="btn" id="btnRender" type="button" disabled>✨ 生成</button>
+          <span class="divider"></span>
+          <button class="btn" id="btnCopy" type="button" disabled>📋 复制</button>
+          <button class="btn" id="btnDownloadTxt" type="button" disabled>⬇️ 下载 TXT</button>
+          <button class="btn primary" id="btnDownloadPng" type="button" disabled>🖼️ 导出 PNG</button>
+        </div>
+
+        <div class="meta">
+          <span class="badge" id="metaInfo">未加载图片</span>
+          <span class="badge" id="metaMode">模式：-</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="preview">
+        <div class="preview-head">
+          <span class="title">预览</span>
+          <span class="hint">提示：彩色模式用 span 渲染，纯文本模式更适合复制到终端/README</span>
+        </div>
+
+        <div class="out-wrap" id="outWrap">
+          <!-- 彩色模式输出：div（里面放 span） -->
+          <div id="outColor" class="out out-color" aria-label="ASCII 输出（彩色）"></div>
+          <!-- 纯文本输出：pre -->
+          <pre id="outText" class="out out-text" aria-label="ASCII 输出（文本）"></pre>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <span>© 2026 zby</span>
+    </footer>
+  </div>
+
+  <!-- 隐藏画布：用于采样 -->
+  <canvas id="srcCanvas" hidden></canvas>
+  <script src="./js/main.js"></script>
+</body>
+</html>

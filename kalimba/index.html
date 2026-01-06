@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kalimba | zby</title>
+  <link rel="stylesheet" href="./css/main.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header class="header">
+      <div>
+        <h1>🎶 Kalimba 拇指琴</h1>
+        <p class="sub">纯 WebAudio 合成音色：轻拨起音 + 余音 + 空间感。点击或按键演奏。</p>
+      </div>
+      <div class="hint">
+        <span class="badge">先点：🔊 启用音频</span>
+        <span class="badge">键盘：1~9 Q~I A~G</span>
+        <span class="badge">Space：播放/暂停录音</span>
+      </div>
+    </header>
+
+    <section class="panel">
+      <div class="row">
+        <button id="btnAudio" class="btn primary" type="button">🔊 启用音频</button>
+
+        <label class="field">
+          <span class="label">调式</span>
+          <select id="scaleSelect">
+            <option value="c_major">C 大调</option>
+            <option value="a_minor">A 小调</option>
+            <option value="pentatonic">五声音阶</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span class="label">主音量</span>
+          <input id="master" type="range" min="0" max="100" value="70" />
+          <span class="mini" id="masterText">70</span>
+        </label>
+
+        <button id="btnRandomSong" class="btn" type="button" disabled>✨ 随机小旋律</button>
+      </div>
+
+      <div class="row small">
+        <label class="field">
+          <span class="label">延音</span>
+          <input id="release" type="range" min="40" max="1800" value="850" />
+          <span class="mini" id="releaseText">850</span>
+        </label>
+
+        <label class="field">
+          <span class="label">亮度</span>
+          <input id="brightness" type="range" min="0" max="100" value="55" />
+          <span class="mini" id="brightnessText">55</span>
+        </label>
+
+        <label class="field">
+          <span class="label">颤音</span>
+          <input id="vibrato" type="range" min="0" max="100" value="12" />
+          <span class="mini" id="vibratoText">12</span>
+        </label>
+
+        <label class="field">
+          <span class="label">空间感</span>
+          <input id="space" type="range" min="0" max="100" value="20" />
+          <span class="mini" id="spaceText">20</span>
+        </label>
+      </div>
+
+      <div class="row transport">
+        <button id="btnRec" class="btn" type="button" disabled>⏺ 录制</button>
+        <button id="btnPlay" class="btn" type="button" disabled>▶ 播放</button>
+        <button id="btnClear" class="btn danger" type="button" disabled>🧹 清空</button>
+        <span class="divider"></span>
+        <span class="status" id="status">未启用音频</span>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="kb-head">
+        <div class="kb-title">🎼 琴键</div>
+        <div class="kb-sub">提示：按键标在每个音条下方（比如 1 / Q / A）。</div>
+      </div>
+      <div id="keys" class="keys" aria-label="Kalimba 键盘区">
+        <!-- JS 生成 -->
+      </div>
+
+      <details class="tips">
+        <summary>💡 小技巧</summary>
+        <ul>
+          <li>想要更“像拇指琴”：把亮度调到 40~65，延音 700~1100，空间感 15~35。</li>
+          <li>五声音阶随便弹都好听，很适合录一段 loop 做背景音乐。</li>
+          <li>如果觉得音太刺耳：降低亮度或把主音量调小。</li>
+        </ul>
+      </details>
+    </section>
+
+    <footer class="footer">© 2026 zby</footer>
+  </div>
+
+  <script src="./js/main.js"></script>
+</body>
+</html>

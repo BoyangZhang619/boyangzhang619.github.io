@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dithering · Floyd–Steinberg</title>
+  <meta name="description" content="黑白/限定色 Floyd–Steinberg 误差扩散抖动：复古报纸风、GameBoy 风" />
+  <link rel="stylesheet" href="./css/main.css" />
+</head>
+
+<body>
+  <div class="app">
+    <header class="header">
+      <div class="brand">
+        <div class="badge">DT</div>
+        <div class="brandText">
+          <h1>Dithering</h1>
+          <p>Floyd–Steinberg 误差扩散（黑白 / 限定色）</p>
+        </div>
+      </div>
+
+      <div class="headerActions">
+        <button id="btnFit" class="btn" type="button" disabled>适配画布</button>
+        <button id="btnExport" class="btn primary" type="button" disabled>导出 PNG</button>
+      </div>
+    </header>
+
+    <main class="grid">
+      <!-- Controls -->
+      <section class="card controls">
+        <div class="cardTitle">输入</div>
+
+        <div id="dropzone" class="dropzone" role="button" tabindex="0" aria-label="上传图片（点击或拖拽）">
+          <input id="fileInput" type="file" accept="image/*" hidden />
+          <div class="dzIcon">⬆</div>
+          <div class="dzText">
+            <div class="dzHeadline">点击选择图片 / 拖拽到这里</div>
+            <div class="dzHint">PNG / JPG / WebP 等常见格式</div>
+          </div>
+        </div>
+
+        <div class="cardTitle" style="margin-top:16px;">参数</div>
+
+        <div class="field">
+          <label for="selMode">模式</label>
+          <select id="selMode">
+            <option value="bw" selected>黑白抖动（报纸 / GameBoy）</option>
+            <option value="palette">限定色抖动（灰阶色板）</option>
+          </select>
+          <div class="help">黑白更“硬”，限定色更“像素画灰阶”</div>
+        </div>
+
+        <div class="field">
+          <label for="selColors">色板大小（限定色模式）</label>
+          <select id="selColors" disabled>
+            <option value="2">2 色</option>
+            <option value="4" selected>4 色</option>
+            <option value="8">8 色</option>
+            <option value="16">16 色</option>
+          </select>
+          <div class="help">2/4 色更像掌机；16 色更细腻</div>
+        </div>
+
+        <div class="field">
+          <div class="fieldRow">
+            <label for="rangeStrength">抖动强度</label>
+            <div class="chip"><span id="valStrength">100</span>%</div>
+          </div>
+          <input id="rangeStrength" type="range" min="0" max="100" step="1" value="100" />
+          <div class="help">强度越大抖动越明显；0% 近似“无抖动量化”</div>
+        </div>
+
+        <div class="rowBtns">
+          <button id="btnReset" class="btn ghost" type="button" disabled>重置参数</button>
+        </div>
+
+        <div class="meta">
+          <div class="metaRow"><span>原图尺寸</span><b id="txtOrig">-</b></div>
+          <div class="metaRow"><span>输出尺寸</span><b id="txtOut">-</b></div>
+          <div class="metaRow"><span>状态</span><span id="txtStatus" class="muted">等待上传图片</span></div>
+        </div>
+      </section>
+
+      <!-- Canvas -->
+      <section class="card stage">
+        <div class="stageTop">
+          <div class="cardTitle" style="margin:0;">预览</div>
+          <div class="stageHint">建议：先“适配画布”，再调参数</div>
+        </div>
+
+        <div class="canvasWrap">
+          <canvas id="canvas" width="960" height="540"></canvas>
+          <div id="emptyState" class="empty">
+            <div class="emptyTitle">还没有图片</div>
+            <div class="emptySub">上传后即可实时抖动预览</div>
+          </div>
+        </div>
+
+        <div class="note">
+          Floyd–Steinberg：将量化误差扩散到邻域像素（7/16、3/16、5/16、1/16），形成复古颗粒感。
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- 这里的 script.js 就用我上一条给你的那份，原封不动保存即可 -->
+  <script src="./js/main.js"></script>
+</body>
+</html>

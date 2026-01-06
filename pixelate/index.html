@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pixelate · 图片像素化</title>
+  <meta name="description" content="上传图片 → 调像素块大小 → 一键导出 PNG（可选 8/16/32 色量化）" />
+  <link rel="stylesheet" href="./css/main.css" />
+</head>
+
+<body>
+  <div class="app">
+    <header class="header">
+      <div class="brand">
+        <div class="badge">PX</div>
+        <div class="brandText">
+          <h1>Pixelate</h1>
+          <p>图片像素化 / 马赛克 / 像素风（Canvas 最近邻）</p>
+        </div>
+      </div>
+
+      <div class="headerActions">
+        <button id="btnFit" class="btn" type="button" disabled>适配画布</button>
+        <button id="btnExport" class="btn primary" type="button" disabled>导出 PNG</button>
+      </div>
+    </header>
+
+    <main class="grid">
+      <!-- Controls -->
+      <section class="card controls">
+        <div class="cardTitle">输入</div>
+
+        <div id="dropzone" class="dropzone" role="button" tabindex="0" aria-label="上传图片（点击或拖拽）">
+          <input id="fileInput" type="file" accept="image/*" hidden />
+          <div class="dzIcon">⬆</div>
+          <div class="dzText">
+            <div class="dzHeadline">点击选择图片 / 拖拽到这里</div>
+            <div class="dzHint">PNG / JPG / WebP 等常见格式</div>
+          </div>
+        </div>
+
+        <div class="cardTitle" style="margin-top:16px;">参数</div>
+
+        <div class="field">
+          <div class="fieldRow">
+            <label for="rangeBlock">像素块大小</label>
+            <div class="chip"><span id="valBlock">16</span> px</div>
+          </div>
+          <input id="rangeBlock" type="range" min="2" max="80" step="1" value="16" />
+          <div class="help">越大越像素风，越小越接近原图</div>
+        </div>
+
+        <div class="field switchRow">
+          <label class="switch">
+            <input id="chkPalette" type="checkbox" />
+            <span class="track"></span>
+            <span class="thumb"></span>
+          </label>
+          <div class="switchText">
+            <div class="switchTitle">限制色板</div>
+            <div class="help">开启后会量化为 8 / 16 / 32 色（更复古）</div>
+          </div>
+        </div>
+
+        <div id="paletteWrap" class="field" aria-hidden="true">
+          <label for="selPalette">色板大小</label>
+          <select id="selPalette" disabled>
+            <option value="8">8 色</option>
+            <option value="16" selected>16 色</option>
+            <option value="32">32 色</option>
+          </select>
+        </div>
+
+        <div class="rowBtns">
+          <button id="btnReset" class="btn ghost" type="button" disabled>重置参数</button>
+        </div>
+
+        <div class="meta">
+          <div class="metaRow"><span>原图尺寸</span><b id="txtOrig">-</b></div>
+          <div class="metaRow"><span>输出尺寸</span><b id="txtOut">-</b></div>
+          <div class="metaRow"><span>状态</span><span id="txtStatus" class="muted">等待上传图片</span></div>
+        </div>
+      </section>
+
+      <!-- Canvas -->
+      <section class="card stage">
+        <div class="stageTop">
+          <div class="cardTitle" style="margin:0;">预览</div>
+          <div class="stageHint">提示：导出就是当前画布内容</div>
+        </div>
+
+        <div class="canvasWrap">
+          <canvas id="canvas" width="960" height="540"></canvas>
+          <div id="emptyState" class="empty">
+            <div class="emptyTitle">还没有图片</div>
+            <div class="emptySub">上传后即可实时像素化预览</div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="./js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pathfinding · 可视化</title>
+  <meta name="description" content="BFS/DFS/Dijkstra/A* 路径搜索可视化：画墙、拖拽起点终点、动画演示最短路。" />
+  <link rel="stylesheet" href="./css/main.css" />
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="title">
+      <div class="mark"></div>
+      <div>
+        <h1>Pathfinding</h1>
+        <p>BFS / DFS / Dijkstra / A* · 画墙 · 拖拽起点终点 · 动画演示</p>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button id="btnRun" class="btn primary">运行</button>
+      <button id="btnRandom" class="btn">随机地图</button>
+      <button id="btnClearPath" class="btn">清除路径</button>
+      <button id="btnClearAll" class="btn">清空全部</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel">
+      <div class="group">
+        <label class="label">算法</label>
+        <select id="algo">
+          <option value="astar" selected>A*（推荐）</option>
+          <option value="dijkstra">Dijkstra（最短路）</option>
+          <option value="bfs">BFS（无权最短）</option>
+          <option value="dfs">DFS（不保证最短）</option>
+        </select>
+      </div>
+
+      <div class="group">
+        <label class="label">绘制模式</label>
+        <div class="seg">
+          <button id="toolWall" class="segBtn active" data-tool="wall">墙</button>
+          <button id="toolErase" class="segBtn" data-tool="erase">橡皮</button>
+          <button id="toolWeight" class="segBtn" data-tool="weight">权重</button>
+          <button id="toolMove" class="segBtn" data-tool="move">拖拽点</button>
+        </div>
+        <div class="hint">鼠标/触摸拖动即可绘制。拖拽点：移动起点/终点。</div>
+      </div>
+
+      <div class="group grid2">
+        <label class="check">
+          <input id="chkDiagonal" type="checkbox" />
+          允许对角移动
+        </label>
+
+        <label class="check">
+          <input id="chkAllowWeight" type="checkbox" checked />
+          启用权重（权重=5）
+        </label>
+      </div>
+
+      <div class="group">
+        <div class="row">
+          <span class="label">速度</span>
+          <span class="mono"><span id="speedText">30</span> ms/步</span>
+        </div>
+        <input id="speed" type="range" min="5" max="120" step="1" value="30" />
+      </div>
+
+      <div class="group stats">
+        <div class="stat"><span>已访问</span><b id="visitedCnt">0</b></div>
+        <div class="stat"><span>路径长度</span><b id="pathLen">0</b></div>
+        <div class="stat"><span>总代价</span><b id="pathCost">0</b></div>
+      </div>
+
+      <div class="group tips">
+        <div class="tipTitle">快捷操作</div>
+        <ul>
+          <li><kbd>R</kbd> 运行 / 重新运行</li>
+          <li><kbd>C</kbd> 清除路径</li>
+          <li><kbd>X</kbd> 清空全部</li>
+          <li><kbd>G</kbd> 随机生成地图</li>
+          <li><kbd>W</kbd> 墙 / <kbd>E</kbd> 橡皮 / <kbd>Q</kbd> 权重 / <kbd>M</kbd> 拖拽点</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="stage">
+      <div class="legend">
+        <div class="pill"><span class="dot start"></span>Start</div>
+        <div class="pill"><span class="dot end"></span>End</div>
+        <div class="pill"><span class="dot wall"></span>Wall</div>
+        <div class="pill"><span class="dot weight"></span>Weight</div>
+        <div class="pill"><span class="dot visited"></span>Visited</div>
+        <div class="pill"><span class="dot path"></span>Path</div>
+      </div>
+
+      <div class="boardWrap">
+        <div id="board" class="board" aria-label="网格画布"></div>
+        <div id="toast" class="toast" aria-hidden="true"></div>
+      </div>
+
+      <div class="foot">
+        <span class="muted">提示：A* 在启发式合理时更快；Dijkstra 保证最短但更“铺地毯”。</span>
+      </div>
+    </section>
+  </main>
+
+  <script src="./js/main.js"></script>
+</body>
+</html>
