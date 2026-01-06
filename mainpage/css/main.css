@@ -42,24 +42,34 @@
     --icon-size-mobile: 40px;
 }
 
-/* 深色主题 - 使用 html 选择器确保优先级 */
+/* 深色主题 - 黑灰配色 */
 html[data-theme="dark"] {
-    --primary-color: #e0e0e0 !important;
-    --bg-color: #1a1a2e !important;
-    --card-bg: #16213e !important;
-    --card-hover-bg: #1f2b4d !important;
-    --border-color: #2a3a5c !important;
-    --text-color: #e0e0e0 !important;
-    --text-secondary: #a0a0a0 !important;
-    --accent-color: #667eea !important;
-    --shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
-    --shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.4) !important;
+    --primary-color: #e5e5e5 !important;
+    --bg-color: #121212 !important;
+    --card-bg: #1e1e1e !important;
+    --card-hover-bg: #2a2a2a !important;
+    --border-color: #333333 !important;
+    --text-color: #e5e5e5 !important;
+    --text-secondary: #999999 !important;
+    --accent-color: #888888 !important;
+    --shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
+    --shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.5) !important;
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+/* 隐藏滚动条 */
+::-webkit-scrollbar {
+    display: none;
+}
+
+html, body {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
 }
 
 body {
@@ -386,18 +396,15 @@ body {
 
 .tag-filter {
     display: flex;
-    gap: 8px;
+    gap: 6px;
     align-items: center;
-    overflow-x: auto;
-    padding: 6px 2px;
-    margin: -12px 0 16px 0;
-    /* 贴近 header，但不拥挤 */
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: thin;
+    flex-wrap: wrap;
+    padding: 0;
+    margin: -8px 0 20px 0;
 }
 
 .tag-filter::-webkit-scrollbar {
-    height: 6px;
+    display: none;
 }
 
 .tag-filter::-webkit-scrollbar-thumb {
@@ -414,49 +421,48 @@ body {
 .tag-chip {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 6px 12px;
-    border-radius: 999px;
-    border: 1px solid var(--border-color);
-    background: var(--card-bg);
+    gap: 4px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    border: none;
+    background: transparent;
     color: var(--text-secondary);
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     cursor: pointer;
-    transition: var(--transition);
+    transition: color 0.2s ease, background 0.2s ease;
     user-select: none;
     white-space: nowrap;
 }
 
 .tag-chip:hover {
-    transform: translateY(-1px);
-    box-shadow: var(--shadow);
+    color: var(--text-color);
+    background: var(--card-hover-bg);
 }
 
 .tag-chip.active {
-    background: var(--accent-color);
-    border-color: var(--accent-color);
-    color: #fff;
+    background: var(--text-color);
+    color: var(--bg-color);
 }
 
 .tag-chip .tag-count {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 18px;
-    height: 18px;
-    padding: 0 6px;
-    border-radius: 999px;
-    border: 1px solid var(--border-color);
-    font-size: 0.75rem;
-    line-height: 18px;
-    opacity: 0.9;
-    background: var(--bg-color);
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    border-radius: 3px;
+    border: none;
+    font-size: 0.7rem;
+    line-height: 16px;
+    opacity: 0.7;
+    background: transparent;
 }
 
 .tag-chip.active .tag-count {
-    border-color: rgba(255, 255, 255, 0.35);
-    background: rgba(255, 255, 255, 0.18);
-    color: #fff;
+    opacity: 0.8;
+    background: transparent;
+    color: inherit;
 }
 
 /* 空状态 */
