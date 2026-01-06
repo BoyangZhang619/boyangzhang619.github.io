@@ -85,6 +85,18 @@
       "badgeColor": "P",
       "status": "active",
       "updateTime": "2026-01-04"
+    },
+    {
+      "id": "sort-viz",
+      "href": "./sortviz/index.html",
+      "icon": "📊",
+      "title": "排序算法可视化",
+      "desc": "支持冒泡/选择/插入/归并/快速，观察比较与交换过程，支持调速与单步执行",
+      "tags": ["算法", "工具"],
+      "badge": "NEW",
+      "badgeColor": "G",
+      "status": "active",
+      "updateTime": "2026-01-06"
     }
   ],
   "settings": {

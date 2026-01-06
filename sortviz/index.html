@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>排序可视化</title>
+  <link rel="stylesheet" href="./css/main.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header class="header">
+      <div class="title">
+        <h1>📊 排序算法可视化</h1>
+        <p class="sub">选择算法、调节数量与速度，观察比较与交换如何发生。</p>
+      </div>
+
+      <div class="panel">
+        <div class="row">
+          <label class="field">
+            <span class="label">算法</span>
+            <select id="algoSelect">
+              <option value="bubble">冒泡排序 Bubble</option>
+              <option value="selection">选择排序 Selection</option>
+              <option value="insertion">插入排序 Insertion</option>
+              <option value="merge">归并排序 Merge</option>
+              <option value="quick">快速排序 Quick</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span class="label">数量</span>
+            <input id="sizeRange" type="range" min="8" max="140" value="60" />
+            <span class="mini" id="sizeText">60</span>
+          </label>
+
+          <label class="field">
+            <span class="label">速度</span>
+            <input id="speedRange" type="range" min="1" max="100" value="35" />
+            <span class="mini" id="speedText">35</span>
+          </label>
+        </div>
+
+        <div class="row buttons">
+          <button id="btnRandom" class="btn">🎲 随机</button>
+          <button id="btnReverse" class="btn">↕️ 反转</button>
+          <button id="btnNearly" class="btn">🪄 近乎有序</button>
+          <span class="divider"></span>
+          <button id="btnStart" class="btn primary">▶ 开始</button>
+          <button id="btnPause" class="btn" disabled>⏸ 暂停</button>
+          <button id="btnStep" class="btn" disabled>⏭ 单步</button>
+          <button id="btnReset" class="btn danger">↩ 重置</button>
+        </div>
+
+        <div class="row meta">
+          <div class="stat">
+            <span class="k">比较</span>
+            <span class="v" id="cmpCount">0</span>
+          </div>
+          <div class="stat">
+            <span class="k">交换/写入</span>
+            <span class="v" id="swapCount">0</span>
+          </div>
+          <div class="stat">
+            <span class="k">状态</span>
+            <span class="v" id="statusText">就绪</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="card">
+      <div class="viz">
+        <div id="bars" class="bars" aria-label="排序可视化柱状图"></div>
+      </div>
+
+      <details class="help">
+        <summary>💡 使用说明 / 小提示</summary>
+        <ul>
+          <li>开始排序后，你仍可调速度；调数量会触发重置（避免状态冲突）。</li>
+          <li>归并/快速属于“分治”，会看到较多“写入”而不是纯交换。</li>
+          <li>如需更明显的对比效果，数量建议 40~90。</li>
+        </ul>
+      </details>
+    </main>
+
+    <footer class="footer">
+      <span>© 2026 zby</span>
+    </footer>
+  </div>
+
+  <script src="./js/main.js"></script>
+</body>
+</html>
