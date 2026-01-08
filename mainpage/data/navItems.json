@@ -2,7 +2,7 @@
   "items": [
     {
       "id": "little-games",
-      "href": "https://zbyblq.xin/Little_game_of_webpage/",
+      "href": "https://game.zbyblq.xin",
       "icon": "🎮",
       "title": "小游戏合集",
       "desc": "2048、华容道、迷宫、扫雷等趣味小游戏",
@@ -15,7 +15,7 @@
     },
     {
       "id": "cny-blessing",
-      "href": "https://zbyblq.xin/happyDays/",
+      "href": "https://greeting.zbyblq.xin",
       "icon": "🧧",
       "title": "春节祝福生成器",
       "desc": "选择春节元素，AI为你生成专属新年祝福语，支持中英日韩多语言<br/>tip:因为我使用的是国外的vercel(懒得改了)，所以你能进页面但是无法生成祝福，建议科学上网使用",
