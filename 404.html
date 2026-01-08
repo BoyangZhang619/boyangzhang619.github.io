@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>404 · 理性检验</title>
+
+  <!-- 可选：更“高级”的公式排版（可删） -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+
+  <style>
+    :root{
+      --bg0:#070A12;
+      --bg1:#0B1022;
+      --panel: rgba(255,255,255,.06);
+      --panel2: rgba(255,255,255,.09);
+      --stroke: rgba(255,255,255,.10);
+      --text: rgba(255,255,255,.88);
+      --muted: rgba(255,255,255,.56);
+      --ok: rgba(97, 219, 155, .95);
+      --bad: rgba(255, 95, 95, .95);
+      --accent: rgba(130, 196, 255, .92);
+      --shadow: 0 18px 60px rgba(0,0,0,.55);
+      --radius: 18px;
+    }
+
+    *{ box-sizing: border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      color:var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "PingFang SC","Microsoft YaHei", Arial;
+      background:
+        radial-gradient(900px 600px at 18% 18%, rgba(130,196,255,.16), transparent 55%),
+        radial-gradient(700px 480px at 82% 26%, rgba(170, 140, 255, .12), transparent 55%),
+        radial-gradient(800px 680px at 40% 86%, rgba(97, 219, 155, .10), transparent 60%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+      overflow-x:hidden;
+    }
+
+    /* 背景：理性网格 + 大号半透明 404 */
+    .grid{
+      position:fixed;
+      inset:-2px;
+      pointer-events:none;
+      opacity:.18;
+      background:
+        linear-gradient(to right, rgba(255,255,255,.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,.05) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mask-image: radial-gradient(circle at 50% 40%, rgba(0,0,0,1), rgba(0,0,0,0) 65%);
+    }
+    .watermark{
+      position:fixed;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      pointer-events:none;
+      user-select:none;
+    }
+    .watermark span{
+      font-weight:800;
+      letter-spacing:.04em;
+      font-size: min(32vw, 220px);
+      line-height:1;
+      color: rgba(255,255,255,.07);
+      text-shadow: 0 30px 120px rgba(0,0,0,.55);
+      transform: translateY(-6%);
+    }
+
+    /* 主布局 */
+    .wrap{
+      min-height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 26px 16px;
+    }
+    .panel{
+      width:min(860px, 100%);
+      border: 1px solid var(--stroke);
+      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.05));
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      overflow:hidden;
+      position:relative;
+    }
+    .topbar{
+      display:flex;
+      gap:14px;
+      align-items:flex-start;
+      justify-content:space-between;
+      padding: 18px 18px 0 18px;
+    }
+    .brand{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      min-width: 0;
+    }
+    .brand .title{
+      font-weight: 700;
+      font-size: 15px;
+      color: rgba(255,255,255,.82);
+      letter-spacing:.02em;
+    }
+    .brand .sub{
+      font-size: 12.5px;
+      color: var(--muted);
+      max-width: 62ch;
+      line-height: 1.4;
+    }
+    .meta{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      align-items:flex-end;
+      text-align:right;
+      color: var(--muted);
+      font-size: 12.5px;
+      white-space:nowrap;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--stroke);
+      background: rgba(0,0,0,.18);
+    }
+    .dot{
+      width:8px; height:8px; border-radius:50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px rgba(130,196,255,.12);
+    }
+
+    .content{
+      padding: 18px;
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 14px;
+    }
+
+    .card{
+      border-radius: 16px;
+      border: 1px solid var(--stroke);
+      background: rgba(0,0,0,.16);
+      padding: 16px;
+    }
+
+    .card h2{
+      margin:0 0 10px 0;
+      font-size: 14px;
+      font-weight: 700;
+      color: rgba(255,255,255,.82);
+      letter-spacing:.02em;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .badge{
+      font-weight: 650;
+      font-size: 12px;
+      color: rgba(255,255,255,.72);
+      border: 1px solid var(--stroke);
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.05);
+    }
+
+    .problem{
+      margin-top: 6px;
+      padding: 12px 12px;
+      border-radius: 14px;
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border: 1px solid rgba(255,255,255,.08);
+      line-height: 1.6;
+      color: rgba(255,255,255,.86);
+      overflow-wrap:anywhere;
+    }
+    .problem .plain{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      font-size: 13.5px;
+      color: rgba(255,255,255,.84);
+    }
+    .hint{
+      margin-top: 10px;
+      font-size: 12.5px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .form{
+      margin-top: 12px;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    input[type="text"]{
+      flex: 1 1 220px;
+      min-width: 0;
+      padding: 12px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.22);
+      color: rgba(255,255,255,.90);
+      outline: none;
+    }
+    input[type="text"]::placeholder{ color: rgba(255,255,255,.38); }
+
+    .btn{
+      appearance:none;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: rgba(255,255,255,.88);
+      padding: 12px 12px;
+      border-radius: 12px;
+      cursor:pointer;
+      transition: transform .06s ease, background .15s ease, border-color .15s ease;
+      font-weight: 650;
+      letter-spacing: .01em;
+    }
+    .btn:hover{ background: rgba(255,255,255,.09); border-color: rgba(255,255,255,.22); }
+    .btn:active{ transform: translateY(1px); }
+    .btn.secondary{ background: rgba(0,0,0,.16); }
+    .btn.primary{
+      background: rgba(130,196,255,.14);
+      border-color: rgba(130,196,255,.28);
+    }
+
+    .btn[disabled]{
+      cursor:not-allowed;
+      opacity:.50;
+      filter:saturate(.8);
+    }
+
+    .status{
+      margin-top: 10px;
+      font-size: 12.5px;
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      line-height: 1.5;
+      min-height: 20px;
+    }
+    .status .icon{
+      width: 18px;
+      height: 18px;
+      border-radius: 6px;
+      border: 1px solid rgba(255,255,255,.12);
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      flex: 0 0 auto;
+      margin-top: 1px;
+      background: rgba(0,0,0,.18);
+      font-size: 12px;
+    }
+    .status.ok{ color: var(--ok); }
+    .status.ok .icon{ border-color: rgba(97,219,155,.35); background: rgba(97,219,155,.10); }
+    .status.bad{ color: var(--bad); }
+    .status.bad .icon{ border-color: rgba(255,95,95,.35); background: rgba(255,95,95,.10); }
+
+    .side{
+      display:flex;
+      flex-direction:column;
+      gap: 14px;
+    }
+
+    .kv{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:10px;
+      color: rgba(255,255,255,.82);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .kv .row{
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.14);
+      padding: 12px;
+    }
+    .kv .k{
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 6px;
+    }
+
+    .footer{
+      padding: 0 18px 18px 18px;
+      display:flex;
+      gap:12px;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      border-top: 1px solid rgba(255,255,255,.08);
+      background: rgba(0,0,0,.08);
+    }
+    .footer .left{
+      padding-top: 14px;
+      color: rgba(255,255,255,.55);
+      font-size: 12.5px;
+    }
+    .footer .actions{
+      padding-top: 14px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+
+    /* 手机端 */
+    @media (max-width: 760px){
+      .content{ grid-template-columns: 1fr; }
+      .meta{ align-items:flex-start; text-align:left; }
+      .topbar{ flex-direction:column; align-items:flex-start; }
+      .watermark span{ transform: translateY(-2%); }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="grid"></div>
+  <div class="watermark"><span>404</span></div>
+
+  <main class="wrap" role="main">
+    <section class="panel" aria-label="404 理性检验面板">
+      <div class="topbar">
+        <div class="brand">
+          <div class="title">404 · 理性检验 / Rational Gate</div>
+          <div class="sub">
+            你到达了不存在的路径。若你仍想回到主站，请完成一次高等数学验证（数值答案，允许分数/小数）。
+          </div>
+        </div>
+        <div class="meta">
+          <div class="pill"><span class="dot"></span><span id="phaseText">Waiting</span></div>
+          <div id="seedText">seed: —</div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="card">
+          <h2>
+            <span>随机题目生成器</span>
+            <span class="badge" id="difficulty">难度：—</span>
+          </h2>
+
+          <div class="problem" id="problemBox">
+            <div class="plain" id="problemPlain">加载中…</div>
+          </div>
+
+          <div class="hint" id="hintBox">
+            输入示例： <code>3/2</code> 或 <code>1.5</code> 或 <code>pi/2</code>（支持 pi, e, + - * / ( ) ^）。
+          </div>
+
+          <div class="form" aria-label="答题区">
+            <input id="answerInput" type="text" inputmode="decimal" placeholder="输入答案（数值表达式）" autocomplete="off" />
+            <button class="btn primary" id="checkBtn">验证</button>
+            <button class="btn secondary" id="newBtn" title="换一道题">换题</button>
+          </div>
+
+          <div class="status" id="statusLine" aria-live="polite">
+            <span class="icon">⋯</span>
+            <span id="statusText">请解答后验证。</span>
+          </div>
+        </div>
+
+        <div class="side">
+          <div class="card">
+            <h2>
+              <span>规则</span>
+              <span class="badge">严谨</span>
+            </h2>
+            <div class="kv">
+              <div class="row">
+                <div class="k">判定方式</div>
+                <div>你提交的表达式会被数值计算，并与标准答案在容差内比较（允许近似）。</div>
+              </div>
+              <div class="row">
+                <div class="k">允许的输入</div>
+                <div><code>0-9 . + - * / ( ) ^</code> 以及 <code>pi</code>, <code>e</code>。</div>
+              </div>
+              <div class="row">
+                <div class="k">通过后</div>
+                <div>“返回主站”按钮将解锁。</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h2>
+              <span>提示</span>
+              <span class="badge">可选</span>
+            </h2>
+            <div class="kv">
+              <div class="row">
+                <div class="k">小技巧</div>
+                <div id="microTip">—</div>
+              </div>
+              <div class="row">
+                <div class="k">容差</div>
+                <div id="tolInfo">—</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <div class="left">
+          <span id="footNote">状态：未验证</span>
+        </div>
+        <div class="actions">
+          <button class="btn" id="homeBtn" disabled title="通过验证后解锁">返回主站</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // -----------------------------
+    //  小工具：随机数 / 格式化
+    // -----------------------------
+    function randInt(min, max){ // inclusive
+      return Math.floor(Math.random()*(max-min+1))+min;
+    }
+    function choice(arr){
+      return arr[Math.floor(Math.random()*arr.length)];
+    }
+    function clamp(x, a, b){ return Math.min(b, Math.max(a, x)); }
+
+    // -----------------------------
+    //  解析输入：安全的数值表达式（不允许字母函数）
+    //  支持：pi, e, + - * / ( ) ^ 以及空格
+    // -----------------------------
+    function safeEvalExpr(expr){
+      if(!expr) throw new Error("empty");
+      let s = expr.trim().toLowerCase();
+
+      // 允许字符白名单
+      // 数字、点、空格、运算符、括号、以及字母 p i e（仅用于 pi,e）
+      if(!/^[0-9\.\s\+\-\*\/\^\(\)pie]+$/.test(s)){
+        throw new Error("invalid_chars");
+      }
+
+      // 替换常量
+      s = s.replace(/\bpi\b/g, "Math.PI").replace(/\be\b/g, "Math.E");
+
+      // 幂运算
+      s = s.replace(/\^/g, "**");
+
+      // 防止连续的字母（除了 Math.PI / Math.E）
+      // 此时只应出现 Math.PI / Math.E 里的字母与点
+      if(/[^0-9\.\s\+\-\*\/\(\)\*]*[a-z]/i.test(s) && !/^.*Math\.(PI|E).*$/i.test(s)){
+        // 这里保守处理：一旦出现非预期字母，报错
+      }
+
+      // 使用 Function 计算（在白名单约束下较安全）
+      const val = Function('"use strict"; return (' + s + ');')();
+      if(!Number.isFinite(val)) throw new Error("not_finite");
+      return val;
+    }
+
+    // -----------------------------
+    //  题库：随机生成“高等数学味”的题目（但答案可数值验证）
+    // -----------------------------
+    function genProblem(seed){
+      // 用 seed 影响随机（轻量：扰动 Math.random 的不可控性我们不强求确定性，只展示 seed）
+      // 若你想可复现，我也能改成可复现 RNG。
+      const types = [
+        "limit_sin",
+        "limit_exp",
+        "limit_cos",
+        "derivative_at",
+        "integral_poly",
+        "integral_trig",
+        "taylor_remainder_bound"
+      ];
+
+      const type = choice(types);
+
+      // 默认容差
+      let tol = 1e-6;
+      let difficulty = "中等";
+      let tip = "建议先化简，再算数值。";
+      let latex = "";
+      let plain = "";
+      let answer = 0;
+
+      if(type === "limit_sin"){
+        const a = randInt(2, 9) * choice([1,1,1, -1]); // 常见但带符号
+        difficulty = "中等";
+        tol = 1e-6;
+        tip = "使用：lim_{x→0} sin(ax)/x = a。";
+        latex = String.raw`\lim_{x\to 0}\frac{\sin(${a}x)}{x}`;
+        plain = `lim_{x→0} sin(${a}x) / x`;
+        answer = a;
+      }
+
+      if(type === "limit_exp"){
+        const k = randInt(2, 8) * choice([1, -1]);
+        difficulty = "中等偏上";
+        tol = 1e-6;
+        tip = "使用：lim_{x→0} (e^{kx}-1)/x = k。";
+        latex = String.raw`\lim_{x\to 0}\frac{e^{${k}x}-1}{x}`;
+        plain = `lim_{x→0} (e^(${k}x) - 1) / x`;
+        answer = k;
+      }
+
+      if(type === "limit_cos"){
+        const a = randInt(2, 9);
+        difficulty = "中等偏上";
+        tol = 1e-6;
+        tip = "使用：lim_{x→0} (1-cos(ax))/x^2 = a^2/2。";
+        latex = String.raw`\lim_{x\to 0}\frac{1-\cos(${a}x)}{x^2}`;
+        plain = `lim_{x→0} (1 - cos(${a}x)) / x^2`;
+        answer = (a*a)/2;
+      }
+
+      if(type === "derivative_at"){
+        // f(x) = A x^n + B sin(Cx) + D e^{Kx}
+        const A = randInt(1, 5) * choice([1, -1]);
+        const n = randInt(2, 5);
+        const B = randInt(1, 4) * choice([1, -1]);
+        const C = randInt(2, 6);
+        const D = randInt(1, 3);
+        const K = randInt(1, 3) * choice([1, -1]);
+        // 选 x0 让 trig 不太尴尬：0 或 pi/2C 或 pi/C
+        const x0Type = choice(["0", "pi_over_2c", "pi_over_c"]);
+        let x0 = 0;
+        let x0Latex = "0";
+        if(x0Type === "pi_over_2c"){
+          x0 = Math.PI/(2*C);
+          x0Latex = String.raw`\frac{\pi}{2\cdot ${C}}`;
+        } else if(x0Type === "pi_over_c"){
+          x0 = Math.PI/C;
+          x0Latex = String.raw`\frac{\pi}{${C}}`;
+        }
+        difficulty = "偏难";
+        tol = 1e-5;
+        tip = "逐项求导：多项式、sin、指数。注意代入 x0。";
+        latex = String.raw`f(x)=${A}x^{${n}} ${B>=0?"+":""}${B}\sin(${C}x) + ${D}e^{${K}x},\quad \text{求 } f'(${x0Latex})`;
+        plain = `f(x)= ${A}x^${n} ${B>=0?"+":""}${B}sin(${C}x) + ${D}e^(${K}x), 求 f'(${x0Type==="0"?"0":x0Latex})`;
+
+        // 计算 f'(x) = A*n*x^{n-1} + B*C*cos(Cx) + D*K*e^{Kx}
+        answer = A*n*Math.pow(x0, n-1) + B*C*Math.cos(C*x0) + D*K*Math.exp(K*x0);
+
+        // x0=0 时 n-1>=1 => 0^(>=1)=0 OK
+      }
+
+      if(type === "integral_poly"){
+        // ∫_{l}^{r} (ax^2+bx+c) dx
+        const a = randInt(1, 6) * choice([1, -1]);
+        const b = randInt(0, 8) * choice([1, -1]);
+        const c = randInt(-6, 6);
+        let l = randInt(-2, 1);
+        let r = randInt(2, 4);
+        if(l === r) r += 1;
+        difficulty = "中等";
+        tol = 1e-6;
+        tip = "原函数：a x^3/3 + b x^2/2 + c x。";
+        latex = String.raw`\int_{${l}}^{${r}}\left(${a}x^2 ${b>=0?"+":""}${b}x ${c>=0?"+":""}${c}\right)\,dx`;
+        plain = `∫[${l},${r}] (${a}x^2 ${b>=0?"+":""}${b}x ${c>=0?"+":""}${c}) dx`;
+
+        function F(x){ return a*x*x*x/3 + b*x*x/2 + c*x; }
+        answer = F(r) - F(l);
+      }
+
+      if(type === "integral_trig"){
+        // ∫_{0}^{pi/2} (p sin(mx) + q cos(nx)) dx
+        const p = randInt(1, 5);
+        const q = randInt(1, 5) * choice([1, -1]);
+        const m = randInt(1, 6);
+        const n = randInt(1, 6);
+        difficulty = "偏难";
+        tol = 1e-6;
+        tip = "分别积分：∫ sin(mx) = -cos(mx)/m；∫ cos(nx)= sin(nx)/n。";
+        latex = String.raw`\int_{0}^{\frac{\pi}{2}}\left(${p}\sin(${m}x) ${q>=0?"+":""}${q}\cos(${n}x)\right)\,dx`;
+        plain = `∫[0, π/2] (${p}sin(${m}x) ${q>=0?"+":""}${q}cos(${n}x)) dx`;
+
+        // 计算
+        const r = Math.PI/2, l = 0;
+        const part1 = ( -Math.cos(m*r) + Math.cos(m*l) ) / m * p; // -cos/m evaluated
+        const part2 = ( Math.sin(n*r) - Math.sin(n*l) ) / n * q;
+        answer = part1 + part2;
+      }
+
+      if(type === "taylor_remainder_bound"){
+        // 利用 e^x 的泰勒余项估计：R_{n}(x) <= e^{|x|} |x|^{n+1}/(n+1)!
+        // 给 x, n 让其看起来“高数味”
+        const x = choice([0.6, 0.8, 1.0, 1.2, 1.5]) * choice([1, -1]);
+        const n = randInt(2, 5);
+        difficulty = "偏难";
+        tol = 1e-6;
+        tip = "使用上界：e^{|x|}·|x|^{n+1}/(n+1)!（数值即可）。";
+        latex = String.raw`e^x \text{ 在 } x=${x} \text{ 处用 } n=${n} \text{ 阶泰勒多项式近似，给出余项上界 } \le e^{|x|}\frac{|x|^{${n+1}}}{(${n+1})!}`;
+        plain = `e^x 在 x=${x}，n=${n} 阶泰勒近似，余项上界：e^{|x|} * |x|^{${n+1}} / (${n+1})!`;
+
+        // 计算上界
+        function factorial(k){ let t=1; for(let i=2;i<=k;i++) t*=i; return t; }
+        answer = Math.exp(Math.abs(x)) * Math.pow(Math.abs(x), n+1) / factorial(n+1);
+      }
+
+      // 让题面更像“任务”
+      const promptLatex = String.raw`\textbf{题目：}\quad ${latex}\quad\textbf{，求其数值结果。}`;
+      const promptPlain = `题目：${plain}，求其数值结果。`;
+
+      return {
+        type, difficulty, tol, tip,
+        latex: promptLatex,
+        plain: promptPlain,
+        answer
+      };
+    }
+
+    // -----------------------------
+    //  渲染（KaTeX 可用则渲染，否则纯文本）
+    // -----------------------------
+    function renderMath(container){
+      try{
+        if(window.renderMathInElement){
+          renderMathInElement(container, {
+            delimiters: [
+              {left: "$$", right: "$$", display: true},
+              {left: "$", right: "$", display: false}
+            ],
+            throwOnError: false
+          });
+        }
+      }catch(_){}
+    }
+
+    // -----------------------------
+    //  页面状态
+    // -----------------------------
+    const els = {
+      phaseText: document.getElementById("phaseText"),
+      seedText: document.getElementById("seedText"),
+      difficulty: document.getElementById("difficulty"),
+      problemBox: document.getElementById("problemBox"),
+      problemPlain: document.getElementById("problemPlain"),
+      statusLine: document.getElementById("statusLine"),
+      statusText: document.getElementById("statusText"),
+      checkBtn: document.getElementById("checkBtn"),
+      newBtn: document.getElementById("newBtn"),
+      answerInput: document.getElementById("answerInput"),
+      homeBtn: document.getElementById("homeBtn"),
+      footNote: document.getElementById("footNote"),
+      microTip: document.getElementById("microTip"),
+      tolInfo: document.getElementById("tolInfo"),
+    };
+
+    let current = null;
+    let solved = false;
+
+    function setStatus(kind, text){
+      els.statusLine.classList.remove("ok","bad");
+      if(kind === "ok") els.statusLine.classList.add("ok");
+      if(kind === "bad") els.statusLine.classList.add("bad");
+
+      const icon = els.statusLine.querySelector(".icon");
+      icon.textContent = kind === "ok" ? "✓" : (kind === "bad" ? "!" : "⋯");
+      els.statusText.textContent = text;
+    }
+
+    function lockHome(){
+      solved = false;
+      els.homeBtn.disabled = true;
+      els.footNote.textContent = "状态：未验证";
+      els.phaseText.textContent = "Waiting";
+    }
+
+    function unlockHome(){
+      solved = true;
+      els.homeBtn.disabled = false;
+      els.footNote.textContent = "状态：验证通过";
+      els.phaseText.textContent = "Verified";
+      setStatus("ok", "验证通过：理性成立。已解锁“返回主站”。");
+    }
+
+    function newProblem(){
+      lockHome();
+      els.answerInput.value = "";
+      setStatus(null, "请解答后验证。");
+
+      const seed = Math.random().toString(16).slice(2, 10);
+      els.seedText.textContent = `seed: ${seed}`;
+
+      current = genProblem(seed);
+
+      els.difficulty.textContent = `难度：${current.difficulty}`;
+      els.microTip.textContent = current.tip;
+      els.tolInfo.textContent = `误差容忍：±${current.tol}`;
+
+      // 题面：优先 KaTeX（用 $$ 包起来）
+      const wantsKatex = !!window.katex;
+      if(wantsKatex){
+        els.problemPlain.innerHTML = `$$${current.latex}$$`;
+      }else{
+        els.problemPlain.textContent = current.plain;
+      }
+
+      // 触发 KaTeX 自动渲染
+      renderMath(els.problemBox);
+    }
+
+    function checkAnswer(){
+      if(!current) return;
+
+      let userVal;
+      try{
+        userVal = safeEvalExpr(els.answerInput.value);
+      }catch(e){
+        setStatus("bad", "输入不合法：仅允许数值表达式（支持 pi, e, + - * / ( ) ^）。");
+        return;
+      }
+
+      const ans = current.answer;
+      // 动态容差：绝对 + 相对（让大数也合理）
+      const rel = 1e-6;
+      const tol = Math.max(current.tol, Math.abs(ans)*rel);
+
+      const diff = Math.abs(userVal - ans);
+
+      if(diff <= tol){
+        unlockHome();
+        // 记忆本次会话通过（可选）
+        sessionStorage.setItem("zby_404_verified", "1");
+      }else{
+        // 给一点理性反馈
+        const showAns = clamp(ans, -1e6, 1e6); // 防止极端显示
+        setStatus(
+          "bad",
+          `未通过：差值 ${diff.toExponential(2)} > 容差 ${tol.toExponential(2)}。再想想，或换题。`
+        );
+        els.phaseText.textContent = "Trying";
+        els.footNote.textContent = "状态：验证未通过";
+      }
+    }
+
+    // -----------------------------
+    //  事件
+    // -----------------------------
+    els.checkBtn.addEventListener("click", checkAnswer);
+    els.newBtn.addEventListener("click", newProblem);
+    els.answerInput.addEventListener("keydown", (e)=>{
+      if(e.key === "Enter"){
+        checkAnswer();
+      }
+    });
+
+    els.homeBtn.addEventListener("click", ()=>{
+      if(els.homeBtn.disabled) return;
+      // 返回主站：你可以改成你的真实主站路径
+      window.location.href = "/";
+    });
+
+    // -----------------------------
+    //  初始化
+    // -----------------------------
+    function init(){
+      // 若你希望“验证一次后本会话一直可返回”，保留这个逻辑
+    //   if(sessionStorage.getItem("zby_404_verified") === "1"){
+    //     unlockHome();
+    //   }else{
+    //     lockHome();
+    //   }
+      newProblem();
+    }
+    window.onload = () => {
+        init();
+    }
+  </script>
+</body>
+</html>
