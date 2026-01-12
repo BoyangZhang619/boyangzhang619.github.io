@@ -515,7 +515,8 @@ const ThemeToggle = {
         console.log('🔍 [ThemeToggle] localStorage 保存的主题:', saved);
 
         if (saved) {
-            this.setTheme(saved, false);
+            // this.setTheme(saved, false);
+            this.setTheme('dark', false);
         } else {
             // // 跟随系统主题
             // const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -548,11 +549,6 @@ const ThemeToggle = {
 
         const cssVarBgColor = getComputedStyle(document.documentElement).getPropertyValue('--bg-color');
         console.log('🔍 [ThemeToggle] CSS 变量 --bg-color:', cssVarBgColor);
-
-        // 同步光标深色模式
-        if (window.MagicCursor) {
-            MagicCursor.setDarkMode(theme === 'dark');
-        }
 
         // 保存到本地存储
         if (save) {
