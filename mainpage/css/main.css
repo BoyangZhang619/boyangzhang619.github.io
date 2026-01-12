@@ -194,8 +194,8 @@ body {
 
 .nav-item {
     display: flex;
-    align-items: flex-start;
-    padding: var(--card-padding);
+    align-items: center;
+    padding: 12px 16px;
     background: var(--card-bg);
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
@@ -205,26 +205,38 @@ body {
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+    cursor: pointer;
 }
 
 .nav-item:hover {
     background: var(--card-hover-bg);
     box-shadow: var(--shadow-hover);
-    transform: translateY(-2px);
+}
+
+/* 展开状态 */
+.nav-item.expanded {
+    align-items: flex-start;
+    padding: var(--card-padding);
 }
 
 .nav-icon {
-    width: var(--icon-size);
-    height: var(--icon-size);
+    width: 36px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+.nav-item.expanded .nav-icon {
+    width: var(--icon-size);
+    height: var(--icon-size);
     background: var(--bg-color);
     border-radius: 10px;
     margin-right: 16px;
     font-size: 1.5rem;
-    flex-shrink: 0;
-    transition: background-color 0.3s ease;
 }
 
 .nav-content {
@@ -236,13 +248,22 @@ body {
     display: flex;
     align-items: center;
     gap: 8px;
-    margin-bottom: 4px;
     flex-wrap: wrap;
+}
+
+.nav-item.expanded .nav-header {
+    margin-bottom: 4px;
 }
 
 .nav-title {
     font-size: var(--title-size);
     font-weight: 500;
+    margin-left: 12px;
+    transition: margin 0.3s ease;
+}
+
+.nav-item.expanded .nav-title {
+    margin-left: 0;
 }
 
 /* 徽章样式 */
@@ -273,8 +294,18 @@ body {
 .nav-desc {
     font-size: var(--desc-size);
     color: var(--text-secondary);
-    margin-bottom: 8px;
     line-height: 1.5;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    margin: 0;
+    transition: all 0.3s ease;
+}
+
+.nav-item.expanded .nav-desc {
+    max-height: 200px;
+    opacity: 1;
+    margin-bottom: 8px;
 }
 
 /* 标签样式 */
@@ -282,6 +313,16 @@ body {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    margin: 0;
+    transition: all 0.3s ease;
+}
+
+.nav-item.expanded .nav-tags {
+    max-height: 100px;
+    opacity: 1;
     margin-top: 8px;
 }
 
@@ -300,9 +341,19 @@ body {
     display: flex;
     align-items: center;
     gap: 12px;
-    margin-top: 8px;
     font-size: var(--tag-size);
     color: var(--text-secondary);
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    margin: 0;
+    transition: all 0.3s ease;
+}
+
+.nav-item.expanded .nav-meta {
+    max-height: 50px;
+    opacity: 1;
+    margin-top: 8px;
 }
 
 .nav-meta-item {
@@ -311,16 +362,37 @@ body {
     gap: 4px;
 }
 
+/* 隐藏默认箭头 */
 .nav-arrow {
-    color: var(--text-secondary);
-    font-size: 1.2rem;
-    transition: var(--transition);
-    align-self: center;
-    margin-left: 8px;
+    display: none;
 }
 
-.nav-item:hover .nav-arrow {
+/* 进入按钮 */
+.nav-enter-btn {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 12px;
+    padding: 8px 16px;
+    background: var(--text-color);
+    color: var(--bg-color);
+    border: none;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+.nav-enter-btn:hover {
+    opacity: 0.85;
     transform: translateX(4px);
+}
+
+.nav-item.expanded .nav-enter-btn {
+    display: inline-flex;
 }
 
 .footer {
@@ -370,13 +442,22 @@ body {
     }
 
     .nav-item {
+        padding: 10px 14px;
+    }
+    
+    .nav-item.expanded {
         padding: var(--card-padding-mobile);
     }
 
     .nav-icon {
+        width: 32px;
+        height: 32px;
+        font-size: 1.2rem;
+    }
+    
+    .nav-item.expanded .nav-icon {
         width: var(--icon-size-mobile);
         height: var(--icon-size-mobile);
-        font-size: 1.2rem;
     }
 
     .nav-tags {
@@ -387,6 +468,11 @@ body {
         flex-direction: column;
         align-items: flex-start;
         gap: 4px;
+    }
+    
+    .nav-enter-btn {
+        width: 100%;
+        justify-content: center;
     }
 }
 

@@ -16,7 +16,7 @@ const NavSystem = {
         settings: null
     },
 
-    // ✅ 新增：状态
+    // ✅ 新增：状态管理
     state: {
         activeTag: 'ALL',     // 当前筛选标签：ALL 表示全部
         tags: [],             // 所有可用标签
@@ -306,26 +306,42 @@ const NavSystem = {
             desc = '',
             tags = [],
             badge = '',
-            badgeColor = '', // 新增徽章颜色
+            badgeColor = '',
             status = 'active',
             updateTime = '',
-            banMsg = '该功能暂不可用' // 新增禁用提示
+            banMsg = '该功能暂不可用'
         } = item;
 
         const settings = this.data.settings;
-        const navItem = document.createElement('a');
-        navItem.href = status === 'inactive' ? 'javascript:void(0);' : href;
+        
+        // 外层容器改为 div，不再是 a 标签
+        const navItem = document.createElement('div');
         navItem.className = 'nav-item';
         navItem.dataset.id = id;
         navItem.dataset.status = status;
+        navItem.dataset.href = status === 'inactive' ? '' : href;
 
-        // 禁用状态点击弹窗
-        if (status === 'inactive') {
-            navItem.addEventListener('click', function(e) {
-                e.preventDefault();
+        // 点击展开/收起逻辑
+        navItem.addEventListener('click', (e) => {
+            // 如果点击的是进入按钮，不处理展开逻辑
+            if (e.target.closest('.nav-enter-btn')) return;
+            
+            // 禁用状态点击弹窗
+            if (status === 'inactive') {
                 alert(banMsg || '该功能暂不可用');
+                return;
+            }
+            
+            // 切换展开状态
+            const isExpanded = navItem.classList.contains('expanded');
+            
+            // 收起其他已展开的卡片
+            document.querySelectorAll('.nav-item.expanded').forEach(el => {
+                if (el !== navItem) el.classList.remove('expanded');
             });
-        }
+            
+            navItem.classList.toggle('expanded', !isExpanded);
+        });
 
         // 构建标签HTML
         let tagsHtml = '';
@@ -338,7 +354,7 @@ const NavSystem = {
             `;
         }
 
-        // 构建徽章HTML，支持自定义颜色
+        // 构建徽章HTML
         let badgeHtml = '';
         if (settings.showBadge && badge) {
             const badgeClass = this.getBadgeClass(badge);
@@ -359,6 +375,12 @@ const NavSystem = {
             `;
         }
 
+        // 构建进入按钮（仅 active 状态显示）
+        let enterBtnHtml = '';
+        if (status !== 'inactive') {
+            enterBtnHtml = `<a class="nav-enter-btn" href="${href}">进入 →</a>`;
+        }
+
         navItem.innerHTML = `
             <div class="nav-icon">${icon}</div>
             <div class="nav-content">
@@ -369,8 +391,8 @@ const NavSystem = {
                 <div class="nav-desc">${desc}</div>
                 ${tagsHtml}
                 ${metaHtml}
+                ${enterBtnHtml}
             </div>
-            <span class="nav-arrow">→</span>
         `;
 
         return navItem;
@@ -495,16 +517,18 @@ const ThemeToggle = {
         if (saved) {
             this.setTheme(saved, false);
         } else {
-            // 跟随系统主题
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            console.log('🔍 [ThemeToggle] 系统偏好深色模式:', prefersDark);
-            this.setTheme(prefersDark ? 'dark' : 'light', false);
+            // // 跟随系统主题
+            // const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            // console.log('🔍 [ThemeToggle] 系统偏好深色模式:', prefersDark);
+            // this.setTheme(prefersDark ? 'dark' : 'light', false);
+            this.setTheme('dark', false);
         }
     },
 
     toggle() {
         const current = document.documentElement.getAttribute('data-theme');
-        const next = current === 'dark' ? 'light' : 'dark';
+        // const next = current === 'dark' ? 'light' : 'dark';
+        const next = 'dark';
         console.log('🔍 [ThemeToggle] 切换主题:', current, '->', next);
         this.setTheme(next, true);
     },
@@ -538,7 +562,7 @@ const ThemeToggle = {
 
     // 获取当前主题
     getTheme() {
-        return document.documentElement.getAttribute('data-theme') || 'light';
+        return document.documentElement.getAttribute('data-theme') || 'dark';
     },
 
     // 判断是否深色模式
