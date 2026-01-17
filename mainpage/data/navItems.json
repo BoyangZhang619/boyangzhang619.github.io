@@ -169,6 +169,18 @@
       "badgeColor": "O",
       "status": "active",
       "updateTime": "2026-01-06"
+    },
+    {
+      "id": "photo-patina",
+      "href": "./photoPatina/index.html",
+      "icon": "🖼️",
+      "title": "电子包浆 · JPEG 二次压缩",
+      "desc": "上传照片，选择包浆风格与强度，生成具有复古包浆效果的图片",
+      "tags": ["图像", "工具", "实验"],
+      "badge": "INTERESTING",
+      "badgeColor": "Y",
+      "status": "active",
+      "updateTime": "2026-01-06"
     }
   ],
   "settings": {

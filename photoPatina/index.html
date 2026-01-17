@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>电子包浆 · JPEG 二次压缩</title>
+  <link rel="stylesheet" href="./css/main.css" />
+</head>
+
+<body>
+  <header class="top">
+    <div class="brand">
+      <div class="logo">包</div>
+      <div>
+        <h1>电子包浆</h1>
+        <p class="sub">真实 JPEG 编码回环 + 缩放劣化 + 轻度“脏旧”叠加</p>
+      </div>
+    </div>
+
+    <div class="actions">
+      <label class="btn primary" for="file">选择图片</label>
+      <input id="file" type="file" accept="image/*" />
+      <button class="btn" id="randomBtn" type="button">随机</button>
+      <button class="btn" id="resetBtn" type="button">重置</button>
+      <div class="status" id="status">未加载</div>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel">
+      <div class="panelHead">
+        <h2>参数</h2>
+        <div class="meta" id="meta">—</div>
+      </div>
+
+      <div class="group">
+        <div class="groupTitle">核心劣化（真·JPEG）</div>
+
+        <div class="control">
+          <div class="row">
+            <span>第一次 JPEG 质量</span>
+            <span class="mono" id="q1v">55</span>
+          </div>
+          <input id="q1" type="range" min="5" max="95" value="55" />
+        </div>
+
+        <div class="control">
+          <div class="row">
+            <span>缩放倍率（先缩后放）</span>
+            <span class="mono" id="scaleV">0.72</span>
+          </div>
+          <input id="scale" type="range" min="0.25" max="1" step="0.01" value="0.72" />
+        </div>
+
+        <div class="control">
+          <div class="row">
+            <span>第二次 JPEG 质量</span>
+            <span class="mono" id="q2v">35</span>
+          </div>
+          <input id="q2" type="range" min="5" max="95" value="35" />
+        </div>
+
+        <div class="control">
+          <div class="row">
+            <span>额外回环次数（祖传加速）</span>
+            <span class="mono" id="loopsV">1</span>
+          </div>
+          <input id="loops" type="range" min="0" max="4" value="1" />
+        </div>
+      </div>
+
+      <div class="group">
+        <div class="groupTitle">包浆味道（克制叠加）</div>
+
+        <div class="control">
+          <div class="row">
+            <span>泛黄/旧色</span>
+            <span class="mono" id="warmV">0.26</span>
+          </div>
+          <input id="warm" type="range" min="0" max="1" step="0.01" value="0.26" />
+        </div>
+
+        <div class="control">
+          <div class="row">
+            <span>去饱和（发灰）</span>
+            <span class="mono" id="desatV">0.18</span>
+          </div>
+          <input id="desat" type="range" min="0" max="1" step="0.01" value="0.18" />
+        </div>
+
+        <div class="control">
+          <div class="row">
+            <span>对比异常（轻压高光）</span>
+            <span class="mono" id="contrastV">0.12</span>
+          </div>
+          <input id="contrast" type="range" min="0" max="0.6" step="0.01" value="0.12" />
+        </div>
+
+        <div class="control">
+          <div class="row">
+            <span>脏污（低频斑点）</span>
+            <span class="mono" id="grimeV">0.22</span>
+          </div>
+          <input id="grime" type="range" min="0" max="1" step="0.01" value="0.22" />
+        </div>
+
+        <div class="control">
+          <div class="row">
+            <span>噪点（颗粒）</span>
+            <span class="mono" id="grainV">0.12</span>
+          </div>
+          <input id="grain" type="range" min="0" max="1" step="0.01" value="0.12" />
+        </div>
+
+        <div class="control">
+          <div class="row">
+            <span>暗角（屏摄感）</span>
+            <span class="mono" id="vignetteV">0.16</span>
+          </div>
+          <input id="vignette" type="range" min="0" max="1" step="0.01" value="0.16" />
+        </div>
+
+        <div class="control">
+          <div class="row">
+            <span>轻锐化（更像二次处理）</span>
+            <span class="mono" id="sharpenV">0.22</span>
+          </div>
+          <input id="sharpen" type="range" min="0" max="1" step="0.01" value="0.22" />
+        </div>
+
+        <div class="control">
+          <div class="row">
+            <span>扫描线（可选）</span>
+            <span class="mono" id="scanV">0.08</span>
+          </div>
+          <input id="scanlines" type="range" min="0" max="1" step="0.01" value="0.08" />
+        </div>
+      </div>
+
+      <div class="downloadRow">
+        <button class="btn primary" id="downloadPng" type="button">下载 PNG</button>
+        <button class="btn" id="downloadJpg" type="button">下载 JPEG</button>
+      </div>
+
+      <p class="tip">
+        想要“祖传三代”：把 <b>第二次质量</b> 拉低（20~35）+ <b>回环次数</b> 拉高（2~4）+ 缩放倍率降到 0.45~0.70。
+      </p>
+    </section>
+
+    <section class="viewer">
+      <div class="grid">
+        <div class="card">
+          <div class="cardHead">
+            <h3>原图</h3>
+            <div class="mono" id="srcInfo">—</div>
+          </div>
+          <div class="canvasBox">
+            <canvas id="srcCanvas"></canvas>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="cardHead">
+            <h3>包浆后</h3>
+            <div class="mono" id="outInfo">—</div>
+          </div>
+          <div class="canvasBox">
+            <canvas id="outCanvas"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="foot">
+        <div>处理链：<span class="mono">JPEG → scale → JPEG → tone/grime/grain/vignette/sharpen</span></div>
+        <div class="mono" id="perf">—</div>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="./js/main.js"></script>
+</body>
+</html>
